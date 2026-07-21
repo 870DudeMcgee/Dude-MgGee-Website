@@ -90,6 +90,13 @@ blockquote em { color: var(--pink); font-weight: 500; }
 .art-card-wide { grid-column: 6 / span 7; grid-row: span 3; }
 .art-card img { height: 100%; object-fit: cover; filter: saturate(.9); transition: transform .8s, filter .5s; }
 .art-card:hover img { transform: scale(1.045); filter: saturate(1.25); }
+.art-card-release::after { content: ""; position: absolute; inset: 38% 0 0; pointer-events: none; background: linear-gradient(transparent, rgba(2,7,9,.16) 35%, rgba(2,7,9,.86)); }
+.art-card-release img { filter: saturate(1.08) contrast(1.06); }
+.art-card-release:hover img { filter: saturate(1.22) contrast(1.08); }
+.release-art-lockup { position: absolute; z-index: 2; left: 1rem; right: 1rem; bottom: 3.2rem; display: grid; gap: .35rem; text-transform: uppercase; text-shadow: 0 2px 20px rgba(0,0,0,.9); }
+.release-art-lockup span { color: var(--cyan); font-size: clamp(.48rem,.6vw,.66rem); font-weight: 600; letter-spacing: .24em; }
+.release-art-lockup strong { max-width: 12ch; color: var(--paper); font-family: var(--display); font-size: clamp(.92rem,2vw,2rem); line-height: .9; letter-spacing: -.045em; }
+.release-art-lockup strong::after { content: ""; display: block; width: 2.6rem; height: 2px; margin-top: .7rem; background: var(--pink); box-shadow: 0 0 14px rgba(255,76,170,.7); }
 .art-card figcaption { position: absolute; inset: auto 0 0; display: flex; justify-content: space-between; padding: 1rem; background: linear-gradient(transparent,rgba(0,0,0,.82)); text-transform: uppercase; font-size: .66rem; letter-spacing: .13em; }
 .art-card figcaption b { color: var(--cyan); }
 
