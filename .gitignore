@@ -1,0 +1,11 @@
+.DS_Store
+.context-map/
+
+# Preserve the raw creative library locally. Only optimized site media under
+# assets/site is intended for source control.
+/*.HEIC
+/*.JPEG
+/*.JPG
+/*.MOV
+/*.MP4
+/*.PNG
