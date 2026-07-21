@@ -124,7 +124,7 @@ footer a:hover { color: var(--cyan); }
   nav a:not(:last-child) { display: none; }
   .hero { padding-inline: 1.2rem; grid-template-columns: minmax(0, 1fr); }
   .hero-copy { width: 100%; max-width: 100%; min-width: 0; }
-  h1 { font-size: clamp(4.5rem,19vw,7.5rem); line-height: .78; }
+  h1 { max-width: 100%; font-size: clamp(2.6rem,13.5vw,5.5rem); line-height: .78; }
   h1 span:last-child { margin-left: 0; }
   .release-line { align-items: flex-start; flex-direction: column; gap: .5rem; margin-block: 2rem; }
   .hero-actions { flex-direction: column; align-items: stretch; }
