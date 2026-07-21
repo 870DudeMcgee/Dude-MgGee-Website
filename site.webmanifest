@@ -1,0 +1,16 @@
+{
+  "name": "Dude McGee",
+  "short_name": "Dude McGee",
+  "description": "Dude McGee — Digital Dream",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050707",
+  "theme_color": "#050707",
+  "icons": [
+    {
+      "src": "assets/site/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ]
+}
