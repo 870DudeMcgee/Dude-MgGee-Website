@@ -1,0 +1,13 @@
+name: Artist identity
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  protect-dude-mcgee-name:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reject incomplete artist naming
+        run: python3 scripts/check_artist_identity.py
