@@ -5,6 +5,7 @@
 
 .merch-page { background: #030706; }
 .merch-page em { color: var(--pink); font-style: normal; }
+.policy-page { background: #030706; }
 
 /* ---------- Hero ---------- */
 .merch-hero {
@@ -564,8 +565,116 @@ body.product-zoom-open { overflow: hidden; }
   margin: 0 0 1.5rem; color: rgba(233,244,235,.4);
   font-size: .58rem; letter-spacing: .08em; line-height: 1.6;
 }
+.cart-note a {
+  color: rgba(92,247,237,.85);
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.cart-note a:hover { color: var(--cyan); }
 .cart-checkout { width: 100%; }
 .cart-checkout:disabled { opacity: .5; cursor: default; }
+
+/* ---------- Returns and order problems ---------- */
+.policy-main {
+  min-height: 100vh;
+  padding: 12rem 4vw 8rem;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(92,247,237,.09), transparent 25rem),
+    linear-gradient(180deg, #030706, #09100e);
+}
+.policy-shell {
+  width: min(74rem, 100%);
+  margin: 0 auto;
+}
+.policy-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+  padding-bottom: 4rem;
+  border-bottom: 1px solid var(--line);
+}
+.policy-heading h1 {
+  margin-top: 1.5rem;
+  font-size: clamp(4rem, 8vw, 9rem);
+  line-height: .78;
+  letter-spacing: -.075em;
+  text-transform: uppercase;
+}
+.policy-heading h1 span { display: block; color: var(--cyan); }
+.policy-summary {
+  width: min(35rem, 100%);
+  margin-left: auto;
+  color: rgba(233,244,235,.68);
+  font-size: clamp(.9rem, 1.2vw, 1.05rem);
+  line-height: 1.8;
+}
+.policy-summary strong { color: var(--paper); }
+.policy-content {
+  display: grid;
+  grid-template-columns: minmax(12rem, .45fr) minmax(0, 1.1fr);
+  gap: 4rem;
+  padding-top: 4rem;
+}
+.policy-aside {
+  align-self: start;
+  position: sticky;
+  top: 7rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(92,247,237,.2);
+  background: rgba(7,15,13,.76);
+}
+.policy-aside p {
+  margin: 0;
+  color: rgba(233,244,235,.6);
+  font-size: .72rem;
+  line-height: 1.8;
+}
+.policy-aside a {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--cyan);
+  font-size: .68rem;
+  letter-spacing: .08em;
+  overflow-wrap: anywhere;
+  text-transform: uppercase;
+}
+.policy-sections { display: grid; gap: 3.5rem; }
+.policy-section {
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.policy-section:last-child { border-bottom: 0; }
+.policy-section h2 {
+  margin-bottom: 1.25rem;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  line-height: 1;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+}
+.policy-section p,
+.policy-section li {
+  color: rgba(233,244,235,.68);
+  line-height: 1.8;
+}
+.policy-section p + p { margin-top: 1rem; }
+.policy-section ul {
+  display: grid;
+  gap: .65rem;
+  margin: 1.25rem 0 0 1.25rem;
+}
+.policy-section strong { color: var(--paper); }
+.policy-callout {
+  padding: 1.25rem 1.5rem;
+  border-left: 2px solid var(--cyan);
+  background: rgba(92,247,237,.06);
+}
+.policy-updated {
+  margin-top: 4rem;
+  color: rgba(233,244,235,.4);
+  font-size: .62rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
@@ -580,6 +689,12 @@ body.product-zoom-open { overflow: hidden; }
   .merch-shop-heading { grid-template-columns: minmax(0, 1fr); margin-bottom: 3rem; }
   .product-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
   .merch-exit { min-height: 80vh; }
+  .policy-main { padding: 10rem clamp(1.25rem, 6vw, 1.75rem) 6rem; }
+  .policy-heading,
+  .policy-content { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+  .policy-heading h1 { font-size: clamp(2.25rem, 9.5vw, 7rem); }
+  .policy-summary { margin-left: 0; }
+  .policy-aside { position: static; }
 }
 
 @media (max-width: 620px) {

@@ -699,7 +699,7 @@ async function initMerch() {
     unavailable.hidden = false;
     const p = unavailable.querySelector("p");
     if (p) {
-      p.innerHTML = "Couldn't reach the store right now. Please try again later, or visit the <a href=\"https://www.youtube.com/channel/UChkXhEVitGopkXbgdpUxeBA?sub_confirmation=1\" target=\"_blank\" rel=\"noreferrer\">YouTube channel</a> for updates.";
+      p.textContent = "The merch catalog could not load right now. Please refresh the page or try again in a few minutes.";
     }
   }
 }
