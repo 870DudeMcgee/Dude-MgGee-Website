@@ -46,15 +46,25 @@ function getImageViewLabel(image, index) {
 }
 
 const ImageZoom = {
+  MIN_SCALE: 1,
+  MAX_SCALE: 4,
+  CLICK_SCALE: 2.5,
   dialog: null,
   imageButton: null,
   image: null,
   title: null,
   counter: null,
+  level: null,
   images: [],
   productTitle: "",
   activeIndex: 0,
   returnFocus: null,
+  scale: 1,
+  offsetX: 0,
+  offsetY: 0,
+  pointers: new Map(),
+  gesture: null,
+  suppressClick: false,
 
   init() {
     this.dialog = document.getElementById("product-zoom");
@@ -62,15 +72,40 @@ const ImageZoom = {
     this.image = document.getElementById("product-zoom-image");
     this.title = document.getElementById("product-zoom-title");
     this.counter = document.getElementById("product-zoom-counter");
+    this.level = document.getElementById("product-zoom-level");
     if (!this.dialog || !this.imageButton || !this.image || !this.title || !this.counter) return;
 
     document.getElementById("product-zoom-close")?.addEventListener("click", () => this.close());
     document.getElementById("product-zoom-prev")?.addEventListener("click", () => this.show(this.activeIndex - 1));
     document.getElementById("product-zoom-next")?.addEventListener("click", () => this.show(this.activeIndex + 1));
+    document.getElementById("product-zoom-in")?.addEventListener("click", () => this.zoomBy(1.35));
+    document.getElementById("product-zoom-out")?.addEventListener("click", () => this.zoomBy(1 / 1.35));
+    document.getElementById("product-zoom-reset")?.addEventListener("click", () => this.resetTransform());
 
-    this.imageButton.addEventListener("click", () => {
-      const magnified = this.imageButton.classList.toggle("is-magnified");
-      this.imageButton.setAttribute("aria-pressed", String(magnified));
+    this.imageButton.addEventListener("click", event => {
+      if (this.suppressClick) {
+        this.suppressClick = false;
+        return;
+      }
+      if (this.scale > this.MIN_SCALE) {
+        this.resetTransform();
+      } else {
+        this.setScaleAt(this.CLICK_SCALE, event.clientX, event.clientY);
+      }
+    });
+
+    this.imageButton.addEventListener("wheel", event => {
+      event.preventDefault();
+      this.setScaleAt(this.scale * Math.exp(-event.deltaY * 0.002), event.clientX, event.clientY);
+    }, { passive: false });
+
+    this.imageButton.addEventListener("pointerdown", event => this.onPointerDown(event));
+    this.imageButton.addEventListener("pointermove", event => this.onPointerMove(event));
+    this.imageButton.addEventListener("pointerup", event => this.onPointerEnd(event));
+    this.imageButton.addEventListener("pointercancel", event => this.onPointerEnd(event));
+    this.image.addEventListener("load", () => this.resetTransform());
+    window.addEventListener("resize", () => {
+      if (this.dialog?.open) this.applyTransform();
     });
 
     this.dialog.addEventListener("click", event => {
@@ -79,8 +114,8 @@ const ImageZoom = {
 
     this.dialog.addEventListener("close", () => {
       document.body.classList.remove("product-zoom-open");
-      this.imageButton.classList.remove("is-magnified");
-      this.imageButton.setAttribute("aria-pressed", "false");
+      this.resetTransform();
+      this.pointers.clear();
       this.returnFocus?.focus();
       this.returnFocus = null;
     });
@@ -92,8 +127,159 @@ const ImageZoom = {
       } else if (event.key === "ArrowRight") {
         event.preventDefault();
         this.show(this.activeIndex + 1);
+      } else if (event.key === "+" || event.key === "=") {
+        event.preventDefault();
+        this.zoomBy(1.35);
+      } else if (event.key === "-") {
+        event.preventDefault();
+        this.zoomBy(1 / 1.35);
+      } else if (event.key === "0") {
+        event.preventDefault();
+        this.resetTransform();
       }
     });
+  },
+
+  clamp(value, minimum, maximum) {
+    return Math.min(maximum, Math.max(minimum, value));
+  },
+
+  midpoint(first, second) {
+    return {
+      x: (first.clientX + second.clientX) / 2,
+      y: (first.clientY + second.clientY) / 2,
+    };
+  },
+
+  distance(first, second) {
+    return Math.hypot(second.clientX - first.clientX, second.clientY - first.clientY);
+  },
+
+  getBounds(scale = this.scale) {
+    return {
+      x: Math.max(0, (this.image.offsetWidth * scale - this.imageButton.clientWidth) / 2),
+      y: Math.max(0, (this.image.offsetHeight * scale - this.imageButton.clientHeight) / 2),
+    };
+  },
+
+  applyTransform() {
+    const bounds = this.getBounds();
+    this.offsetX = this.clamp(this.offsetX, -bounds.x, bounds.x);
+    this.offsetY = this.clamp(this.offsetY, -bounds.y, bounds.y);
+    this.image.style.setProperty("--zoom-scale", this.scale.toFixed(4));
+    this.image.style.setProperty("--zoom-x", `${this.offsetX.toFixed(2)}px`);
+    this.image.style.setProperty("--zoom-y", `${this.offsetY.toFixed(2)}px`);
+
+    const magnified = this.scale > this.MIN_SCALE + 0.01;
+    this.imageButton.classList.toggle("is-magnified", magnified);
+    this.imageButton.classList.toggle("is-dragging", this.pointers.size > 0 && magnified);
+    this.imageButton.setAttribute("aria-pressed", String(magnified));
+    this.imageButton.setAttribute(
+      "aria-label",
+      magnified ? "Zoomed product image. Drag to move; activate to reset zoom." : "Product image. Activate to zoom."
+    );
+    if (this.level) this.level.value = `${Math.round(this.scale * 100)}%`;
+  },
+
+  resetTransform() {
+    this.scale = this.MIN_SCALE;
+    this.offsetX = 0;
+    this.offsetY = 0;
+    this.gesture = null;
+    this.applyTransform();
+  },
+
+  setScaleAt(nextScale, clientX, clientY) {
+    const newScale = this.clamp(nextScale, this.MIN_SCALE, this.MAX_SCALE);
+    const rect = this.imageButton.getBoundingClientRect();
+    const focalX = Number.isFinite(clientX) ? clientX - (rect.left + rect.width / 2) : 0;
+    const focalY = Number.isFinite(clientY) ? clientY - (rect.top + rect.height / 2) : 0;
+    const ratio = newScale / this.scale;
+
+    this.offsetX = focalX - (focalX - this.offsetX) * ratio;
+    this.offsetY = focalY - (focalY - this.offsetY) * ratio;
+    this.scale = newScale;
+    if (this.scale === this.MIN_SCALE) {
+      this.offsetX = 0;
+      this.offsetY = 0;
+    }
+    this.applyTransform();
+  },
+
+  zoomBy(factor) {
+    const rect = this.imageButton.getBoundingClientRect();
+    this.setScaleAt(this.scale * factor, rect.left + rect.width / 2, rect.top + rect.height / 2);
+  },
+
+  beginGesture() {
+    const activePointers = [...this.pointers.values()];
+    if (activePointers.length >= 2) {
+      this.gesture = {
+        type: "pinch",
+        distance: Math.max(1, this.distance(activePointers[0], activePointers[1])),
+        midpoint: this.midpoint(activePointers[0], activePointers[1]),
+        scale: this.scale,
+        offsetX: this.offsetX,
+        offsetY: this.offsetY,
+      };
+    } else if (activePointers.length === 1) {
+      this.gesture = {
+        type: "pan",
+        x: activePointers[0].clientX,
+        y: activePointers[0].clientY,
+        offsetX: this.offsetX,
+        offsetY: this.offsetY,
+      };
+    }
+  },
+
+  onPointerDown(event) {
+    this.imageButton.setPointerCapture?.(event.pointerId);
+    this.pointers.set(event.pointerId, event);
+    this.suppressClick = false;
+    this.beginGesture();
+    this.applyTransform();
+  },
+
+  onPointerMove(event) {
+    if (!this.pointers.has(event.pointerId)) return;
+    this.pointers.set(event.pointerId, event);
+    const activePointers = [...this.pointers.values()];
+
+    if (activePointers.length >= 2 && this.gesture?.type === "pinch") {
+      event.preventDefault();
+      const midpoint = this.midpoint(activePointers[0], activePointers[1]);
+      const nextScale = this.clamp(
+        this.gesture.scale * (this.distance(activePointers[0], activePointers[1]) / this.gesture.distance),
+        this.MIN_SCALE,
+        this.MAX_SCALE
+      );
+      const ratio = nextScale / this.gesture.scale;
+      const rect = this.imageButton.getBoundingClientRect();
+      const startX = this.gesture.midpoint.x - (rect.left + rect.width / 2);
+      const startY = this.gesture.midpoint.y - (rect.top + rect.height / 2);
+      const currentX = midpoint.x - (rect.left + rect.width / 2);
+      const currentY = midpoint.y - (rect.top + rect.height / 2);
+      this.scale = nextScale;
+      this.offsetX = currentX - (startX - this.gesture.offsetX) * ratio;
+      this.offsetY = currentY - (startY - this.gesture.offsetY) * ratio;
+      this.suppressClick = true;
+      this.applyTransform();
+    } else if (activePointers.length === 1 && this.gesture?.type === "pan" && this.scale > this.MIN_SCALE) {
+      const deltaX = activePointers[0].clientX - this.gesture.x;
+      const deltaY = activePointers[0].clientY - this.gesture.y;
+      if (Math.hypot(deltaX, deltaY) > 4) this.suppressClick = true;
+      this.offsetX = this.gesture.offsetX + deltaX;
+      this.offsetY = this.gesture.offsetY + deltaY;
+      this.applyTransform();
+    }
+  },
+
+  onPointerEnd(event) {
+    this.pointers.delete(event.pointerId);
+    this.imageButton.releasePointerCapture?.(event.pointerId);
+    this.beginGesture();
+    this.applyTransform();
   },
 
   open(images, activeIndex, productTitle, trigger) {
@@ -112,8 +298,7 @@ const ImageZoom = {
     this.activeIndex = (nextIndex + this.images.length) % this.images.length;
     const activeImage = this.images[this.activeIndex];
     const viewLabel = getImageViewLabel(activeImage, this.activeIndex);
-    this.imageButton.classList.remove("is-magnified");
-    this.imageButton.setAttribute("aria-pressed", "false");
+    this.resetTransform();
     this.image.src = activeImage.url;
     this.image.alt = `${this.productTitle} — ${viewLabel}`;
     this.title.textContent = `${this.productTitle} — ${viewLabel}`;

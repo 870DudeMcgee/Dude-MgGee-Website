@@ -257,32 +257,81 @@ body.product-zoom-open { overflow: hidden; }
 .product-zoom-stage {
   position: relative;
   display: grid; place-items: center;
-  min-height: 0; overflow: auto;
+  min-height: 0; overflow: hidden;
   padding: 1rem 5rem;
 }
 .product-zoom-image-button {
-  display: block;
-  width: auto; max-width: 100%;
-  height: auto; max-height: calc(100vh - 9.5rem);
+  position: relative;
+  display: grid; place-items: center;
+  width: 100%; height: 100%;
+  overflow: hidden;
   border: 0; padding: 0;
   background: transparent;
   cursor: zoom-in;
-  transition: transform .35s cubic-bezier(.2,.8,.2,1), filter .25s;
+  touch-action: none;
+  -webkit-user-select: none; user-select: none;
 }
 .product-zoom-image {
   display: block;
   width: auto; max-width: 100%;
   height: auto; max-height: calc(100vh - 9.5rem);
   object-fit: contain;
+  pointer-events: none;
+  transform: translate(var(--zoom-x, 0), var(--zoom-y, 0)) scale(var(--zoom-scale, 1));
+  transform-origin: center;
+  will-change: transform;
+  transition: filter .2s;
 }
 .product-zoom-image-button.is-magnified {
-  transform: scale(1.75);
-  cursor: zoom-out;
+  cursor: grab;
+}
+.product-zoom-image-button.is-magnified .product-zoom-image {
   filter: saturate(1.12);
+}
+.product-zoom-image-button.is-dragging {
+  cursor: grabbing;
 }
 .product-zoom-image-button:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: 5px;
+}
+.product-zoom-controls {
+  position: absolute; z-index: 4;
+  right: 1rem; bottom: 1rem;
+  display: grid; grid-template-columns: 2.6rem 4.25rem 2.6rem auto;
+  align-items: stretch;
+  border: 1px solid rgba(92,247,237,.3);
+  background: rgba(3,7,6,.9);
+  box-shadow: 0 .8rem 2.5rem rgba(0,0,0,.35);
+  backdrop-filter: blur(8px);
+}
+.product-zoom-controls button,
+.product-zoom-controls output {
+  min-height: 2.6rem;
+  display: grid; place-items: center;
+  border: 0; border-right: 1px solid rgba(92,247,237,.18);
+  background: transparent; color: var(--paper);
+  font: 600 .8rem var(--mono);
+}
+.product-zoom-controls button {
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.product-zoom-controls button:hover,
+.product-zoom-controls button:focus-visible {
+  background: rgba(92,247,237,.12);
+  color: var(--cyan);
+}
+.product-zoom-controls output {
+  color: var(--cyan);
+  font-size: .58rem;
+}
+.product-zoom-controls .product-zoom-reset {
+  padding: 0 .8rem;
+  border-right: 0;
+  font-size: .54rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
 }
 .product-zoom-arrow {
   position: fixed; top: 50%; z-index: 3;
@@ -310,6 +359,13 @@ body.product-zoom-open { overflow: hidden; }
   text-transform: uppercase;
 }
 .product-zoom-counter { color: var(--cyan); }
+.touch-zoom-instructions { display: none; }
+
+@media (pointer: coarse) {
+  .desktop-zoom-instructions { display: none; }
+  .touch-zoom-instructions { display: inline; }
+}
+
 .product-tag {
   position: absolute; top: 1rem; left: 1rem; z-index: 3;
   padding: .5rem .7rem;
@@ -707,11 +763,26 @@ body.product-zoom-open { overflow: hidden; }
   .cart-toggle { padding-inline: .6rem; }
   .cart-toggle-label { display: inline; }
   .product-zoom-shell { padding: .75rem; }
-  .product-zoom-stage { padding: 1rem 2.8rem; }
-  .product-zoom-arrow { width: 2.5rem; height: 3.5rem; }
-  .product-zoom-prev { left: .75rem; }
-  .product-zoom-next { right: .75rem; }
-  .product-zoom-footer span:first-child { display: none; }
+  .product-zoom-stage { padding: .65rem 0 4.35rem; }
+  .product-zoom-image { max-height: calc(100svh - 12.5rem); }
+  .product-zoom-arrow {
+    position: absolute; top: auto; bottom: .8rem;
+    width: 2.8rem; height: 2.8rem;
+    transform: none;
+  }
+  .product-zoom-prev { left: 0; }
+  .product-zoom-next { right: 0; }
+  .product-zoom-controls {
+    right: 50%; bottom: .8rem;
+    grid-template-columns: 2.8rem 3.8rem 2.8rem;
+    transform: translateX(50%);
+  }
+  .product-zoom-controls .product-zoom-reset { display: none; }
+  .product-zoom-footer {
+    padding-top: .75rem;
+    font-size: .48rem;
+    letter-spacing: .07em;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

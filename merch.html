@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Syne:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260723-1">
-  <link rel="stylesheet" href="merch.css?v=20260723-5">
+  <link rel="stylesheet" href="merch.css?v=20260723-6">
   <script>document.documentElement.className = 'js';</script>
 </head>
 <body class="merch-page">
@@ -173,15 +173,21 @@
         </button>
         <button class="product-zoom-arrow product-zoom-prev" id="product-zoom-prev" type="button" aria-label="Previous product image">←</button>
         <button class="product-zoom-arrow product-zoom-next" id="product-zoom-next" type="button" aria-label="Next product image">→</button>
+        <div class="product-zoom-controls" aria-label="Image zoom controls">
+          <button id="product-zoom-out" type="button" aria-label="Zoom out">−</button>
+          <output id="product-zoom-level" aria-live="polite">100%</output>
+          <button id="product-zoom-in" type="button" aria-label="Zoom in">+</button>
+          <button class="product-zoom-reset" id="product-zoom-reset" type="button">Reset</button>
+        </div>
       </div>
       <div class="product-zoom-footer">
-        <span>Click image for detail zoom · Use arrow keys to browse · Esc to close</span>
+        <span class="product-zoom-instructions"><span class="desktop-zoom-instructions">Scroll or click to zoom · Drag to move</span><span class="touch-zoom-instructions">Pinch to zoom · Drag to move · Tap for detail</span></span>
         <span class="product-zoom-counter" id="product-zoom-counter">01 / 01</span>
       </div>
     </div>
   </dialog>
 
   <script src="script.js?v=20260723-1"></script>
-  <script src="merch.js?v=20260723-4"></script>
+  <script src="merch.js?v=20260723-5"></script>
 </body>
 </html>
