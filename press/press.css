@@ -48,7 +48,6 @@
 .contact-email { display: flex; justify-content: space-between; gap: 2rem; margin-top: 4rem; padding: 1.5rem 0; border-block: 1px solid var(--cyan); color: var(--cyan); font-family: var(--display); font-size: clamp(1.15rem,3vw,3rem); font-weight: 700; }
 .contact-links { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2rem; color: rgba(233,244,235,.65); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; }
 @media (max-width:900px) {
-  .press-page .site-header nav a:not(:last-child) { display:none; }
   .press-hero { padding-inline:clamp(1.25rem,6vw,1.75rem); }
   .press-hero-copy { width:100%; }
   .press-deck,.press-actions { margin-left:0; }

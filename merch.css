@@ -569,7 +569,6 @@ body.product-zoom-open { overflow: hidden; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
-  .merch-page .site-header nav a:not(:last-child):not(:nth-last-child(2)) { display: none; }
   .merch-hero { padding-inline: clamp(1.25rem, 6vw, 1.75rem); }
   .merch-hero-copy { width: 100%; max-width: 100%; }
   .merch-hero h1 { font-size: clamp(2.6rem, 13.5vw, 5.5rem); }
@@ -584,12 +583,14 @@ body.product-zoom-open { overflow: hidden; }
 }
 
 @media (max-width: 620px) {
+  .merch-page .site-header .wordmark { font-size: .86rem; }
   .product-grid { grid-template-columns: 1fr; }
   .merch-shop-heading h2 { font-size: clamp(3rem, 15vw, 5.5rem); }
   .merch-hero h1 { font-size: clamp(2.6rem, 16vw, 5rem); }
   .product-body { padding: 1.2rem; }
   .cart-drawer { width: 100vw; }
-  .cart-toggle-label { display: none; }
+  .cart-toggle { padding-inline: .6rem; }
+  .cart-toggle-label { display: inline; }
   .product-zoom-shell { padding: .75rem; }
   .product-zoom-stage { padding: 1rem 2.8rem; }
   .product-zoom-arrow { width: 2.5rem; height: 3.5rem; }

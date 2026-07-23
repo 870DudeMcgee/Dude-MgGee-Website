@@ -41,7 +41,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Syne:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260721-2">
+  <link rel="stylesheet" href="styles.css?v=20260723-1">
   <script>document.documentElement.className = 'js';</script>
   <script type="application/ld+json">
     {
@@ -97,7 +97,7 @@
     <a class="wordmark" href="#top" aria-label="Dude McGee home">
       <span class="wordmark-dot"></span>Dude McGee
     </a>
-    <nav aria-label="Primary navigation">
+    <nav class="desktop-nav" aria-label="Primary navigation">
       <a href="#watch">Watch</a>
       <a href="#world">The world</a>
       <a href="merch.html">Merch</a>
@@ -105,6 +105,25 @@
       <a href="press/">Press</a>
       <a href="label.html">The label</a>
     </nav>
+    <div class="header-actions">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" hidden>
+      <div class="mobile-menu-inner">
+        <p class="mobile-menu-kicker">Navigate the signal</p>
+        <nav class="mobile-menu-nav" aria-label="Mobile navigation">
+          <a class="mobile-menu-primary" href="merch.html"><span>01</span>Shop merch</a>
+          <a href="#watch"><span>02</span>Watch / Music</a>
+          <a href="#world"><span>03</span>The world</a>
+          <a href="https://www.youtube.com/channel/UChkXhEVitGopkXbgdpUxeBA" target="_blank" rel="noreferrer"><span>04</span>YouTube ↗</a>
+          <a href="press/"><span>05</span>Press kit</a>
+          <a href="label.html"><span>06</span>The label</a>
+        </nav>
+        <a class="mobile-menu-label-site" href="https://www.dirtcatrecords.com/" target="_blank" rel="noreferrer">DirtCatRecords.com ↗</a>
+      </div>
+    </div>
   </header>
 
   <main id="content">
@@ -219,6 +238,6 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=20260723-1"></script>
 </body>
 </html>

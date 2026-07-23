@@ -29,3 +29,59 @@ if (window.matchMedia('(pointer: fine)').matches) {
 } else {
   glow.remove();
 }
+
+const menuToggle = document.querySelector('.menu-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+
+if (menuToggle && mobileMenu) {
+  const mobileMenuLinks = [...mobileMenu.querySelectorAll('a')];
+
+  const setMenuOpen = (isOpen, restoreFocus = false) => {
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+    document.body.classList.toggle('menu-open', isOpen);
+
+    if (isOpen) {
+      mobileMenu.hidden = false;
+      mobileMenu.classList.add('is-open');
+      mobileMenuLinks[0]?.focus();
+    } else {
+      mobileMenu.classList.remove('is-open');
+      mobileMenu.hidden = true;
+      if (restoreFocus) menuToggle.focus();
+    }
+  };
+
+  menuToggle.addEventListener('click', () => {
+    setMenuOpen(menuToggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  mobileMenuLinks.forEach((link) => {
+    link.addEventListener('click', () => setMenuOpen(false));
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (menuToggle.getAttribute('aria-expanded') !== 'true') return;
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      setMenuOpen(false, true);
+      return;
+    }
+
+    if (event.key === 'Tab') {
+      const focusable = [menuToggle, ...mobileMenuLinks];
+      const currentIndex = focusable.indexOf(document.activeElement);
+      const nextIndex = event.shiftKey
+        ? (currentIndex <= 0 ? focusable.length - 1 : currentIndex - 1)
+        : (currentIndex === focusable.length - 1 ? 0 : currentIndex + 1);
+
+      event.preventDefault();
+      focusable[nextIndex].focus();
+    }
+  });
+
+  window.matchMedia('(min-width: 901px)').addEventListener('change', ({ matches }) => {
+    if (matches) setMenuOpen(false);
+  });
+}
