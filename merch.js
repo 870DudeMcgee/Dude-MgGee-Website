@@ -35,6 +35,16 @@ function isShopifyVariantId(value) {
   return /^gid:\/\/shopify\/ProductVariant\/\d+$/.test(String(value || ""));
 }
 
+function getImageViewLabel(image, index) {
+  const url = String(image?.url || "").toLowerCase();
+  if (url.includes("front-and-back")) return "Front and back";
+  if (url.includes("-back-")) return "Back";
+  if (url.includes("-left-")) return "Left side";
+  if (url.includes("-right-")) return "Right side";
+  if (url.includes("-front-")) return index === 0 ? "Front" : "Front detail";
+  return `View ${index + 1}`;
+}
+
 /* ============== Product Fetching (via /api/catalog) ============== */
 
 async function fetchProducts() {
@@ -284,8 +294,8 @@ function renderProductCard(product, index) {
   const card = document.createElement("article");
   card.className = "product-card reveal";
 
-  const img = product.images && product.images[0];
-  const hasImg = img && img.url;
+  const productImages = (product.images || []).filter(image => image && image.url);
+  const hasImg = productImages.length > 0;
   const isSoldout = !product.availableForSale;
 
   const minPrice = product.priceRange?.minVariantPrice;
@@ -303,21 +313,93 @@ function renderProductCard(product, index) {
   }
 
   /* --- Image --- */
+  const gallery = document.createElement("div");
+  gallery.className = "product-gallery";
+
   const imgWrap = document.createElement("div");
   imgWrap.className = "product-image-wrap";
 
   if (hasImg) {
+    let activeImageIndex = productImages.findIndex(image =>
+      String(image.url).toLowerCase().includes("front-and-back")
+    );
+    if (activeImageIndex < 0) activeImageIndex = 0;
+
     const imgEl = document.createElement("img");
-    imgEl.src = img.url;
-    imgEl.alt = img.alt || product.title;
+    const counter = document.createElement("span");
+    counter.className = "product-image-counter";
+    counter.setAttribute("aria-live", "polite");
+
+    const thumbnails = document.createElement("div");
+    thumbnails.className = "product-thumbnails";
+    thumbnails.setAttribute("aria-label", `${product.title} product views`);
+
+    const showImage = nextIndex => {
+      activeImageIndex = (nextIndex + productImages.length) % productImages.length;
+      const activeImage = productImages[activeImageIndex];
+      const viewLabel = getImageViewLabel(activeImage, activeImageIndex);
+      imgEl.src = activeImage.url;
+      imgEl.alt = `${product.title} — ${viewLabel}`;
+      counter.textContent = `${String(activeImageIndex + 1).padStart(2, "0")} / ${String(productImages.length).padStart(2, "0")}`;
+      thumbnails.querySelectorAll(".product-thumbnail").forEach((button, buttonIndex) => {
+        const selected = buttonIndex === activeImageIndex;
+        button.classList.toggle("is-selected", selected);
+        button.setAttribute("aria-pressed", String(selected));
+      });
+    };
+
     imgEl.loading = "lazy";
     imgEl.decoding = "async";
     imgWrap.appendChild(imgEl);
+
+    if (productImages.length > 1) {
+      const previous = document.createElement("button");
+      previous.className = "product-gallery-arrow product-gallery-arrow-prev";
+      previous.type = "button";
+      previous.setAttribute("aria-label", `Previous image of ${product.title}`);
+      previous.textContent = "←";
+      previous.addEventListener("click", () => showImage(activeImageIndex - 1));
+
+      const next = document.createElement("button");
+      next.className = "product-gallery-arrow product-gallery-arrow-next";
+      next.type = "button";
+      next.setAttribute("aria-label", `Next image of ${product.title}`);
+      next.textContent = "→";
+      next.addEventListener("click", () => showImage(activeImageIndex + 1));
+
+      imgWrap.appendChild(previous);
+      imgWrap.appendChild(next);
+      imgWrap.appendChild(counter);
+
+      productImages.forEach((image, imageIndex) => {
+        const viewLabel = getImageViewLabel(image, imageIndex);
+        const button = document.createElement("button");
+        button.className = "product-thumbnail";
+        button.type = "button";
+        button.setAttribute("aria-label", `Show ${viewLabel.toLowerCase()} view of ${product.title}`);
+        button.setAttribute("aria-pressed", "false");
+        button.title = viewLabel;
+
+        const thumbnailImage = document.createElement("img");
+        thumbnailImage.src = image.url;
+        thumbnailImage.alt = "";
+        thumbnailImage.loading = "lazy";
+        thumbnailImage.decoding = "async";
+        button.appendChild(thumbnailImage);
+        button.addEventListener("click", () => showImage(imageIndex));
+        thumbnails.appendChild(button);
+      });
+    }
+
+    showImage(activeImageIndex);
+    gallery.appendChild(imgWrap);
+    if (productImages.length > 1) gallery.appendChild(thumbnails);
   } else {
     const noImg = document.createElement("div");
     noImg.className = "product-no-image";
     noImg.textContent = "DM";
     imgWrap.appendChild(noImg);
+    gallery.appendChild(imgWrap);
   }
 
   if (isSoldout) {
@@ -428,7 +510,7 @@ function renderProductCard(product, index) {
   }
   body.appendChild(buyBtn);
 
-  card.appendChild(imgWrap);
+  card.appendChild(gallery);
   card.appendChild(body);
   return card;
 }
