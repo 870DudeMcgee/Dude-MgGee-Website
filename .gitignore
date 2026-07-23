@@ -9,3 +9,8 @@
 /*.MOV
 /*.MP4
 /*.PNG
+
+# Never commit secrets
+.env
+.env.local
+.vercel
