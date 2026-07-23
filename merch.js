@@ -45,6 +45,86 @@ function getImageViewLabel(image, index) {
   return `View ${index + 1}`;
 }
 
+const ImageZoom = {
+  dialog: null,
+  imageButton: null,
+  image: null,
+  title: null,
+  counter: null,
+  images: [],
+  productTitle: "",
+  activeIndex: 0,
+  returnFocus: null,
+
+  init() {
+    this.dialog = document.getElementById("product-zoom");
+    this.imageButton = document.getElementById("product-zoom-image-button");
+    this.image = document.getElementById("product-zoom-image");
+    this.title = document.getElementById("product-zoom-title");
+    this.counter = document.getElementById("product-zoom-counter");
+    if (!this.dialog || !this.imageButton || !this.image || !this.title || !this.counter) return;
+
+    document.getElementById("product-zoom-close")?.addEventListener("click", () => this.close());
+    document.getElementById("product-zoom-prev")?.addEventListener("click", () => this.show(this.activeIndex - 1));
+    document.getElementById("product-zoom-next")?.addEventListener("click", () => this.show(this.activeIndex + 1));
+
+    this.imageButton.addEventListener("click", () => {
+      const magnified = this.imageButton.classList.toggle("is-magnified");
+      this.imageButton.setAttribute("aria-pressed", String(magnified));
+    });
+
+    this.dialog.addEventListener("click", event => {
+      if (event.target === this.dialog) this.close();
+    });
+
+    this.dialog.addEventListener("close", () => {
+      document.body.classList.remove("product-zoom-open");
+      this.imageButton.classList.remove("is-magnified");
+      this.imageButton.setAttribute("aria-pressed", "false");
+      this.returnFocus?.focus();
+      this.returnFocus = null;
+    });
+
+    this.dialog.addEventListener("keydown", event => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        this.show(this.activeIndex - 1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        this.show(this.activeIndex + 1);
+      }
+    });
+  },
+
+  open(images, activeIndex, productTitle, trigger) {
+    if (!this.dialog || !images.length) return;
+    this.images = images;
+    this.productTitle = productTitle;
+    this.returnFocus = trigger;
+    this.show(activeIndex);
+    document.body.classList.add("product-zoom-open");
+    this.dialog.showModal();
+    document.getElementById("product-zoom-close")?.focus();
+  },
+
+  show(nextIndex) {
+    if (!this.images.length) return;
+    this.activeIndex = (nextIndex + this.images.length) % this.images.length;
+    const activeImage = this.images[this.activeIndex];
+    const viewLabel = getImageViewLabel(activeImage, this.activeIndex);
+    this.imageButton.classList.remove("is-magnified");
+    this.imageButton.setAttribute("aria-pressed", "false");
+    this.image.src = activeImage.url;
+    this.image.alt = `${this.productTitle} — ${viewLabel}`;
+    this.title.textContent = `${this.productTitle} — ${viewLabel}`;
+    this.counter.textContent = `${String(this.activeIndex + 1).padStart(2, "0")} / ${String(this.images.length).padStart(2, "0")}`;
+  },
+
+  close() {
+    if (this.dialog?.open) this.dialog.close();
+  },
+};
+
 /* ============== Product Fetching (via /api/catalog) ============== */
 
 async function fetchProducts() {
@@ -325,6 +405,10 @@ function renderProductCard(product, index) {
     );
     if (activeImageIndex < 0) activeImageIndex = 0;
 
+    const zoomButton = document.createElement("button");
+    zoomButton.className = "product-image-zoom";
+    zoomButton.type = "button";
+
     const imgEl = document.createElement("img");
     const counter = document.createElement("span");
     counter.className = "product-image-counter";
@@ -340,6 +424,7 @@ function renderProductCard(product, index) {
       const viewLabel = getImageViewLabel(activeImage, activeImageIndex);
       imgEl.src = activeImage.url;
       imgEl.alt = `${product.title} — ${viewLabel}`;
+      zoomButton.setAttribute("aria-label", `Enlarge ${viewLabel.toLowerCase()} view of ${product.title}`);
       counter.textContent = `${String(activeImageIndex + 1).padStart(2, "0")} / ${String(productImages.length).padStart(2, "0")}`;
       thumbnails.querySelectorAll(".product-thumbnail").forEach((button, buttonIndex) => {
         const selected = buttonIndex === activeImageIndex;
@@ -350,7 +435,17 @@ function renderProductCard(product, index) {
 
     imgEl.loading = "lazy";
     imgEl.decoding = "async";
-    imgWrap.appendChild(imgEl);
+    zoomButton.appendChild(imgEl);
+    zoomButton.addEventListener("click", () => {
+      ImageZoom.open(productImages, activeImageIndex, product.title, zoomButton);
+    });
+    imgWrap.appendChild(zoomButton);
+
+    const zoomHint = document.createElement("span");
+    zoomHint.className = "product-zoom-hint";
+    zoomHint.setAttribute("aria-hidden", "true");
+    zoomHint.textContent = "⊕ Enlarge";
+    imgWrap.appendChild(zoomHint);
 
     if (productImages.length > 1) {
       const previous = document.createElement("button");
@@ -519,6 +614,7 @@ function renderProductCard(product, index) {
 
 async function initMerch() {
   Cart.init();
+  ImageZoom.init();
 
   // Wire up cart drawer
   const cartToggle = document.getElementById("cart-toggle");

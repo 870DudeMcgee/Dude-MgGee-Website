@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Syne:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260721-2">
-  <link rel="stylesheet" href="merch.css?v=20260723-3">
+  <link rel="stylesheet" href="merch.css?v=20260723-4">
   <script>document.documentElement.className = 'js';</script>
 </head>
 <body class="merch-page">
@@ -140,7 +140,28 @@
     </div>
   </aside>
 
+  <!-- Full-screen product image viewer -->
+  <dialog class="product-zoom" id="product-zoom" aria-labelledby="product-zoom-title">
+    <div class="product-zoom-shell">
+      <div class="product-zoom-header">
+        <p class="product-zoom-title" id="product-zoom-title">Product image</p>
+        <button class="product-zoom-close" id="product-zoom-close" type="button" aria-label="Close enlarged product image">✕</button>
+      </div>
+      <div class="product-zoom-stage">
+        <button class="product-zoom-image-button" id="product-zoom-image-button" type="button" aria-label="Toggle detail zoom" aria-pressed="false">
+          <img class="product-zoom-image" id="product-zoom-image" alt="">
+        </button>
+        <button class="product-zoom-arrow product-zoom-prev" id="product-zoom-prev" type="button" aria-label="Previous product image">←</button>
+        <button class="product-zoom-arrow product-zoom-next" id="product-zoom-next" type="button" aria-label="Next product image">→</button>
+      </div>
+      <div class="product-zoom-footer">
+        <span>Click image for detail zoom · Use arrow keys to browse · Esc to close</span>
+        <span class="product-zoom-counter" id="product-zoom-counter">01 / 01</span>
+      </div>
+    </div>
+  </dialog>
+
   <script src="script.js"></script>
-  <script src="merch.js?v=20260723-3"></script>
+  <script src="merch.js?v=20260723-4"></script>
 </body>
 </html>
