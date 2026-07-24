@@ -253,6 +253,15 @@ footer a:hover { color: var(--cyan); }
 }
 
 @media (max-width: 620px) {
+  .section-heading h2 { font-size: clamp(3.5rem, 16vw, 5rem); }
+  .world-heading h2 { font-size: clamp(3.25rem, 15vw, 4.5rem); }
+  .finale-copy { width: 100%; max-width: 100%; min-width: 0; padding-inline: clamp(1.25rem, 6vw, 1.75rem); }
+  .finale h2 { font-size: clamp(3.4rem, 16vw, 5rem); }
+  .label-statement h2 { font-size: clamp(3.1rem, 15vw, 4.5rem); }
+  .label-release-copy h2 { font-size: clamp(3.1rem, 15vw, 4.5rem); }
+  .label-exit h2 { width: 100%; max-width: 100%; font-size: clamp(3.1rem, 15vw, 4.5rem); }
+  .label-domain { max-width: 100%; font-size: clamp(1rem, 5.5vw, 1.35rem); }
+  .label-domain span { min-width: 0; overflow-wrap: anywhere; }
   .world-grid { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-rows: auto; gap: .8rem; }
   .art-card-fauna, .art-card-take, .art-card-release, .art-card-dream { grid-column: 1; grid-row: auto; }
   .art-card-fauna, .art-card-release { aspect-ratio: 4 / 5; }

@@ -66,6 +66,6 @@
 }
 @media (max-width:620px) {
   .press-hero h1 { font-size:clamp(3rem,17vw,6rem); }
-  .press-intro h2,.fact-heading h2,.history-copy h2,.release-copy h2,.download-section h2,.faq-heading h2,.contact-section h2 { font-size:clamp(3rem,15vw,5.5rem); }
+  .press-intro h2,.fact-heading h2,.history-copy h2,.release-copy h2,.download-section h2,.faq-heading h2,.contact-section h2 { max-width:100%; font-size:clamp(2.5rem,12.5vw,4.5rem); }
   .contact-email { overflow-wrap:anywhere; }
 }
