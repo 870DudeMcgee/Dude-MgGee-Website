@@ -756,7 +756,10 @@ body.product-zoom-open { overflow: hidden; }
 @media (max-width: 620px) {
   .merch-page .site-header .wordmark { font-size: .86rem; }
   .product-grid { grid-template-columns: 1fr; }
-  .merch-shop-heading h2 { font-size: clamp(3rem, 15vw, 5.5rem); }
+  .merch-shop-heading h2 {
+    max-width: 100%;
+    font-size: min(12.4vw, 5.5rem);
+  }
   .merch-hero h1 { font-size: clamp(2.6rem, 16vw, 5rem); }
   .product-body { padding: 1.2rem; }
   .cart-drawer { width: 100vw; }
