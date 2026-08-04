@@ -310,6 +310,64 @@ const ImageZoom = {
   },
 };
 
+const ProductDetails = {
+  dialog: null,
+  title: null,
+  description: null,
+  vendor: null,
+  imageWrap: null,
+  image: null,
+  returnFocus: null,
+
+  init() {
+    this.dialog = document.getElementById("product-details");
+    this.title = document.getElementById("product-details-title");
+    this.description = document.getElementById("product-details-description");
+    this.vendor = document.getElementById("product-details-vendor");
+    this.imageWrap = document.getElementById("product-details-image-wrap");
+    this.image = document.getElementById("product-details-image");
+    if (!this.dialog || !this.title || !this.description || !this.imageWrap || !this.image) return;
+
+    document.getElementById("product-details-close")?.addEventListener("click", () => this.close());
+    document.getElementById("product-details-continue")?.addEventListener("click", () => this.close());
+    this.dialog.addEventListener("click", event => {
+      if (event.target === this.dialog) this.close();
+    });
+    this.dialog.addEventListener("close", () => {
+      document.body.classList.remove("product-details-open");
+      this.returnFocus?.focus();
+      this.returnFocus = null;
+    });
+  },
+
+  open(product, trigger) {
+    if (!this.dialog) return;
+    const firstImage = (product.images || []).find(image => image && image.url);
+    this.title.textContent = product.title;
+    this.description.textContent = stripHtml(product.description) || "More product information is coming soon.";
+    this.vendor.textContent = product.vendor || "Official Dude McGee merchandise";
+    this.returnFocus = trigger;
+
+    if (firstImage) {
+      this.image.src = firstImage.url;
+      this.image.alt = firstImage.alt || product.title;
+      this.imageWrap.hidden = false;
+    } else {
+      this.image.removeAttribute("src");
+      this.image.alt = "";
+      this.imageWrap.hidden = true;
+    }
+
+    document.body.classList.add("product-details-open");
+    this.dialog.showModal();
+    document.getElementById("product-details-close")?.focus();
+  },
+
+  close() {
+    if (this.dialog?.open) this.dialog.close();
+  },
+};
+
 /* ============== Product Fetching (via /api/catalog) ============== */
 
 async function fetchProducts() {
@@ -705,7 +763,13 @@ function renderProductCard(product, index) {
 
   const title = document.createElement("h3");
   title.className = "product-title";
-  title.textContent = product.title;
+  const titleButton = document.createElement("button");
+  titleButton.className = "product-title-button";
+  titleButton.type = "button";
+  titleButton.textContent = product.title;
+  titleButton.setAttribute("aria-label", `View full details for ${product.title}`);
+  titleButton.addEventListener("click", () => ProductDetails.open(product, titleButton));
+  title.appendChild(titleButton);
   body.appendChild(title);
 
   if (product.vendor) {
@@ -722,6 +786,14 @@ function renderProductCard(product, index) {
     if (desc.textContent.length > 130) desc.textContent = desc.textContent.slice(0, 127).trim() + "…";
     body.appendChild(desc);
   }
+
+  const detailsButton = document.createElement("button");
+  detailsButton.className = "product-details-trigger";
+  detailsButton.type = "button";
+  detailsButton.textContent = "View full description →";
+  detailsButton.setAttribute("aria-label", `View full description for ${product.title}`);
+  detailsButton.addEventListener("click", () => ProductDetails.open(product, detailsButton));
+  body.appendChild(detailsButton);
 
   /* --- Variant selector --- */
   if (hasVariants) {
@@ -800,6 +872,7 @@ function renderProductCard(product, index) {
 async function initMerch() {
   Cart.init();
   ImageZoom.init();
+  ProductDetails.init();
 
   // Wire up cart drawer
   const cartToggle = document.getElementById("cart-toggle");

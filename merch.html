@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Syne:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260723-1">
-  <link rel="stylesheet" href="merch.css?v=20260724-2">
+  <link rel="stylesheet" href="merch.css?v=20260804-1">
   <script>document.documentElement.className = 'js';</script>
 </head>
 <body class="merch-page">
@@ -160,6 +160,27 @@
     </div>
   </aside>
 
+  <!-- Full product description -->
+  <dialog class="product-details" id="product-details" aria-labelledby="product-details-title">
+    <div class="product-details-shell">
+      <div class="product-details-header">
+        <p class="section-index">Product details</p>
+        <button class="product-details-close" id="product-details-close" type="button" aria-label="Close product details">✕</button>
+      </div>
+      <div class="product-details-content">
+        <div class="product-details-image-wrap" id="product-details-image-wrap">
+          <img class="product-details-image" id="product-details-image" alt="">
+        </div>
+        <div class="product-details-copy">
+          <p class="product-details-vendor" id="product-details-vendor"></p>
+          <h2 id="product-details-title">Product details</h2>
+          <p class="product-details-description" id="product-details-description"></p>
+          <button class="product-details-continue" id="product-details-continue" type="button">Continue shopping</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
   <!-- Full-screen product image viewer -->
   <dialog class="product-zoom" id="product-zoom" aria-labelledby="product-zoom-title">
     <div class="product-zoom-shell">
@@ -188,6 +209,6 @@
   </dialog>
 
   <script src="script.js?v=20260723-1"></script>
-  <script src="merch.js?v=20260723-5"></script>
+  <script src="merch.js?v=20260804-1"></script>
 </body>
 </html>
