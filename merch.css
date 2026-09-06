@@ -76,6 +76,9 @@
   line-height: 1.7;
 }
 
+.merch-shopping-guide { max-width: 48rem; margin: 0 0 2rem; color: rgba(233,244,235,.72); line-height: 1.8; }
+.merch-shopping-guide a { color: var(--cyan); text-decoration: underline; text-underline-offset: .2em; }
+
 /* ---------- Product grid ---------- */
 .product-grid {
   display: grid;

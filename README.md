@@ -34,3 +34,15 @@ Validate the live connection with:
 ```bash
 node scripts/validate-shopify-integration.js
 ```
+
+## Search readiness
+
+Run `python3 scripts/check_seo.py` before deployment. It covers the full public
+HTML inventory, sitemap parity, canonical metadata, local assets, anchors and
+discovery from the homepage. CI runs it alongside the artist identity check.
+
+After deploying to Vercel project `dude-mcgee-website` in
+`dirt-cat-records-projects`, run `python3 scripts/check_seo.py --live` to verify
+the preferred production URLs and permanent index-file redirects. Keep the
+existing `.html` URLs; `/` and `/press/` are the preferred index-page URLs.
+Google decides when to crawl and index an eligible page.

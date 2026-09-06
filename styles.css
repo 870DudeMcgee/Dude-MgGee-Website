@@ -185,8 +185,13 @@ footer a:hover { color: var(--cyan); }
 .label-domain:hover { gap: clamp(2rem, 6vw, 6rem); color: var(--cyan); }
 .label-domain b { font-weight: 500; }
 
-.js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .85s ease, transform .85s cubic-bezier(.2,.8,.2,1); }
-.js .reveal.is-visible { opacity: 1; transform: none; }
+/* Content stays readable before scripts load and before a visitor scrolls. */
+.reveal { opacity: 1; transform: none; }
+.js .reveal.is-visible { animation: reveal-in .85s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes reveal-in {
+  from { transform: translateY(28px); }
+  to { transform: none; }
+}
 
 @media (max-width: 900px) {
   .site-header { --header-height: 4.4rem; padding: .8rem clamp(1.25rem, 6vw, 1.75rem); }

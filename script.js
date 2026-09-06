@@ -13,7 +13,7 @@ if ('IntersectionObserver' in window) {
   }, { threshold: 0.12 });
 
   reveals.forEach((element, index) => {
-    element.style.transitionDelay = `${Math.min(index % 4, 3) * 90}ms`;
+    element.style.animationDelay = `${Math.min(index % 4, 3) * 90}ms`;
     revealObserver.observe(element);
   });
 } else {

@@ -1,0 +1,8 @@
+# Local planning and verification evidence are not public website assets.
+GATES.md
+PLAN.md
+gates/
+scripts/
+press-kit/
+README.md
+.github/
