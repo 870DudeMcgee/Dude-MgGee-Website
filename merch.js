@@ -763,12 +763,11 @@ function renderProductCard(product, index) {
 
   const title = document.createElement("h3");
   title.className = "product-title";
-  const titleButton = document.createElement("button");
+  const titleButton = document.createElement("a");
   titleButton.className = "product-title-button";
-  titleButton.type = "button";
   titleButton.textContent = product.title;
-  titleButton.setAttribute("aria-label", `View full details for ${product.title}`);
-  titleButton.addEventListener("click", () => ProductDetails.open(product, titleButton));
+  titleButton.href = `/products/${encodeURIComponent(product.handle)}`;
+  titleButton.setAttribute("aria-label", `View ${product.title}`);
   title.appendChild(titleButton);
   body.appendChild(title);
 

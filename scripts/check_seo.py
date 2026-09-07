@@ -50,11 +50,29 @@ def run(live=False):
         if not condition: errors.append(message)
     files = sorted([*ROOT.glob('*.html'), *ROOT.glob('press/*.html')])
     pages = {public_path(f): Page(f.read_text()) for f in files}
+    # The production sitemap is served from Shopify-backed catalog data. Local
+    # static files retain the five editorial URLs; route behavior is covered by
+    # scripts/test-product-route.js because catalog credentials are not local.
     sitemap_source = urlopen(ORIGIN + '/sitemap.xml', timeout=30).read() if live else (ROOT / 'sitemap.xml').read_text()
     sitemap = ET.fromstring(sitemap_source)
     urls = [e.text for e in sitemap.findall('.//{*}loc')]
     check(len(urls) == len(set(urls)), 'duplicate sitemap URL')
-    check(set(urls) == {ORIGIN + p for p in pages}, 'sitemap/public HTML inventory mismatch')
+    static_urls = {ORIGIN + p for p in pages}
+    if not live:
+        check(set(urls) == static_urls, 'local sitemap must exactly inventory public static pages')
+    else:
+        check(static_urls.issubset(set(urls)), 'sitemap must retain every public static page')
+    if live:
+        product_urls = [url for url in urls if '/products/' in url]
+        check(bool(product_urls), 'live sitemap has no product URLs')
+        catalog_payload = json.loads(urlopen(ORIGIN + '/api/catalog', timeout=30).read())
+        catalog_urls = {ORIGIN + '/products/' + product['handle'] for product in catalog_payload.get('products', []) if product.get('handle')}
+        check(set(product_urls) == catalog_urls, 'live product sitemap must exactly match the live catalog')
+        for url in product_urls:
+            with urlopen(Request(url, headers={'User-Agent': 'SEO-readiness-check/1.0'}), timeout=30) as response:
+                source = response.read().decode()
+                check(response.status == 200, url + ': product URL must return 200')
+                check('application/ld+json' in source and ('ProductGroup' in source or '"@type":"Product"' in source), url + ': product structured data missing')
     robots = urlopen(ORIGIN + '/robots.txt', timeout=30).read().decode() if live else (ROOT / 'robots.txt').read_text()
     check('Sitemap: ' + ORIGIN + '/sitemap.xml' in robots, 'robots sitemap missing')
     check(not any(line.strip().lower().startswith('disallow: /') for line in robots.splitlines()), 'public crawl blocked')
@@ -122,7 +140,7 @@ def run(live=False):
         except HTTPError as response:
             check(response.code == 404, 'unknown URL must return 404')
     if errors: raise SystemExit('SEO check failed:\n- ' + '\n- '.join(errors))
-    print(f'SEO check passed: {len(pages)} public pages, {len(urls)} sitemap URLs, all reachable from homepage.' + (' Production verified.' if live else ''))
+    print(f'SEO check passed: {len(pages)} public static pages, {len(urls)} sitemap URLs; static pages are reachable from homepage.' + (' Production verified.' if live else ''))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
