@@ -6,3 +6,5 @@ scripts/
 press-kit/
 README.md
 .github/
+# /sitemap.xml is served by the live Shopify catalog route.
+sitemap.xml
