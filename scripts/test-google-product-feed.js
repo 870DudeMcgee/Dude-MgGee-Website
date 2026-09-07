@@ -23,6 +23,12 @@ assert.match(apparelXml, /<g:age_group>adult<\/g:age_group>/);
 const unknownAudienceXml = renderGoogleProductFeed({ products: [{ ...product, title: 'Neon Trucker Hat - Black', description: 'Black adjustable one-size trucker hat.', variants: [{ ...product.variants[0], selectedOptions: [{ name: 'Title', value: 'Default Title' }] }] }] });
 assert.match(unknownAudienceXml, /<g:color>Black<\/g:color>/);
 assert.doesNotMatch(unknownAudienceXml, /<g:(?:gender|age_group)>/);
+for (const handle of ['foam-trucker-hat', 'foam-trucker-hat-1']) {
+  const reviewedHatXml = renderGoogleProductFeed({ products: [{ ...product, handle, title: 'Foam Trucker Hat - Black', description: 'Black adjustable one-size trucker hat.', variants: [{ ...product.variants[0], selectedOptions: [{ name: 'Title', value: 'Default Title' }] }] }] });
+  assert.match(reviewedHatXml, /<g:gender>unisex<\/g:gender>/);
+  assert.match(reviewedHatXml, /<g:age_group>adult<\/g:age_group>/);
+  assert.match(reviewedHatXml, /<g:price>25\.00 USD<\/g:price>/);
+}
 const youthXml = renderGoogleProductFeed({ products: [{ ...factualApparel, title: 'Youth Signal Tee - White', description: 'White unisex youth T-shirt. Size guide 2XL.' }] });
 assert.doesNotMatch(youthXml, /<g:age_group>adult<\/g:age_group>/);
 const hoodieShippingXml = renderGoogleProductFeed({ products: [{ ...product, handle: 'unisex-hoodie' }] });
