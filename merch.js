@@ -340,7 +340,7 @@ const ProductDetails = {
     });
   },
 
-  open(product, trigger) {
+  open(product, trigger, selectedVariantId) {
     if (!this.dialog) return;
     const firstImage = (product.images || []).find(image => image && image.url);
     this.title.textContent = product.title;
@@ -360,6 +360,8 @@ const ProductDetails = {
 
     document.body.classList.add("product-details-open");
     this.dialog.showModal();
+    const viewedVariant = (product.variants || []).find(variant => variant.id === selectedVariantId) || (product.variants || []).find(variant => variant.available) || product.variants?.[0];
+    window.DudeMerchMeasurement?.viewItem(product, viewedVariant);
     document.getElementById("product-details-close")?.focus();
   },
 
@@ -486,12 +488,13 @@ async function checkout() {
     merchandiseId: i.merchandiseId,
     quantity: i.quantity,
   }));
+  const checkoutItems = Cart.items.map(item => ({ ...item }));
 
   try {
     const res = await fetch("/api/shopify-cart", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ lines }),
+      body: JSON.stringify({ lines, attribution: window.DudeMerchMeasurement?.currentAttribution() }),
     });
 
     const result = await res.json();
@@ -500,7 +503,7 @@ async function checkout() {
       throw new Error(result.message || "Shopify could not prepare checkout.");
     }
 
-    Cart.clear();
+    window.DudeMerchMeasurement?.beginCheckout(checkoutItems);
     window.location.href = result.checkoutUrl;
   } catch (err) {
     console.error("[merch] Checkout failed:", err);
@@ -767,6 +770,7 @@ function renderProductCard(product, index) {
   titleButton.className = "product-title-button";
   titleButton.textContent = product.title;
   titleButton.href = `/products/${encodeURIComponent(product.handle)}`;
+  titleButton.href = window.DudeMerchMeasurement?.decorateProductUrl(titleButton.href) || titleButton.href;
   titleButton.setAttribute("aria-label", `View ${product.title}`);
   title.appendChild(titleButton);
   body.appendChild(title);
@@ -791,7 +795,7 @@ function renderProductCard(product, index) {
   detailsButton.type = "button";
   detailsButton.textContent = "View full description →";
   detailsButton.setAttribute("aria-label", `View full description for ${product.title}`);
-  detailsButton.addEventListener("click", () => ProductDetails.open(product, detailsButton));
+  detailsButton.addEventListener("click", () => ProductDetails.open(product, detailsButton, selectedVariantId));
   body.appendChild(detailsButton);
 
   /* --- Variant selector --- */
@@ -856,6 +860,7 @@ function renderProductCard(product, index) {
       if (!variantId) return;
       const variantData = product.variants.find(v => v.id === variantId) || product.variants[0];
       Cart.add(variantId, merchandiseId, product, variantData);
+      window.DudeMerchMeasurement?.addToCart(product, variantData, 1);
       openCart();
     });
   }
@@ -951,8 +956,9 @@ async function initMerch() {
 
   } catch (err) {
     console.error("[merch] Failed to load products:", err);
-    grid.innerHTML = "";
     grid.setAttribute("aria-busy", "false");
+    if (grid.dataset.serverRendered === "true") return;
+    grid.innerHTML = "";
     unavailable.hidden = false;
     const p = unavailable.querySelector("p");
     if (p) {
@@ -960,6 +966,16 @@ async function initMerch() {
     }
   }
 }
+
+// Browser Back may restore the pending button from the back/forward cache.
+window.addEventListener("pageshow", event => {
+  if (!event.persisted) return;
+  const button = document.getElementById("cart-checkout");
+  if (button) {
+    button.disabled = Cart.isEmpty();
+    button.textContent = "Checkout ↗";
+  }
+});
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initMerch);

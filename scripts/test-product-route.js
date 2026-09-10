@@ -4,11 +4,11 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { renderProduct, structuredData, selectedVariant, createProductHandler } = require('../lib/dude-product-route');
+const { renderProduct, structuredData, selectedVariant, createProductHandler, renderDescription } = require('../lib/dude-product-route');
 
 const product = {
   id: 'gid://shopify/Product/44', handle: 'signal-tee', title: 'Signal Tee', description: 'A shirt from the signal.', vendor: 'Dude McGee', productType: 'T-Shirt',
-  images: [{ url: 'https://cdn.example/tee.jpg', alt: 'Signal Tee' }], options: [{ name: 'Color', values: ['Black', 'White'] }, { name: 'Size', values: ['S', 'M'] }],
+  images: [{ url: 'https://cdn.example/tee.jpg', alt: 'Product mockup' }, { url: 'https://cdn.example/tee-back.jpg', alt: 'Back artwork mockup' }], options: [{ name: 'Color', values: ['Black', 'White'] }, { name: 'Size', values: ['S', 'M'] }],
   variants: [
     { id: 'gid://shopify/ProductVariant/101', sku: 'DM-BLK-S', title: 'Black / S', available: false, price: { amount: '25.00', currencyCode: 'USD' }, image: 'https://cdn.example/black.jpg', imageAlt: 'Black tee', selectedOptions: [{ name: 'Color', value: 'Black' }, { name: 'Size', value: 'S' }] },
     { id: 'gid://shopify/ProductVariant/102', sku: 'DM-WHT-M', title: 'White / M', available: true, price: { amount: '27.50', currencyCode: 'USD' }, image: 'https://cdn.example/white.jpg', imageAlt: 'White tee', selectedOptions: [{ name: 'Color', value: 'White' }, { name: 'Size', value: 'M' }] },
@@ -29,6 +29,22 @@ assert.match(renderProduct(product, '101'), /\$25\.00/);
 assert.match(renderProduct(product, '101'), /currently sold out/);
 assert.match(renderProduct(product, 'missing'), /\$27\.50/);
 assert.match(renderProduct(product, '101'), /id="product-data"/);
+const productPage = renderProduct(product, '101');
+assert.match(productPage, /data-gallery-index="0"/);
+assert.match(productPage, /data-gallery-index="1"/);
+assert.match(productPage, /<button[^>]+id="product-image-open"[^>]*>[\s\S]*?<img[^>]+id="product-image"/, 'the main product image must open the zoom viewer');
+assert.match(productPage, /<dialog[^>]+id="product-page-zoom"/, 'product pages must render an image zoom dialog');
+assert.match(productPage, /id="product-page-zoom-prev"/);
+assert.match(productPage, /id="product-page-zoom-next"/);
+assert.match(productPage, /Product mockup/);
+assert.ok(productPage.indexOf('id="product-buy"') < productPage.indexOf('<section class="product-description"'), 'checkout controls must precede long product details');
+const plainGuide = 'Signal DETAILS Front art. Size guide: see original measurements 27 × 16 ½.';
+assert.match(renderDescription({ description: plainGuide }), /Size guide: see original measurements 27 × 16 ½\./, 'plain fallback must not discard an unfamiliar size guide');
+assert.equal(renderDescription({ descriptionHtml: '<p>Front &amp; back &#189;</p>' }), '<p>Front &amp; back &#189;</p>', 'catalog HTML entities must not be double escaped');
+const safeTable = renderDescription({ description: 'fallback', descriptionHtml: '<table onclick="bad"><tr><td>XS</td></tr></table><script>alert(1)</script><img src=x onerror=bad>' });
+assert.match(safeTable, /<table><tr><td>XS<\/td><\/tr><\/table>/);
+assert.doesNotMatch(safeTable, /onclick|script|onerror|alert\(1\)|<img/);
+assert.match(renderProduct({ ...product, images: [], variants: [] }), /Product image unavailable/);
 assert.match(fs.readFileSync(path.join(__dirname, '..', 'merch.js'), 'utf8'), /titleButton\.href = `\/products\/\$\{encodeURIComponent\(product\.handle\)\}`/);
 
 function response() {
@@ -51,18 +67,27 @@ function response() {
 // transport: assert the shopper-visible selection and outgoing cart line agree.
 const vm = require('node:vm');
 class Element {
-  constructor() { this.children = []; this.events = {}; this.attrs = {}; }
+  constructor() {
+    this.children = []; this.events = {}; this.attrs = {}; this.open = false;
+    this.classList = { toggle() {} };
+    this.style = { setProperty() {} };
+  }
   appendChild(child) { this.children.push(child); }
   replaceChildren() { this.children = []; }
   setAttribute(name, value) { this.attrs[name] = value; }
   addEventListener(name, handler) { this.events[name] = handler; }
+  showModal() { this.open = true; }
+  close() { this.open = false; if (this.events.close) this.events.close(); }
+  focus() {}
 }
 async function checkClientNavigation() {
   const clientProduct = JSON.parse(JSON.stringify(product));
   clientProduct.variants[0].available = true;
   clientProduct.variants[1].image = null;
-  const nodes = Object.fromEntries(['product-data', 'product-options', 'product-price', 'product-image', 'product-availability', 'product-buy'].map(id => [id, new Element()]));
-  nodes['product-data'].textContent = JSON.stringify({ product: clientProduct, selectedVariantId: '101' });
+  const nodes = Object.fromEntries(['product-data', 'product-options', 'product-price', 'product-image', 'product-image-open', 'product-gallery-thumbs', 'product-image-note', 'product-availability', 'product-buy', 'product-page-zoom', 'product-page-zoom-image-button', 'product-page-zoom-image', 'product-page-zoom-title', 'product-page-zoom-counter', 'product-page-zoom-level', 'product-page-zoom-close', 'product-page-zoom-prev', 'product-page-zoom-next', 'product-page-zoom-in', 'product-page-zoom-out', 'product-page-zoom-reset'].map(id => [id, new Element()]));
+  const clientGallery = [...clientProduct.images, { url: clientProduct.variants[0].image, alt: clientProduct.variants[0].imageAlt }];
+  clientGallery.forEach((item, index) => { const button = new Element(); button.attrs['data-gallery-index'] = String(index); nodes['product-gallery-thumbs'].appendChild(button); });
+  nodes['product-data'].textContent = JSON.stringify({ product: clientProduct, galleryImages: clientGallery, selectedVariantId: '101' });
   const events = {}, requests = [];
   const location = { href: 'https://www.dudemcgee.com/products/signal-tee?campaign=test#details', assign(url) { this.destination = url; } };
   const context = {
@@ -78,6 +103,15 @@ async function checkClientNavigation() {
   colorButtons.find(button => button.textContent === 'White').events.click();
   assert.equal(nodes['product-price'].textContent, '$27.50');
   assert.equal(nodes['product-image'].src, 'https://cdn.example/tee.jpg', 'variant without an image resets to product fallback');
+  nodes['product-gallery-thumbs'].children[1].events.click();
+  assert.equal(nodes['product-image'].src, 'https://cdn.example/tee-back.jpg', 'gallery exposes the authoritative back artwork');
+  assert.equal(nodes['product-image-note'].textContent, 'Product mockup', 'mockup metadata is disclosed');
+  nodes['product-image-open'].events.click();
+  assert.equal(nodes['product-page-zoom'].open, true, 'clicking the selected product image opens the zoom viewer');
+  assert.equal(nodes['product-page-zoom-image'].src, 'https://cdn.example/tee-back.jpg', 'zoom opens the selected gallery image');
+  assert.equal(nodes['product-page-zoom-counter'].textContent, '02 / 03', 'zoom includes every product and variant image');
+  nodes['product-page-zoom-prev'].events.click();
+  assert.equal(nodes['product-page-zoom-image'].src, 'https://cdn.example/tee.jpg', 'zoom navigation reaches the other product images');
   assert.match(location.href, /campaign=test&variant=102#details$/);
   assert.equal(nodes['product-options'].children[1].children.find(button => button.textContent === 'M').attrs['aria-pressed'], 'true', 'incomplete option combination chooses reachable variant');
   await nodes['product-buy'].events.click();

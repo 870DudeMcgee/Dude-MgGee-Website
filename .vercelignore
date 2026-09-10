@@ -2,9 +2,14 @@
 GATES.md
 PLAN.md
 gates/
-scripts/
+scripts/*
+!scripts/prepare-merch-template.js
 press-kit/
 README.md
 .github/
 # /sitemap.xml is served by the live Shopify catalog route.
 sitemap.xml
+
+# Local discovery and routing evidence must never be published.
+.scratch/
+.unlazy-routing-audit/

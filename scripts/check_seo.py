@@ -55,7 +55,8 @@ def run(live=False):
     # scripts/test-product-route.js because catalog credentials are not local.
     sitemap_source = urlopen(ORIGIN + '/sitemap.xml', timeout=30).read() if live else (ROOT / 'sitemap.xml').read_text()
     sitemap = ET.fromstring(sitemap_source)
-    urls = [e.text for e in sitemap.findall('.//{*}loc')]
+    sitemap_namespace = '{http://www.sitemaps.org/schemas/sitemap/0.9}'
+    urls = [e.text for e in sitemap.findall(f'.//{sitemap_namespace}url/{sitemap_namespace}loc')]
     check(len(urls) == len(set(urls)), 'duplicate sitemap URL')
     static_urls = {ORIGIN + p for p in pages}
     if not live:
@@ -108,7 +109,8 @@ def run(live=False):
                 if target.netloc != urlsplit(ORIGIN).netloc or target.scheme not in ('https', 'http'): continue
                 target_file = ROOT / unquote(target.path).lstrip('/')
                 if target_file.is_dir(): target_file /= 'index.html'
-                check(target_file.is_file(), f'{path}: missing local {attrs[attr]}')
+                dynamic_product = live and ORIGIN + target.path in catalog_urls
+                check(target_file.is_file() or dynamic_product, f'{path}: missing local or verified product route {attrs[attr]}')
                 if tag == 'a' and target.path in pages:
                     links[path].add(target.path)
                     if target.fragment:

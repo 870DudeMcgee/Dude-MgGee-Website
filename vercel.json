@@ -1,21 +1,59 @@
 {
+  "buildCommand": "node scripts/prepare-merch-template.js",
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
       ]
     }
   ],
   "redirects": [
-    { "source": "/index.html", "destination": "/", "permanent": true },
-    { "source": "/press/index.html", "destination": "/press/", "permanent": true },
-    { "source": "/press", "destination": "/press/", "permanent": true }
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/press/index.html",
+      "destination": "/press/",
+      "permanent": true
+    },
+    {
+      "source": "/press",
+      "destination": "/press/",
+      "permanent": true
+    }
   ],
   "rewrites": [
-    { "source": "/products/:handle", "destination": "/api/products/:handle" },
-    { "source": "/sitemap.xml", "destination": "/api/sitemap" }
-  ]
+    {
+      "source": "/merch.html",
+      "destination": "/api/merch"
+    },
+    {
+      "source": "/products/:handle",
+      "destination": "/api/products/:handle"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    }
+  ],
+  "functions": {
+    "api/merch.js": {
+      "includeFiles": "lib/merch-template.html"
+    }
+  },
+  "outputDirectory": "."
 }
