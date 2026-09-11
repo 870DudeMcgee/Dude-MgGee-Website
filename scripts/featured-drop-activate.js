@@ -90,6 +90,24 @@ async function activate(store, expectedRevision) {
   save(file, { status: 'READBACK', ...id, expectedRevision, before: current, manifest, committedEtag: saved.etag });
   console.log('Guarded activation committed. Pending readback blocks further activation; run reconcile and verify in browser.');
 }
+async function resumeVerifiedIntent(store) {
+  const id = identity(manifest);
+  const file = path.join(DIR, `${id.activationId}.json`);
+  const local = JSON.parse(fs.readFileSync(file));
+  if (local.status !== 'WRITING' || stableJson(local.manifest) !== stableJson(manifest)) throw new Error('No exact local WRITING intent');
+  const current = await readState(store);
+  const intended = begin(local.before.state, manifest, local.expectedRevision);
+  if (stableJson(current.state) !== stableJson(intended)) throw new Error('Remote intent differs; recovery refused');
+  verifyMedia(manifest); await checkListing(manifest);
+  for (const [name, expected] of [[`media/${manifest.media.sha256}.jpg`, fs.readFileSync(path.join(ROOT, manifest.media.path))], [`revisions/${id.campaignRevision}.json`, bytes(manifest)]]) {
+    const object = await store.get(name);
+    if (!object || !object.bytes.equals(expected)) throw new Error('Recovery requires exact existing immutable objects');
+  }
+  save(path.join(DIR, `${id.activationId}.recovery.json`), { status: 'WRITING', ...id, expectedEtag: current.etag, reason: 'Reconciled weak transport ETag rejection; exact unchanged intent and immutable objects verified' }, true);
+  const saved = await store.put('current.json', bytes(commit(current.state, id.activationId)), current.etag);
+  save(file, { ...local, status: 'READBACK', committedEtag: saved.etag });
+  console.log('Reconciled intent committed with strong ETag; public readback required.');
+}
 async function reconcile(store) {
   const current = await readState(store);
   const id = identity(manifest);
@@ -126,6 +144,7 @@ async function main() {
   const [operation, argument] = process.argv.slice(2);
   if (operation === 'probe' && !argument) return probe(store);
   if (operation === 'activate' && argument) return activate(store, argument === 'none' ? null : argument);
+  if (operation === 'resume-verified-intent' && !argument) return resumeVerifiedIntent(store);
   if (operation === 'reconcile' && !argument) return reconcile(store);
   if (operation === 'finalize' && argument) return finalize(store, argument);
   if (operation === 'rollback-plan' && argument) {

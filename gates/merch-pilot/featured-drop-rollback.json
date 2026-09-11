@@ -1,0 +1,15 @@
+{
+  "status": "PROPOSAL_ONLY",
+  "preparedAt": "2026-09-11T18:26:55.135264+00:00",
+  "expectedCurrentRevision": "website-sha256:46f8b3f1c97b52dfd3f39c1a5925b9700a6b7fcd65597669007ae308bc294b00",
+  "restoreDeployment": "dpl_2cBwwkvcDmoTMBPhRPqP8sZAdrc6",
+  "restoreSourceRevision": "821e2a47976e161d81d0f4e0e80754e2a97af8d8",
+  "activationAttempted": false,
+  "requires": [
+    "separate rollback authority",
+    "remote compare-and-swap enforcement",
+    "durable rollback intent before provider write",
+    "public restoration readback"
+  ],
+  "preserveEvidence": true
+}

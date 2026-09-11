@@ -81,8 +81,9 @@ Owner confirms Original Black Signal Tee is Shopify product
 `gid://shopify/Product/10332079161651`, listing `/products/unisex-t-shirt`.
 The public listing still matches the social evidence revision
 `public-sha256:7be5f211b557bb8c45c2a32abddac3170393eb10cd7b29b61ddb8ff47b63d008`,
-with nine available variants. This Website-only feature is prepared locally;
-it is not deployed or an approved social package. Exact invocation, media
-provenance, production baseline, remote concurrency prerequisite and browser
-evidence: [Website ticket 20 execution](../gates/merch-pilot/featured-drop.md).
+with nine available variants. The Website-only feature is live and verified on
+September 11 through public HTTP and a 390×844 browser journey, preserving all
+11 catalog products. Activation uses a dedicated private Blob pointer with
+conditional ETag updates and a retained success receipt. This is not an approved
+social package. Exact invocation, media provenance, deployment and browser evidence: [Website ticket 20 execution](../gates/merch-pilot/featured-drop.md).
 Permanent destination remains `https://www.dudemcgee.com/merch.html`.

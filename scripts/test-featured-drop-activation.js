@@ -40,5 +40,10 @@ function response() { return { headers: {}, setHeader(k,v) { this.headers[k]=v; 
   assert.equal(writes,1);
   const conflict = createStore(`vercel_blob_rw_${STORE_ID}_synthetic`,async()=>({ok:false,status:412,json:async()=>({error:{code:'precondition_failed'}})}));
   await assert.rejects(conflict.put('current.json',Buffer.from('{}'),'"stale"'),e=>e.kind==='conflict');
+  const weak = createStore(`vercel_blob_rw_${STORE_ID}_synthetic`,async(url,options)=>{
+    assert.equal(options.headers['accept-encoding'],'identity');
+    return {ok:true,status:200,arrayBuffer:async()=>Buffer.from('{}'),headers:new Headers({etag:'W/"weak"'})};
+  });
+  await assert.rejects(weak.get('current.json'),/strong etag/);
   console.log('Featured-drop activation, uncertainty, rollback and catalog fallback checks passed');
 })().catch(e=>{console.error(e);process.exitCode=1;});

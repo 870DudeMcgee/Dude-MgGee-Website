@@ -1,0 +1,14 @@
+{
+  "status": "VERIFIED",
+  "storeId": "store_rGUzebC3ZZPfZxVr",
+  "projectId": "prj_I2zmcDZqJQ6xO2uZ88ziOULSt1Uu",
+  "environments": [
+    "production"
+  ],
+  "runtimeKey": "BLOB_READ_WRITE_TOKEN",
+  "runtimeReference": "iMRZnhlT2APNN7e3",
+  "keychainService": "com.dudemcgee.website.vercel.production",
+  "keychainAccount": "featured-drop-store.read-write.v01",
+  "runtimeComparison": "MATCH",
+  "reconciliation": "Connection returned an empty response; confirmed single runtime entry without repeating mutation."
+}
