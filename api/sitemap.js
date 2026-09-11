@@ -9,7 +9,11 @@ function escapeXml(value) { return String(value).replace(/&/g, '&amp;').replace(
 function xmlText(value) { return String(value == null ? '' : value).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, ''); }
 function imageEntries(product) {
   const seen = new Set();
-  return (product.images || []).filter(image => {
+  const images = [
+    ...(product.images || []),
+    ...(product.variants || []).map(variant => variant && variant.image ? { url: variant.image } : null),
+  ];
+  return images.filter(image => {
     const url = String(image && image.url || '');
     if (!/^https?:\/\//i.test(url) || seen.has(url)) return false;
     seen.add(url); return true;

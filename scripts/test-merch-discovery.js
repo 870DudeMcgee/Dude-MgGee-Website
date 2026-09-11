@@ -10,6 +10,7 @@ const product = {
   handle: 'signal-tee', title: 'Signal & Tee', vendor: 'Dude McGee',
   description: 'A <strong>shirt</strong> & more.',
   images: [{ url: 'https://cdn.example/tee?a=1&b=2', alt: 'Product mockup' }, { url: 'https://cdn.example/back.jpg', alt: 'Back print' }],
+  variants: [{ image: 'https://cdn.example/variant-only.jpg' }, { image: 'https://cdn.example/back.jpg' }],
 };
 
 const page = renderMerchPage(template, [product]);
@@ -36,6 +37,8 @@ function response() {
   const xml = sitemap.renderSitemap({ products: [product] });
   assert.match(xml, /xmlns:image="http:\/\/www\.google\.com\/schemas\/sitemap-image\/1\.1"/);
   assert.match(xml, /<image:loc>https:\/\/cdn\.example\/tee\?a=1&amp;b=2<\/image:loc>/);
+  assert.match(xml, /<image:loc>https:\/\/cdn\.example\/variant-only\.jpg<\/image:loc>/);
+  assert.equal((xml.match(/https:\/\/cdn\.example\/back\.jpg/g) || []).length, 1, 'sitemap images are deduplicated across product and variant sources');
   assert.doesNotMatch(xml, /<image:(?:title|caption)>/);
   const unavailableSitemap = response();
   await sitemap.createSitemapHandler(async () => { throw new Error('offline'); })({ method: 'GET' }, unavailableSitemap);

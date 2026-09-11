@@ -1,6 +1,10 @@
 # Dude-MgGee-Website
 Website for artist Dude McGee
 
+For previously verified shipping, returns, account/profile IDs, and the specific
+remaining Google commerce issues, start with [the commerce reference](docs/commerce-reference.md).
+Read it before repeating policy or account research.
+
 ## Merch storefront
 
 `merch.html` keeps product browsing and cart review on the Dude McGee site,

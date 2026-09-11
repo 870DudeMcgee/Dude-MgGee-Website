@@ -25,6 +25,68 @@ assert.equal(schema.hasVariant[0].offers.url, 'https://www.dudemcgee.com/product
 assert.equal(schema.hasVariant[0].offers.availability, 'https://schema.org/OutOfStock');
 assert.equal(schema.hasVariant[1].offers.price, '27.50');
 assert.equal(schema.hasVariant[1].sku, 'DM-WHT-M');
+assert.equal(schema.hasVariant[0].offers.shippingDetails, undefined, 'unmapped pages stay sellable but expose no unverified policy');
+
+const policySchema = structuredData({ ...product, handle: 'unisex-t-shirt' });
+for (const schemaVariant of policySchema.hasVariant) {
+  assert.equal(schemaVariant.offers.shippingDetails.shippingRate.value, '4.95');
+  assert.equal(schemaVariant.offers.shippingDetails.shippingDestination.addressCountry, 'US');
+  assert.deepEqual(schemaVariant.offers.shippingDetails.deliveryTime.handlingTime, { '@type': 'QuantitativeValue', minValue: 2, maxValue: 5, unitCode: 'DAY' });
+  assert.deepEqual(schemaVariant.offers.shippingDetails.deliveryTime.transitTime, { '@type': 'QuantitativeValue', minValue: 1, maxValue: 8, unitCode: 'DAY' });
+  assert.deepEqual(schemaVariant.offers.shippingDetails.deliveryTime.businessDays.dayOfWeek, [
+    'https://schema.org/Monday',
+    'https://schema.org/Tuesday',
+    'https://schema.org/Wednesday',
+    'https://schema.org/Thursday',
+    'https://schema.org/Friday',
+  ]);
+  assert.equal(schemaVariant.offers.hasMerchantReturnPolicy.returnPolicyCategory, 'https://schema.org/MerchantReturnNotPermitted');
+  assert.equal(schemaVariant.offers.hasMerchantReturnPolicy.merchantReturnLink, 'https://www.dudemcgee.com/returns.html');
+  assert.equal(schemaVariant.offers.hasMerchantReturnPolicy.merchantReturnDays, undefined);
+  assert.equal(schemaVariant.review, undefined);
+  assert.equal(schemaVariant.aggregateRating, undefined);
+}
+assert.equal(policySchema.hasVariant[0].offers.availability, 'https://schema.org/OutOfStock', 'sold-out offers retain policy markup');
+
+const explicitCopySchema = structuredData({
+  ...product,
+  handle: 'digital-fauna-signal-tee-white',
+  title: 'Digital Fauna Tee - White',
+  description: 'White unisex T-shirt. Size guide CHEST XS 31-34 2XL 50-53.',
+  options: [{ name: 'Size', values: ['S', 'M'] }],
+  variants: product.variants.map(variant => ({ ...variant, selectedOptions: variant.selectedOptions.filter(option => option.name === 'Size') })),
+});
+for (const schemaVariant of explicitCopySchema.hasVariant) {
+  assert.equal(schemaVariant.color, 'White');
+  assert.equal(schemaVariant.audience.suggestedGender, 'Unisex');
+  assert.equal(schemaVariant.audience.suggestedMinAge, 13);
+}
+
+const checkoutGirlSchema = structuredData({
+  ...product,
+  handle: 'checkout-girl-tee',
+  title: 'Checkout Girl Tee',
+  description: 'Heather gray Bella + Canvas 3001 unisex jersey short sleeve tee.',
+  vendor: 'Dude McGee Merch',
+  options: [{ name: 'Size', values: ['XS', '5XL'] }],
+  variants: product.variants.map((variant, index) => ({ ...variant, selectedOptions: [{ name: 'Size', value: index ? '5XL' : 'XS' }] })),
+});
+for (const schemaVariant of checkoutGirlSchema.hasVariant) {
+  assert.equal(schemaVariant.color, 'Heather gray');
+  assert.equal(schemaVariant.audience.suggestedGender, 'Unisex');
+  assert.equal(schemaVariant.offers.shippingDetails.shippingRate.value, '4.95');
+}
+assert.equal(checkoutGirlSchema.brand.name, 'Dude McGee Merch');
+const checkoutGirlOptionOverride = structuredData({
+  ...product,
+  handle: 'checkout-girl-tee',
+  title: 'Checkout Girl Tee',
+  description: 'Heather gray Bella + Canvas 3001 unisex jersey short sleeve tee.',
+  options: [{ name: 'Color', values: ['Graphite'] }],
+  variants: [{ ...product.variants[0], selectedOptions: [{ name: 'Color', value: 'Graphite' }] }],
+});
+assert.equal(checkoutGirlOptionOverride.color, 'Graphite', 'a real variant option overrides the shared product fallback');
+assert.equal(checkoutGirlOptionOverride.audience.suggestedGender, 'Unisex');
 assert.match(renderProduct(product, '101'), /\$25\.00/);
 assert.match(renderProduct(product, '101'), /currently sold out/);
 assert.match(renderProduct(product, 'missing'), /\$27\.50/);
