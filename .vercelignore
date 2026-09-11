@@ -13,3 +13,8 @@ sitemap.xml
 # Local discovery and routing evidence must never be published.
 .scratch/
 .unlazy-routing-audit/
+
+# Operating references and setup caches are not public assets.
+AGENTS.md
+docs/
+**/__pycache__/

@@ -73,3 +73,16 @@ files belong to the owner; do not replace them to copy this reference.
 Full recovery acceptance is tracked in
 [recovery-gates.md](../gates/google-visibility/recovery-gates.md). Historical
 planning completion is not proof that production recovery is complete.
+
+
+## Featured Drop 000 — Website ticket 20, September 11
+
+Owner confirms Original Black Signal Tee is Shopify product
+`gid://shopify/Product/10332079161651`, listing `/products/unisex-t-shirt`.
+The public listing still matches the social evidence revision
+`public-sha256:7be5f211b557bb8c45c2a32abddac3170393eb10cd7b29b61ddb8ff47b63d008`,
+with nine available variants. This Website-only feature is prepared locally;
+it is not deployed or an approved social package. Exact invocation, media
+provenance, production baseline, remote concurrency prerequisite and browser
+evidence: [Website ticket 20 execution](../gates/merch-pilot/featured-drop.md).
+Permanent destination remains `https://www.dudemcgee.com/merch.html`.

@@ -14,3 +14,7 @@
 .env
 .env.local
 .vercel
+
+# Local setup caches and dependencies
+__pycache__/
+node_modules/

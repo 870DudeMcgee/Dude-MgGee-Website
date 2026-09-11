@@ -1,0 +1,21 @@
+{
+  "campaignId": "drop-000",
+  "approvalScope": "website-only",
+  "approvalSource": "Owner Website execution instruction, 2026-09-11; social ticket 18 owner-confirmed identity and ticket 14 exact JPEG provenance. This is not an approved social package.",
+  "entryUrl": "https://www.dudemcgee.com/merch.html",
+  "linkTitle": "Shop the latest DUDE McGEE drop",
+  "productId": "gid://shopify/Product/10332079161651",
+  "canonicalUrl": "https://www.dudemcgee.com/products/unisex-t-shirt",
+  "listingRevision": "public-sha256:7be5f211b557bb8c45c2a32abddac3170393eb10cd7b29b61ddb8ff47b63d008",
+  "currentDropLabel": "Drop 000 \u2014 Original Black Signal Tee",
+  "description": "Small DM mark in front. Digital Fauna panther on the back. Printed to order.",
+  "media": {
+    "path": "assets/drops/drop-000-wear-the-signal.jpg",
+    "sha256": "eee3ec8acb3c78b3e4bf592f7c35570c482e5d2b3ae5d949fe32ce0d305d5faf",
+    "bytes": 185278,
+    "width": 1080,
+    "height": 1350,
+    "alt": "Original Black Signal Tee product mockups showing the DM chest mark and Digital Fauna panther back artwork"
+  },
+  "catalogPreserved": true
+}
