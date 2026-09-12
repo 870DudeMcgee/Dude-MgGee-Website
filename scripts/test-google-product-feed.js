@@ -20,6 +20,10 @@ assert.deepEqual([...PRODUCT_POLICIES.keys()], [
 const product = { id: 'gid://shopify/Product/44', handle: 'digital-fauna-signal-tee-white', title: 'Signal & Tee', description: 'A <strong>shirt</strong> & more\u0001.', vendor: 'Dude & McGee', images: [{ url: 'https://cdn.example/tee?a=1&b=2' }, { url: 'https://cdn.example/tee-back.jpg' }], options: [{ name: 'Color' }, { name: 'Size' }], variants: [{ id: 'gid://shopify/ProductVariant/101', available: false, price: { amount: '25.00', currencyCode: 'USD' }, selectedOptions: [{ name: 'Color', value: 'Black & White' }, { name: 'Size', value: 'M' }] }] };
 const xml = renderGoogleProductFeed({ products: [product] });
 assert.match(xml, /<g:id>101<\/g:id>/); assert.match(xml, /<g:item_group_id>44<\/g:item_group_id>/); assert.match(xml, /products\/digital-fauna-signal-tee-white\?variant=101/); assert.match(xml, /<g:price>25\.00 USD<\/g:price>/); assert.match(xml, /<g:availability>out_of_stock/); assert.match(xml, /Black &amp; White/); assert.doesNotMatch(xml, /\u0001/);
+assert.match(xml, /<g:title>Dude McGee Signal &amp; Tee<\/g:title>/);
+assert.match(xml, /<g:size>M<\/g:size>/, 'a branded title must preserve the variant size field');
+assert.match(xml, /<g:brand>Dude &amp; McGee<\/g:brand>/, 'the Shopify vendor remains the feed brand');
+assert.doesNotMatch(renderGoogleProductFeed({ products: [{ ...product, title: 'Dude McGee Signal Tee' }] }), /Dude McGee Dude McGee/);
 assert.match(xml, /<g:additional_image_link>https:\/\/cdn\.example\/tee-back\.jpg<\/g:additional_image_link>/);
 for (const [handle, policy] of PRODUCT_POLICIES) {
   const mappedProduct = { ...product, handle };
