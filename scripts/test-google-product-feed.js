@@ -79,7 +79,12 @@ const youthXml = renderGoogleProductFeed({ products: [{ ...factualApparel, title
 assert.doesNotMatch(youthXml, /<g:age_group>adult<\/g:age_group>/);
 const hoodieShippingXml = renderGoogleProductFeed({ products: [{ ...product, handle: 'unisex-hoodie' }] });
 assert.match(hoodieShippingXml, /<g:shipping>[\s\S]*<g:country>US<\/g:country>[\s\S]*<g:price>8\.79 USD<\/g:price>[\s\S]*<g:min_handling_time>2<\/g:min_handling_time>[\s\S]*<g:max_transit_time>8<\/g:max_transit_time>/);
-assert.match(hoodieShippingXml, /<g:shipping_handling_business_days>M-F<\/g:shipping_handling_business_days>/);
+for (const name of ['shipping_handling_business_days', 'shipping_transit_business_days']) {
+  const block = hoodieShippingXml.match(new RegExp(`<g:${name}>([\\s\\S]*?)</g:${name}>`))?.[1];
+  assert.ok(block, `${name} must be present`);
+  assert.match(block, /<g:country>US<\/g:country>/, `${name} needs a country sub-attribute`);
+  assert.match(block, /<g:business_days>M-F<\/g:business_days>/, `${name} preserves Monday-Friday in its sub-attribute`);
+}
 assert.doesNotMatch(hoodieShippingXml, /<g:region>/);
 assert.throws(() => renderGoogleProductFeed({ products: [{ ...product, handle: 'future-product' }] }), /Missing verified product policy for future-product/);
 

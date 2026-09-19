@@ -1,3 +1,32 @@
+## Dude-only catalog audit and feed warning — September 19, 2026
+
+The [Dude catalog audit](../gates/google-visibility/dude-catalog-audit-20260919.json)
+reconciles 11 public products / 64 variants to all 64 feed IDs with no omissions,
+extras or duplicates. All 11 pages return 200, appear in the sitemap, and contain
+variant identities and shipping/return markup. It checks markup presence, not
+Merchant parsing of every attribute. All 64 individual Merchant rows were observed
+Approved and VISIBLE in the Free listings view at about 18:12 UTC.
+
+**Approval does not mean warning-free:** coozie offer `53792684605747` has two
+individual Needs attention warnings: invalid sub-attribute format for
+`shipping_handling_business_days` and `shipping_transit_business_days`, each
+explicitly limiting US Free listings visibility. The main Needs attention view
+was empty. Every live offer uses the same flat `M-F` encoding. This is a newly
+confirmed feed-format issue, not a change to verified shipping rates or timing.
+The handling-days issue detail reports **64 impacted products (100%)**.
+A focused correction uses nested `country=US` and `business_days=M-F` values for
+both XML attributes. Deployment and Google reprocessing are pending at this point.
+Google's [current product specification](https://support.google.com/merchants/answer/7052112?hl=en)
+and [Merchant API business-day structure](https://docs.cloud.google.com/go/docs/reference/cloud.google.com/go/shopping/latest/merchant/products/apiv1/productspb)
+support country/business_days configurations; older simple XML examples conflict
+with the live parser, so acceptance must be confirmed in Merchant Center.
+
+New actual Shopping cards: Checkout Girl, white Neon Leaf chest-logo tee, both
+hats. With the four hoodie designs seen earlier today, 8/11 designs now have
+observed cards. DM-logo tees (black/white) and coozie remain unconfirmed in sampled
+Shopping searches. No claim that every size is separately served or that Search
+Popular products is confirmed. Bass is outside this run.
+
 # Commerce reference — read before repeating an investigation
 
 Maintained: 2026-09-11. This is the entry point for settled shipping/return facts

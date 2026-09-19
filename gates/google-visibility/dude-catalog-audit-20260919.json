@@ -1,0 +1,176 @@
+{
+  "checkedAt": "2026-09-19T18:09:15.217718+00:00",
+  "scope": "Dude McGee public catalog only",
+  "products": 11,
+  "offers": 64,
+  "feedItems": 64,
+  "missingFeedIds": [],
+  "extraFeedIds": [],
+  "duplicateFeedIds": 0,
+  "failures": [],
+  "productsDetail": [
+    {
+      "handle": "checkout-girl-tee",
+      "title": "Checkout Girl Tee",
+      "offers": 9,
+      "variantIds": [
+        "54058886791475",
+        "54058886824243",
+        "54058886857011",
+        "54058886889779",
+        "54058886922547",
+        "54058886955315",
+        "54058886988083",
+        "54058887020851",
+        "54058887053619"
+      ],
+      "pageHttpStatus": 200,
+      "schemaAndSitemapChecked": true
+    },
+    {
+      "handle": "digital-fauna-signal-tee-chest-logo-white",
+      "title": "Digital Fauna Tee - Neon Leaf Chest Logo - White",
+      "offers": 9,
+      "variantIds": [
+        "53798399410483",
+        "53798399443251",
+        "53798399476019",
+        "53798399508787",
+        "53798399541555",
+        "53798399574323",
+        "53798399607091",
+        "53798399639859",
+        "53798399672627"
+      ],
+      "pageHttpStatus": 200,
+      "schemaAndSitemapChecked": true
+    },
+    {
+      "handle": "digital-fauna-signal-tee-white",
+      "title": "Digital Fauna Signal Tee - DM Logo - White",
+      "offers": 9,
+      "variantIds": [
+        "53792679690547",
+        "53792679723315",
+        "53792679756083",
+        "53792679788851",
+        "53792679821619",
+        "53792679854387",
+        "53792679887155",
+        "53792679919923",
+        "53792679952691"
+      ],
+      "pageHttpStatus": 200,
+      "schemaAndSitemapChecked": true
+    },
+    {
+      "handle": "unisex-t-shirt",
+      "title": "Digital Fauna Signal Tee - DM Logo - Black",
+      "offers": 9,
+      "variantIds": [
+        "53699578888499",
+        "53699578921267",
+        "53699578954035",
+        "53699578986803",
+        "53699579019571",
+        "53699579052339",
+        "53699579085107",
+        "53699579117875",
+        "53699579150643"
+      ],
+      "pageHttpStatus": 200,
+      "schemaAndSitemapChecked": true
+    },
+    {
+      "handle": "unisex-premium-mid-weight-hoodie-2",
+      "title": "Neon Leaf Hoodie - Black",
+      "offers": 6,
+      "variantIds": [
+        "53798247989555",
+        "53798248022323",
+        "53798248055091",
+        "53798248087859",
+        "53798248120627",
+        "53798248153395"
+      ],
+      "pageHttpStatus": 200,
+      "schemaAndSitemapChecked": true
+    },
+    {
+      "handle": "unisex-hoodie",
+      "title": "Neon Leaf Hoodie - White",
+      "offers": 6,
+      "variantIds": [
+        "53794169717043",
+        "53794169749811",
+        "53794169782579",
+        "53794169815347",
+        "53794169848115",
+        "53794169880883"
+      ],
+      "pageHttpStatus": 200,
+      "schemaAndSitemapChecked": true
+    },
+    {
+      "handle": "unisex-premium-mid-weight-hoodie-1",
+      "title": "HeartWave Hoodie - White",
+      "offers": 6,
+      "variantIds": [
+        "53793125007667",
+        "53793125040435",
+        "53793125073203",
+        "53793125105971",
+        "53793125138739",
+        "53793125171507"
+      ],
+      "pageHttpStatus": 200,
+      "schemaAndSitemapChecked": true
+    },
+    {
+      "handle": "unisex-premium-mid-weight-hoodie",
+      "title": "Digital Fauna Hoodie - DM Logo - Black",
+      "offers": 6,
+      "variantIds": [
+        "53783138337075",
+        "53783138369843",
+        "53783138402611",
+        "53783138435379",
+        "53783138468147",
+        "53783138500915"
+      ],
+      "pageHttpStatus": 200,
+      "schemaAndSitemapChecked": true
+    },
+    {
+      "handle": "foam-trucker-hat-1",
+      "title": "Neon Leaf Trucker Hat - White",
+      "offers": 1,
+      "variantIds": [
+        "53798457671987"
+      ],
+      "pageHttpStatus": 200,
+      "schemaAndSitemapChecked": true
+    },
+    {
+      "handle": "foam-trucker-hat",
+      "title": "Digital Fauna Foam Trucker Hat - Black",
+      "offers": 1,
+      "variantIds": [
+        "53792704168243"
+      ],
+      "pageHttpStatus": 200,
+      "schemaAndSitemapChecked": true
+    },
+    {
+      "handle": "coozie",
+      "title": "Digital Fauna Coozie",
+      "offers": 2,
+      "variantIds": [
+        "53792684605747",
+        "53792684638515"
+      ],
+      "pageHttpStatus": 200,
+      "schemaAndSitemapChecked": true
+    }
+  ]
+}
