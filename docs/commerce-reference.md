@@ -90,12 +90,25 @@ files belong to the owner; do not replace them to copy this reference.
 - **Quantity/mixed fulfillment:** existing single-offer standard rates do not
   establish every mixed-cart or multi-quantity checkout calculation.
 - **Dude domain stability:** restored www.dudemcgee.com Verified/Claimed on
-  September 11. Product and shipping sync were already Off. Persistence after
-  subsequent synchronization is unproven; do not repeat those settings as a fix.
-- **Google processing:** after domain restoration, all 64 Dude offer rows were
-  checked: 49 Approved, 6 Under review, 9 Checkout Girl Not approved. Unfiltered
-  diagnostics listed shipping/color/gender on those nine and no domain mismatch.
-  Shipping/schema code deployment and subsequent Google processing remain open.
+  September 11; re-confirmed after the September 23 API re-claim. "Mismatched
+  online store URL" is gone: `accounts/5849042058/issues` returned zero open
+  issues on 2026-09-23. Do not repeat the claim/mismatch investigation.
+- **Google processing:** closed 2026-09-23. `product_view` reports all **64
+  offers ELIGIBLE** with US FREE_LISTINGS approved and **zero item-level
+  issues** (the September 19 `M-F` handling-days warning is no longer reported
+  for any offer, including coozie `53792684605747`).
+- **Exact per-product shipping rates:** live as of 2026-09-23 via Merchant API,
+  not just the $8.79/$12.49 account estimate. Supplemental API data source
+  `accounts/5849042058/dataSources/10744168764` carries `shippingLabel` on all
+  64 offers (tees495×36, hoodies879×24, hats469×2, coozie469×2) and is linked in
+  primary `10723541341` `defaultRule.takeFromDataSources` ([self, supplemental]).
+  Rate groups on both services: Standard tees495 $4.95, hats469/coozie469
+  $4.69, all-others $8.79; Express tees495 $9.99, hats469/coozie469 $11.99,
+  all-others $12.49. The primary feed also emits per-item `g:shipping` exact
+  Standard rates, which override account settings independently. Verified via
+  `shippingSettings` GET and label reads. Gotcha: `shipping_label` in the
+  Merchant API v1 REST insert is a **single string, not a list**; the label
+  merge additionally requires the primary's `defaultRule` link.
 - **Reviews:** genuine product-review data has not been established. Never copy
   Printful blank-product reviews or fabricate ratings to clear Search warnings.
 
