@@ -1,4 +1,7 @@
 {
+  "git": {
+    "deploymentEnabled": false
+  },
   "buildCommand": "node scripts/prepare-merch-template.js",
   "headers": [
     {
