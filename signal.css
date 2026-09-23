@@ -1,0 +1,717 @@
+/* ACTIVATE THE SIGNAL
+   The existing poster stays the stage. Motion is transmission, not decoration. */
+
+@property --wake-x {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: -12%;
+}
+@property --film {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+html:has(body.merch-page) { scroll-behavior: auto; }
+.merch-page .cursor-glow { display: none; }
+.merch-page .site-header {
+  background: rgba(3, 7, 6, .94);
+}
+
+.signal-runway { --morph: 0; position: relative; }
+.merch-hero {
+  --film: 1;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 100svh;
+  min-height: 100svh;
+  background: #010303;
+  transition: --film .75s ease;
+}
+.merch-hero.is-settled { --film: .4; }
+.signal-film-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: calc(var(--film) * (1 - var(--morph)));
+  pointer-events: none;
+}
+.signal-film,
+.signal-film-still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 46%;
+}
+.merch-hero-grid,
+.merch-hero-grid-hot,
+.hero-relics,
+.hidden-artifact,
+.scroll-cue,
+.signal-bead { display: none; }
+.merch-hero .merch-hero-wash {
+  background: linear-gradient(0deg, rgba(1,3,3,.55), transparent 22%);
+}
+.merch-shop,
+.current-drop {
+  position: relative;
+  z-index: 2;
+  content-visibility: visible;
+  contain-intrinsic-size: auto;
+}
+.merch-shop {
+  background: linear-gradient(180deg, rgba(3,7,6,0) 0, #030706 12rem, #09100e 28rem);
+}
+.current-drop {
+  max-width: none;
+  margin: 0;
+  padding: 12vh 4vw 2rem;
+  gap: clamp(2rem, 5vw, 4rem);
+  border-radius: 0;
+  background: linear-gradient(180deg, rgba(3,7,6,0), rgba(3,7,6,.92) 8rem);
+}
+.current-drop > img { border-radius: 0; }
+
+.merch-hero-grid { opacity: .05; transition: opacity 1.4s ease; }
+.merch-hero-grid-hot {
+  opacity: 0;
+  mask-image: radial-gradient(circle 8.5rem at var(--sx, 70%) var(--sy, 30%), #000 0 18%, transparent 72%);
+  -webkit-mask-image: radial-gradient(circle 8.5rem at var(--sx, 70%) var(--sy, 30%), #000 0 18%, transparent 72%);
+}
+.merch-hero.is-live .merch-hero-grid { opacity: .16; }
+.merch-hero.is-live .merch-hero-grid-hot { animation: none; opacity: .72; }
+
+.merch-hero-grid,
+.hero-relic,
+.signal-wear,
+.signal-line-two {
+  transform:
+    translate3d(0, 0, 0);
+}
+
+.signal-scan {
+  position: absolute;
+  inset: 0 auto 0 -12vw;
+  z-index: 5;
+  width: 7.5vw;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent 0 40%, rgba(92,247,237,.05) 62%, rgba(92,247,237,.2) 82%, rgba(255,76,170,.62) 91%, rgba(92,247,237,1) 97%, transparent);
+  mix-blend-mode: screen;
+}
+.signal-scan span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 8%;
+  width: 2px;
+  background: var(--cyan);
+  box-shadow: -5px 0 0 rgba(255,76,170,.75), 4px 0 0 rgba(92,247,237,.35);
+}
+
+.signal-status {
+  position: absolute;
+  z-index: 6;
+  top: 5.6rem;
+  left: 4vw;
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin: 0;
+  color: var(--cyan);
+  font-size: .62rem;
+  letter-spacing: .18em;
+}
+.signal-status-dot {
+  width: .45rem;
+  height: .45rem;
+  background: var(--cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--cyan);
+}
+
+.merch-hero h1 { margin-top: .22em; }
+.merch-hero h1 .signal-wear,
+.merch-hero h1 .signal-line-two { display: block; letter-spacing: 0; }
+.merch-hero h1 .signal-wear { color: var(--paper); -webkit-text-stroke: 0; margin-left: 0; white-space: nowrap; }
+.merch-hero h1 > span.signal-line-two:last-child,
+.merch-hero h1 .signal-line-two {
+  margin-left: 12vw;
+  color: transparent;
+  -webkit-text-stroke: max(2px, .014em) var(--paper);
+}
+.merch-hero h1 .signal-wear span,
+.merch-hero h1 .signal-the,
+.merch-hero h1 .signal-glyph,
+.merch-hero h1 .signal-wear span:last-child,
+.merch-hero h1 .signal-glyph:last-child {
+  display: inline-block;
+  margin: 0;
+  color: inherit;
+  -webkit-text-stroke: inherit;
+  letter-spacing: -.085em;
+  line-height: 1;
+  height: .7em;
+  overflow: visible;
+}
+.merch-hero h1 .signal-line-two > .signal-word {
+  display: inline-block;
+  margin-left: -6vw;
+  white-space: nowrap;
+}
+.merch-hero h1 .signal-glyph { position: relative; }
+.merch-hero h1 .signal-glyph.is-scanned {
+  -webkit-text-stroke-color: var(--cyan);
+  color: rgba(92,247,237,.16);
+}
+.merch-hero h1 .signal-wear span.is-scanned {
+  text-shadow: 1px 0 rgba(255,76,170,.75), -1px 0 rgba(92,247,237,.75);
+}
+.signal-glyph::after {
+  content: attr(data-glyph);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--cyan);
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.signal-wear,
+.signal-line-two {
+  transform-origin: left center;
+  transform:
+    translate3d(calc(var(--morph) * var(--shift-x, 0vw)), calc(var(--morph) * var(--shift-y, 0vh)), 0)
+    scale(calc(1 - var(--morph) * var(--shrink, .24)));
+  opacity: calc(1 - var(--morph) * .94);
+}
+.signal-wear { --shift-x: -7vw; --shift-y: -8vh; --shrink: .22; }
+.signal-line-two { --shift-x: 9vw; --shift-y: 3vh; --shrink: .18; }
+
+.merch-hero-grid {
+  transform: scale(calc(1 + var(--morph) * .42));
+  transform-origin: 50% 18%;
+}
+
+.hero-relics { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.hero-relic {
+  position: absolute;
+  width: 28vw;
+  opacity: calc(1 - var(--morph));
+  transform:
+    translate3d(calc(var(--morph) * var(--drift, 0vw)), calc(var(--morph) * 20vh), 0)
+    rotate(calc(var(--base-rot, 0deg) * (1 - var(--morph))))
+    scale(calc(1 - var(--morph) * .08));
+  transform-origin: center center;
+}
+.hero-relic-0 { left: 18%; bottom: 16%; width: 23vw; z-index: 2; --base-rot: -6deg; --drift: -9vw; }
+.hero-relic-1 { left: 48%; bottom: 22%; width: 16vw; z-index: 2; --base-rot: 4deg; --drift: 7vw; }
+.hero-relic-2 { left: 2vw; top: 22vh; width: 8.5vw; z-index: 5; --base-rot: -4deg; --drift: -2vw; }
+.hero-relic-0 img {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 68%, transparent 96%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 68%, transparent 96%);
+}
+.merch-hero-copy { position: relative; z-index: 3; }
+html[data-turn="-1"] .hero-relic-0 { --base-rot: 7deg; }
+html[data-turn="-1"] .hero-relic-1 { --base-rot: -5deg; }
+html[data-turn="-1"] .hero-relic-2 { --base-rot: 4deg; }
+.hero-relic img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  background: transparent;
+  opacity: 0;
+  filter: brightness(calc(.78 + var(--lit, 0) * .4)) saturate(calc(.92 + var(--lit, 0) * .2));
+  transform: rotateY(var(--yaw, 0deg)) rotateX(var(--pitch, 0deg));
+  transition: filter .5s ease, transform .45s ease;
+}
+.hero-relic.is-in img,
+.hero-relic.is-materialized img { opacity: 1; }
+.hero-relic-1.is-in img { animation: relic-through 1.15s linear both; }
+.hero-relic-2.is-in img { animation: relic-cross .9s linear both; }
+.hero-relic.is-materialized img { animation: relic-material 1.05s linear both; }
+.hero-relic-0.is-receded img,
+.hero-relic-1.is-receded img,
+.hero-relic-2.is-receded img { animation: relic-recede 1.2s ease forwards; }
+@keyframes relic-recede {
+  from { opacity: 1; }
+  to { opacity: 0; filter: brightness(.12); }
+}
+.hero-relic.is-in::after,
+.hero-relic.is-materialized::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: var(--cyan);
+  box-shadow: 0 0 0 1px rgba(255,76,170,.35);
+  pointer-events: none;
+  animation: relic-scan .72s linear both;
+}
+@keyframes relic-scan {
+  0% { top: 38%; opacity: 0; }
+  12% { opacity: .95; }
+  100% { top: 96%; opacity: 0; }
+}
+@keyframes relic-through {
+  0% { opacity: 1; clip-path: inset(47% 5% 49% 5%); filter: contrast(1.7) saturate(.3) brightness(1.25); transform: translate3d(0, 4%, 0) rotateY(var(--yaw, 0deg)); }
+  42% { clip-path: inset(22% 2% 24% 2%); filter: brightness(1.05) saturate(.7); }
+  100% { opacity: 1; clip-path: inset(0); filter: brightness(calc(.9 + var(--lit, 0) * .22)); transform: rotateY(var(--yaw, 0deg)); }
+}
+@keyframes relic-cross {
+  0% { opacity: 1; clip-path: inset(0 100% 0 0); filter: brightness(.4) saturate(.55); transform: translate3d(-10%, 0, 0) rotateY(var(--yaw, 0deg)); }
+  100% { opacity: 1; clip-path: inset(0); filter: brightness(calc(1 + var(--lit, 0) * .12)); transform: rotateY(var(--yaw, 0deg)); }
+}
+@keyframes relic-material {
+  0% { opacity: 1; clip-path: inset(46% 6% 50% 6%); filter: contrast(1.8) saturate(.22) brightness(1.45); transform: translate3d(0, 3%, 0) rotateY(var(--yaw, 0deg)); }
+  40% { clip-path: inset(16% 2% 28% 2%); filter: brightness(1.08) saturate(.7); transform: rotateY(var(--yaw, 0deg)); }
+  100% { opacity: 1; clip-path: inset(0); filter: brightness(calc(.74 + var(--lit, 0) * .4)); transform: rotateY(var(--yaw, 0deg)); }
+}
+
+.hidden-artifact {
+  position: absolute;
+  z-index: 4;
+  right: 5vw;
+  top: 14vh;
+  width: min(12.5rem, 15vw);
+  display: grid;
+  gap: .8rem;
+  color: inherit;
+  text-decoration: none;
+  background: transparent;
+}
+.hidden-artifact[hidden] { display: none; }
+.merch-hero > .hidden-artifact,
+.merch-hero > .hero-relics,
+.merch-hero > .merch-hero-grid,
+.merch-hero > .scroll-cue,
+.merch-hero > .signal-bead { display: none; }
+.hidden-artifact-media {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: transparent;
+  transition: box-shadow .6s ease;
+}
+.hidden-artifact img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(.13) saturate(.28) drop-shadow(0 0 .7px rgba(92,247,237,.72));
+  transform: rotateY(var(--yaw, 0deg)) rotateX(var(--pitch, 0deg));
+  transition: filter 1.15s ease, transform .5s ease;
+}
+.hidden-artifact.is-near img,
+.hidden-artifact.is-locked img,
+.hidden-artifact:focus-visible img { transition-duration: .42s, .45s; }
+.hidden-artifact.is-near img { filter: brightness(.4) saturate(.62) drop-shadow(0 0 1px rgba(92,247,237,.9)); }
+.hidden-artifact.is-locked img,
+.hidden-artifact:focus-visible img { filter: brightness(1) saturate(1.04) drop-shadow(0 0 .6px rgba(92,247,237,.95)); }
+.hidden-artifact-copy {
+  display: grid;
+  gap: .28rem;
+  min-height: 6.5rem;
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transition: opacity .3s linear, clip-path .5s linear;
+  font-size: .58rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.hidden-artifact.is-near .hidden-artifact-copy { opacity: 1; clip-path: inset(0 0 68% 0); }
+.hidden-artifact.is-locked .hidden-artifact-copy,
+.hidden-artifact:focus-visible .hidden-artifact-copy { opacity: 1; clip-path: inset(0); }
+.hidden-artifact .hidden-scan { color: var(--cyan); }
+.hidden-artifact .hidden-id,
+.hidden-artifact .hidden-spec,
+.hidden-artifact .hidden-price,
+.hidden-artifact .hidden-view { opacity: 0; max-height: 0; overflow: hidden; transition: opacity .35s ease; }
+.hidden-artifact.is-locked .hidden-id,
+.hidden-artifact.is-locked .hidden-spec,
+.hidden-artifact.is-locked .hidden-price,
+.hidden-artifact.is-locked .hidden-view,
+.hidden-artifact:focus-visible .hidden-id,
+.hidden-artifact:focus-visible .hidden-spec,
+.hidden-artifact:focus-visible .hidden-price,
+.hidden-artifact:focus-visible .hidden-view { opacity: 1; max-height: 2rem; }
+.hidden-artifact .hidden-name { color: var(--paper); font-family: var(--display); font-size: .95rem; letter-spacing: -.03em; text-transform: none; }
+.hidden-artifact .hidden-price { color: var(--paper); }
+.hidden-artifact .hidden-view { color: var(--acid); }
+
+.merch-hero-meta { margin-bottom: 3.6rem; }
+.signal-payoff {
+  position: relative;
+  z-index: 6;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  margin: 1.35rem 0 0 14vw;
+  max-width: 18rem;
+  display: grid;
+  justify-items: start;
+  gap: .45rem;
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  pointer-events: none;
+}
+.merch-hero.is-live .signal-payoff { opacity: 1; pointer-events: auto; animation: payoff-in .4s linear both; }
+@keyframes payoff-in {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0); }
+}
+.signal-enter {
+  color: var(--cyan);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.signal-enter:hover,
+.signal-enter:focus-visible { color: var(--paper); }
+.signal-count {
+  margin: 0;
+  color: var(--acid);
+  font-size: .58rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.signal-annotation { position: relative; display: inline-flex; align-items: center; gap: .7rem; }
+.signal-bridge { width: 4.5rem; height: .5rem; overflow: visible; }
+.signal-bridge path {
+  fill: none;
+  stroke: var(--acid);
+  stroke-width: 1.5;
+  stroke-dasharray: 72;
+  stroke-dashoffset: 72;
+}
+.merch-hero.is-bridged .signal-bridge path { animation: bridge-draw .35s linear forwards; }
+@keyframes bridge-draw { to { stroke-dashoffset: 0; } }
+
+.signal-bead {
+  position: absolute;
+  z-index: 7;
+  left: 0;
+  top: 0;
+  width: 11px;
+  height: 2px;
+  background: var(--cyan);
+  box-shadow: -9px 0 0 rgba(92,247,237,.45), -16px 0 0 rgba(255,76,170,.28);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .11s linear, opacity .18s linear;
+}
+.merch-hero.is-circuit .signal-bead { opacity: 1; }
+.merch-hero.is-sent .signal-bead { opacity: 0; }
+
+.signal-readout {
+  position: absolute;
+  z-index: 6;
+  margin: 0;
+  color: rgba(199,255,88,.72);
+  font-size: .52rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s linear;
+}
+.signal-readout.is-on { opacity: 1; }
+
+.scroll-cue { opacity: calc(1 - var(--morph) * 1.4); }
+
+/* Catalog plates */
+.artifact-card {
+  background: #070c0b;
+  border-color: rgba(92,247,237,.14);
+  box-shadow: none;
+}
+.artifact-card:hover,
+.artifact-card.is-open {
+  transform: none;
+  border-color: rgba(92,247,237,.42);
+  box-shadow: none;
+}
+.artifact-card:hover::before,
+.artifact-card.is-open::before { border-color: rgba(92,247,237,.28); }
+.artifact-card .product-index {
+  color: var(--acid);
+  background: rgba(3, 7, 6, .78);
+  padding: .28rem .4rem;
+}
+.artifact-spec {
+  margin: 0;
+  color: var(--acid);
+  font-size: .56rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.artifact-dossier {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height .35s ease, opacity .25s ease;
+}
+.artifact-card:hover .artifact-dossier,
+.artifact-card:focus-within .artifact-dossier,
+.artifact-card.is-open .artifact-dossier {
+  max-height: 18rem;
+  opacity: 1;
+}
+.artifact-fact {
+  display: grid;
+  grid-template-columns: 7.2rem 1fr;
+  gap: .6rem;
+  margin: 0;
+  padding: .28rem 0;
+  border-bottom: 1px solid rgba(92,247,237,.1);
+  color: rgba(233,244,235,.78);
+  font-size: .56rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.artifact-fact span:first-child { color: rgba(92,247,237,.7); }
+.artifact-card .product-buy {
+  background: transparent;
+  color: var(--cyan);
+  box-shadow: none;
+}
+.artifact-card .product-buy:hover {
+  background: var(--cyan);
+  color: var(--ink);
+  transform: none;
+  box-shadow: none;
+}
+.artifact-card.is-acquired { border-color: var(--cyan); }
+.artifact-card.is-acquired::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid var(--cyan);
+  animation: acquire-ring .55s linear forwards;
+}
+@keyframes acquire-ring {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.product-image-wrap.is-scanning::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 6;
+  height: 2px;
+  background: var(--cyan);
+  animation: image-scan .26s linear;
+  pointer-events: none;
+}
+@keyframes image-scan { to { top: 100%; } }
+.variant-pill.is-pulsed { animation: size-pulse .42s ease; }
+@keyframes size-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(92,247,237,.65); }
+  100% { box-shadow: 0 0 0 9px rgba(92,247,237,0); }
+}
+
+.cart-queue-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: calc(100% - 3.2rem);
+}
+.cart-queue-title span { color: var(--paper); }
+.cart-item { grid-template-columns: auto 4.4rem 1fr; align-items: start; }
+.cart-item-num { color: var(--acid); font-size: .62rem; letter-spacing: .12em; padding-top: .35rem; }
+.cart-item-spec { margin: 0; color: rgba(233,244,235,.55); font-size: .58rem; letter-spacing: .08em; text-transform: uppercase; }
+body.cart-open .cart-drawer { border-left-color: rgba(92,247,237,.45); }
+.cart-toggle.is-receiving { border-color: var(--cyan); color: var(--cyan); }
+.cart-toggle.is-receiving .cart-toggle-count { animation: cart-hit .45s ease; }
+@keyframes cart-hit {
+  0% { transform: scale(.6); }
+  45% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+.signal-packet {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 80;
+  width: 16px;
+  height: 3px;
+  background: var(--cyan);
+  box-shadow: -10px 0 0 rgba(255,76,170,.55);
+  pointer-events: none;
+}
+
+@media (min-width: 901px) {
+  .merch-hero h1 { font-size: clamp(6rem, 15vw, 34rem); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.is-signal-boot .merch-page .wordmark-dot { animation: dot-flicker .42s steps(2, end) 2; }
+  @keyframes dot-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .15; }
+  }
+  .merch-hero { animation: hero-power 4.6s linear both; }
+  @keyframes hero-power {
+    0%, 10% { background: #000; }
+    100% { background: radial-gradient(circle at 75% 30%, rgba(92,247,237,.08), transparent 28%), #030706; }
+  }
+  .signal-status-text { animation: status-in .35s steps(2, end) .12s both; }
+  @keyframes status-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .signal-scan { animation: none; }
+  .merch-hero.is-settled .signal-scan { animation: scan-pass 1.05s linear both; }
+  html[data-scan="rtl"] .merch-hero.is-settled .signal-scan { animation-name: scan-pass-rtl; }
+  @keyframes scan-pass {
+    0% { transform: translateX(0); opacity: 0; }
+    12% { opacity: 1; }
+    100% { transform: translateX(120vw); opacity: 0; }
+  }
+  @keyframes scan-pass-rtl {
+    0% { transform: translateX(120vw); opacity: 0; }
+    12% { opacity: 1; }
+    100% { transform: translateX(-20vw); opacity: 0; }
+  }
+  .merch-hero:not(.is-live) .merch-hero-grid-hot {
+    --wake-x: -12%;
+    animation: grid-wake 1.15s linear .42s both;
+    mask-image: radial-gradient(circle 9rem at var(--wake-x) 40%, #000 0 18%, transparent 72%);
+    -webkit-mask-image: radial-gradient(circle 9rem at var(--wake-x) 40%, #000 0 18%, transparent 72%);
+  }
+  @keyframes grid-wake {
+    0% { opacity: 0; --wake-x: -12%; }
+    16% { opacity: .9; }
+    100% { opacity: 0; --wake-x: 112%; }
+  }
+  .signal-wear span {
+    animation: wear-hit .3s linear backwards;
+    animation-delay: calc(.46s + var(--i) * 70ms);
+  }
+  html[data-scan="rtl"] .signal-wear span:nth-child(1) { --i: 3; }
+  html[data-scan="rtl"] .signal-wear span:nth-child(2) { --i: 2; }
+  html[data-scan="rtl"] .signal-wear span:nth-child(3) { --i: 1; }
+  html[data-scan="rtl"] .signal-wear span:nth-child(4) { --i: 0; }
+  @keyframes wear-hit {
+    0% { clip-path: inset(0 100% 0 -3%); text-shadow: 6px 0 rgba(255,76,170,.8), -4px 0 rgba(92,247,237,.7); }
+    40% { clip-path: inset(0 22% 0 -3%); text-shadow: 2px 0 rgba(255,76,170,.45), -1px 0 rgba(92,247,237,.35); }
+    100% { clip-path: none; text-shadow: none; }
+  }
+  .signal-the,
+  .signal-glyph {
+    animation-duration: .68s;
+    animation-timing-function: linear;
+    animation-fill-mode: backwards;
+    animation-delay: calc(1.4s + var(--i) * 125ms + var(--pulse-lag, 0s));
+  }
+  .signal-the { --i: 0; animation-name: glyph-build-x; animation-delay: 1.4s; }
+  .signal-glyph:nth-child(odd) { animation-name: glyph-build-x; }
+  .signal-glyph:nth-child(even) { animation-name: glyph-build-y; }
+  html[data-scan="rtl"] .signal-glyph:nth-child(1) { --i: 5; }
+  html[data-scan="rtl"] .signal-glyph:nth-child(2) { --i: 4; }
+  html[data-scan="rtl"] .signal-glyph:nth-child(3) { --i: 3; }
+  html[data-scan="rtl"] .signal-glyph:nth-child(4) { --i: 2; }
+  html[data-scan="rtl"] .signal-glyph:nth-child(5) { --i: 1; }
+  html[data-scan="rtl"] .signal-glyph:nth-child(6) { --i: 0; }
+  @keyframes glyph-build-x {
+    0%, 5% { opacity: 0; -webkit-mask-image: linear-gradient(#000, #000); mask-image: linear-gradient(#000, #000); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 0 0; mask-size: 0 0; }
+    8% { opacity: 1; -webkit-mask-size: 100% 14%; mask-size: 100% 14%; filter: contrast(1.4); }
+    46% { -webkit-mask-size: 62% 100%; mask-size: 62% 100%; filter: none; }
+    100% { opacity: 1; -webkit-mask-image: none; mask-image: none; }
+  }
+  @keyframes glyph-build-y {
+    0%, 5% { opacity: 0; -webkit-mask-image: linear-gradient(#000, #000); mask-image: linear-gradient(#000, #000); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 0 0; mask-size: 0 0; -webkit-mask-position: left bottom; mask-position: left bottom; }
+    8% { opacity: 1; -webkit-mask-size: 100% 16%; mask-size: 100% 16%; -webkit-mask-position: left bottom; mask-position: left bottom; filter: contrast(1.4); }
+    48% { -webkit-mask-size: 100% 70%; mask-size: 100% 70%; filter: none; }
+    100% { opacity: 1; -webkit-mask-image: none; mask-image: none; }
+  }
+  .merch-hero .eyebrow,
+  .merch-hero-meta p { animation: meta-in .4s ease 2.05s both; }
+  .signal-annotation { animation: meta-clip .36s linear 2.55s both; }
+  @keyframes meta-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes meta-clip {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0); }
+  }
+  .signal-glyph.is-hot::after { animation: glyph-pulse .2s linear forwards; }
+  @keyframes glyph-pulse {
+    0% { opacity: 1; clip-path: inset(-4% 80% -4% -6%); }
+    100% { opacity: 0; clip-path: inset(-4% -8% -4% 84%); }
+  }
+  .artifact-card.is-pending.is-visible {
+    animation: card-resolve .42s cubic-bezier(.2,.8,.2,1) both;
+    animation-delay: calc(var(--card-i, 0) * 70ms);
+  }
+  @keyframes card-resolve {
+    0% { opacity: 0; clip-path: inset(0 0 18% 0); filter: contrast(1.45); }
+    100% { opacity: 1; clip-path: inset(0); filter: none; }
+  }
+  @media (pointer: coarse) {
+    .merch-hero.is-live:not(.is-pointer) .merch-hero-grid-hot {
+      animation: ambient-grid 18s ease-in-out infinite;
+    }
+    @keyframes ambient-grid {
+      0%, 100% { opacity: .28; }
+      50% { opacity: .55; }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signal-film { display: none; }
+  .merch-hero,
+  .merch-hero.is-settled { --film: .4; transition: none; }
+  .merch-hero { position: relative; height: auto; min-height: 100svh; }
+  .signal-wear,
+  .signal-line-two,
+  .hero-relic,
+  .merch-hero-grid { transform: none; opacity: 1; }
+  .hero-relic img,
+  .hidden-artifact img,
+  .signal-payoff,
+  .signal-annotation,
+  .signal-wear span,
+  .signal-glyph,
+  .signal-the { opacity: 1; animation: none; clip-path: none; filter: none; }
+  .hero-relic img { opacity: 0; }
+  .hidden-artifact-copy,
+  .hidden-artifact .hidden-id,
+  .hidden-artifact .hidden-spec,
+  .hidden-artifact .hidden-price,
+  .hidden-artifact .hidden-view { opacity: 1; max-height: none; clip-path: none; }
+  .artifact-card.is-pending { opacity: 1; }
+  .signal-packet { display: none; }
+}
+
+@media (max-width: 900px) {
+  .merch-hero h1 > span.signal-line-two:last-child,
+  .merch-hero h1 .signal-line-two { margin-left: 0; }
+  .merch-hero h1 .signal-line-two > .signal-word { margin-left: 0; }
+  .hero-relic-2 { display: none; }
+  .hero-relic-0 { width: 58vw; left: 6%; bottom: 18%; }
+  .hero-relic-1 { width: 42vw; left: auto; right: 0; bottom: 30%; }
+  .merch-hero-meta { margin-bottom: 0; }
+  .hidden-artifact { width: min(9.5rem, 38vw); top: 11vh; right: 4vw; }
+  .hidden-artifact-copy { min-height: 0; }
+  .signal-payoff { left: auto; right: auto; bottom: auto; margin-left: 0; justify-items: start; }
+  .signal-status { top: 5.2rem; }
+}
+
+@media (max-width: 620px) {
+  .merch-hero { height: auto; min-height: 100svh; position: relative; }
+  .hero-relic-1 { display: none; }
+  .cart-item { grid-template-columns: auto 3.6rem 1fr; }
+  .artifact-fact { grid-template-columns: 5.6rem 1fr; }
+}

@@ -16,6 +16,52 @@ function formatPrice(amount, currencyCode) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: currencyCode }).format(n);
 }
 
+function formatSignalPrice(amount, currencyCode) {
+  const n = parseFloat(amount);
+  if (!Number.isFinite(n)) return "";
+  if ((currencyCode || "USD") === "USD") {
+    return Math.abs(n - Math.round(n)) < 0.001 ? `$${Math.round(n)}` : `$${n.toFixed(2)}`;
+  }
+  return formatPrice(amount, currencyCode);
+}
+
+function artifactKind(product) {
+  const text = `${product?.title || ""} ${product?.productType || ""}`.toLowerCase();
+  if (/\b(hoodie|sweatshirt|pullover)\b/.test(text)) return "Pullover hoodie";
+  if (/\b(hat|cap|beanie|trucker)\b/.test(text)) return "Trucker hat";
+  if (/\b(coozie|koozie|cooler)\b/.test(text)) return "Can cooler";
+  if (/\b(t[ -]?shirt|tee)\b/.test(text)) return "Unisex tee";
+  return product?.productType || "";
+}
+
+function artifactColor(product) {
+  const title = product?.title || "";
+  const match = title.match(/\b(black|white)\b/i);
+  return match ? match[1].toUpperCase() : "";
+}
+
+function artifactMaterial(product) {
+  const text = `${product?.description || ""}`.toLowerCase();
+  const bits = [];
+  if (/foam-front|foam front/.test(text)) bits.push("Foam front");
+  if (/mesh back/.test(text)) bits.push("Mesh back");
+  if (/insulating/.test(text)) bits.push("Insulating");
+  return bits.join(" / ");
+}
+
+function artifactOrder(product) {
+  const text = `${product?.description || ""}`.toLowerCase();
+  if (/printed to order|made to order/.test(text)) return "Printed to order";
+  return "";
+}
+
+function artifactFit(product) {
+  const text = `${product?.description || ""}`.toLowerCase();
+  if (/one size/.test(text)) return "One size";
+  if (/unisex/.test(text)) return "Unisex";
+  return "";
+}
+
 function stripHtml(html) {
   const tmp = document.createElement("div");
   tmp.innerHTML = html;
@@ -434,6 +480,8 @@ const Cart = {
         merchandiseId, // gid://shopify/ProductVariant/... (needed for cart API)
         title: product.title,
         variantTitle: variantData.title !== "Default Title" ? variantData.title : null,
+        color: variantData.color || null,
+        form: variantData.form || null,
         price: variantData.price.amount,
         currency: variantData.price.currencyCode,
         image: variantData.image || product.images[0]?.url || "",
@@ -510,7 +558,7 @@ async function checkout() {
     alert("Couldn't reach checkout. Please try again.");
     if (checkoutBtn) {
       checkoutBtn.disabled = false;
-      checkoutBtn.textContent = "Checkout ↗";
+      checkoutBtn.textContent = "Complete transmission →";
     }
   }
 }
@@ -544,10 +592,12 @@ function renderCart() {
   if (!list) return;
 
   const count = Cart.count();
+  const queueCount = document.getElementById("cart-queue-count");
   if (countBadge) {
     countBadge.textContent = count;
     countBadge.style.display = count > 0 ? "inline-grid" : "none";
   }
+  if (queueCount) queueCount.textContent = String(Cart.items.length).padStart(2, "0");
 
   if (Cart.isEmpty()) {
     list.innerHTML = "";
@@ -561,7 +611,7 @@ function renderCart() {
   if (footer) footer.hidden = false;
 
   list.innerHTML = "";
-  Cart.items.forEach(item => {
+  Cart.items.forEach((item, itemIndex) => {
     const row = document.createElement("div");
     row.className = "cart-item";
 
@@ -569,14 +619,16 @@ function renderCart() {
       ? `<img src="${escapeHtml(item.image)}" alt="" loading="lazy">`
       : `<div class="cart-item-noimg">DM</div>`;
 
-    const variantLabel = item.variantTitle ? ` · ${escapeHtml(item.variantTitle)}` : "";
+    const spec = [item.color, item.variantTitle].filter(Boolean).join(" / ");
     const safeVariantId = escapeHtml(item.variantId);
 
     row.innerHTML = `
+      <span class="cart-item-num">${String(itemIndex + 1).padStart(2, "0")}</span>
       <div class="cart-item-img">${imgHtml}</div>
       <div class="cart-item-info">
-        <p class="cart-item-title">${escapeHtml(item.title)}${variantLabel}</p>
-        <p class="cart-item-price">${formatPrice(item.price, item.currency)}</p>
+        <p class="cart-item-title">${escapeHtml(item.title)}</p>
+        ${spec ? `<p class="cart-item-spec">${escapeHtml(spec)}</p>` : ""}
+        <p class="cart-item-price">${formatSignalPrice(item.price, item.currency)}</p>
         <div class="cart-item-controls">
           <button class="qty-btn" data-action="dec" data-id="${safeVariantId}" aria-label="Decrease quantity">−</button>
           <span class="cart-item-qty">${item.quantity}</span>
@@ -589,7 +641,7 @@ function renderCart() {
   });
 
   if (subtotalEl) {
-    subtotalEl.textContent = formatPrice(Cart.subtotal().toFixed(2), "USD");
+    subtotalEl.textContent = formatSignalPrice(Cart.subtotal().toFixed(2), "USD");
   }
   if (checkoutBtn) checkoutBtn.disabled = false;
 }
@@ -597,7 +649,7 @@ function renderCart() {
 function updatePriceForVariant(body, variant) {
   const priceEl = body.querySelector(".product-price");
   if (!priceEl || !variant) return;
-  priceEl.textContent = formatPrice(variant.price.amount, variant.price.currencyCode);
+  priceEl.textContent = formatSignalPrice(variant.price.amount, variant.price.currencyCode);
 
   const compareEl = body.querySelector(".product-compare");
   if (variant.compareAtPrice && parseFloat(variant.compareAtPrice.amount) > parseFloat(variant.price.amount)) {
@@ -616,9 +668,10 @@ function updatePriceForVariant(body, variant) {
 
 /* ============== Product Card Rendering ============== */
 
-function renderProductCard(product, index) {
+function renderProductCard(product, index, total) {
   const card = document.createElement("article");
-  card.className = "product-card reveal";
+  card.className = "product-card artifact-card is-pending";
+  card.style.setProperty("--card-i", String(index % 4));
 
   const productImages = (product.images || []).filter(image => image && image.url);
   const hasImg = productImages.length > 0;
@@ -668,6 +721,9 @@ function renderProductCard(product, index) {
       activeImageIndex = (nextIndex + productImages.length) % productImages.length;
       const activeImage = productImages[activeImageIndex];
       const viewLabel = getImageViewLabel(activeImage, activeImageIndex);
+      imgWrap.classList.remove("is-scanning");
+      void imgWrap.offsetWidth;
+      imgWrap.classList.add("is-scanning");
       imgEl.src = activeImage.url;
       imgEl.alt = `${product.title} — ${viewLabel}`;
       zoomButton.setAttribute("aria-label", `Enlarge ${viewLabel.toLowerCase()} view of ${product.title}`);
@@ -746,7 +802,7 @@ function renderProductCard(product, index) {
   if (isSoldout) {
     const tag = document.createElement("span");
     tag.className = "product-tag is-soldout";
-    tag.textContent = "Sold out";
+    tag.textContent = "Signal lost";
     imgWrap.appendChild(tag);
   } else if (product.hasCompare) {
     const tag = document.createElement("span");
@@ -757,12 +813,24 @@ function renderProductCard(product, index) {
 
   const idx = document.createElement("span");
   idx.className = "product-index";
-  idx.textContent = String(index + 1).padStart(2, "0");
+  idx.textContent = `${String(index + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
   imgWrap.appendChild(idx);
+
+  const color = artifactColor(product);
+  const kind = artifactKind(product);
+  const spec = document.createElement("p");
+  spec.className = "artifact-spec";
+
+  const writeSpec = variant => {
+    const size = variant && variant.title && variant.title !== "Default Title" ? variant.title : "";
+    spec.textContent = [color, size || kind].filter(Boolean).join(" / ");
+  };
+  writeSpec(firstAvailable);
 
   /* --- Body --- */
   const body = document.createElement("div");
   body.className = "product-body";
+  body.appendChild(spec);
 
   const title = document.createElement("h3");
   title.className = "product-title";
@@ -775,20 +843,30 @@ function renderProductCard(product, index) {
   title.appendChild(titleButton);
   body.appendChild(title);
 
-  if (product.vendor) {
-    const vendor = document.createElement("p");
-    vendor.className = "product-vendor";
-    vendor.textContent = product.vendor;
-    body.appendChild(vendor);
-  }
-
-  if (product.description) {
-    const desc = document.createElement("p");
-    desc.className = "product-desc";
-    desc.textContent = stripHtml(product.description);
-    if (desc.textContent.length > 130) desc.textContent = desc.textContent.slice(0, 127).trim() + "…";
-    body.appendChild(desc);
-  }
+  const dossier = document.createElement("div");
+  dossier.className = "artifact-dossier";
+  const facts = [
+    ["Artifact", String(index + 1).padStart(3, "0")],
+    ["Status", isSoldout ? "Signal lost" : "Active"],
+    ["Form", kind],
+    ["Color", color],
+    ["Material", artifactMaterial(product)],
+    ["Fit", artifactFit(product)],
+    ["Order", artifactOrder(product)],
+    ["Transmission", "001"],
+  ];
+  facts.forEach(([label, value]) => {
+    if (!value) return;
+    const row = document.createElement("p");
+    row.className = "artifact-fact";
+    const name = document.createElement("span");
+    name.textContent = label;
+    const detail = document.createElement("span");
+    detail.textContent = value;
+    row.append(name, detail);
+    dossier.appendChild(row);
+  });
+  body.appendChild(dossier);
 
   const detailsButton = document.createElement("button");
   detailsButton.className = "product-details-trigger";
@@ -816,6 +894,10 @@ function renderProductCard(product, index) {
         selectedMerchandiseId = v.id;
         variantsWrap.querySelectorAll(".variant-pill").forEach(p => p.classList.remove("is-selected"));
         pill.classList.add("is-selected");
+        pill.classList.remove("is-pulsed");
+        void pill.offsetWidth;
+        pill.classList.add("is-pulsed");
+        writeSpec(v);
         updatePriceForVariant(body, v);
       });
       variantsWrap.appendChild(pill);
@@ -830,9 +912,9 @@ function renderProductCard(product, index) {
   const price = document.createElement("span");
   price.className = "product-price";
   if (isMultiPrice) {
-    price.innerHTML = `<span class="product-from">From </span>${formatPrice(minPrice.amount, minPrice.currencyCode)}`;
+    price.innerHTML = `<span class="product-from">From </span>${formatSignalPrice(minPrice.amount, minPrice.currencyCode)}`;
   } else {
-    price.textContent = formatPrice(minPrice?.amount, minPrice?.currencyCode);
+    price.textContent = formatSignalPrice(minPrice?.amount, minPrice?.currencyCode);
   }
   priceRow.appendChild(price);
 
@@ -851,23 +933,46 @@ function renderProductCard(product, index) {
   buyBtn.type = "button";
   if (isSoldout) {
     buyBtn.disabled = true;
-    buyBtn.textContent = "Sold out";
+    buyBtn.textContent = "Signal lost";
+    buyBtn.setAttribute("aria-label", `Sold out: ${product.title}`);
   } else {
-    buyBtn.textContent = "Add to cart";
+    buyBtn.textContent = "/// Acquire →";
+    buyBtn.setAttribute("aria-label", `Add ${product.title} to cart`);
     buyBtn.addEventListener("click", () => {
       const variantId = selectedVariantId || product.variants[0]?.id;
       const merchandiseId = selectedMerchandiseId || product.variants[0]?.id;
       if (!variantId) return;
       const variantData = product.variants.find(v => v.id === variantId) || product.variants[0];
-      Cart.add(variantId, merchandiseId, product, variantData);
+      const before = Cart.count();
+      Cart.add(variantId, merchandiseId, product, {
+        ...variantData,
+        color,
+        form: kind,
+      });
       window.DudeMerchMeasurement?.addToCart(product, variantData, 1);
-      openCart();
+      card.classList.add("is-acquired");
+      window.setTimeout(() => card.classList.remove("is-acquired"), 700);
+      const badge = document.getElementById("cart-toggle-count");
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (badge && !reduce) badge.textContent = String(before);
+      const done = window.DudeSignal?.transmit?.(buyBtn);
+      Promise.resolve(done).then(() => {
+        renderCart();
+        openCart();
+      }).catch(() => {
+        renderCart();
+        openCart();
+      });
     });
   }
   body.appendChild(buyBtn);
 
   card.appendChild(gallery);
   card.appendChild(body);
+  card.addEventListener("click", event => {
+    if (event.target.closest("a, button")) return;
+    card.classList.toggle("is-open");
+  });
   return card;
 }
 
@@ -936,8 +1041,9 @@ async function initMerch() {
     }
 
     products.forEach((product, i) => {
-      grid.appendChild(renderProductCard(product, i));
+      grid.appendChild(renderProductCard(product, i, products.length));
     });
+    document.dispatchEvent(new CustomEvent("dude:catalog", { detail: { products } }));
 
     if ("IntersectionObserver" in window) {
       const revealObserver = new IntersectionObserver((entries) => {
@@ -945,13 +1051,17 @@ async function initMerch() {
           if (entry.isIntersecting) {
             entry.target.style.transitionDelay = `${Math.min(idx % 4, 3) * 90}ms`;
             entry.target.classList.add("is-visible");
+            window.setTimeout(() => entry.target.classList.remove("is-pending"), 520);
             revealObserver.unobserve(entry.target);
           }
         });
       }, { threshold: 0.12 });
-      grid.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+      grid.querySelectorAll(".artifact-card").forEach(el => revealObserver.observe(el));
     } else {
-      grid.querySelectorAll(".reveal").forEach(el => el.classList.add("is-visible"));
+      grid.querySelectorAll(".artifact-card").forEach(el => {
+        el.classList.add("is-visible");
+        el.classList.remove("is-pending");
+      });
     }
 
   } catch (err) {
@@ -973,7 +1083,7 @@ window.addEventListener("pageshow", event => {
   const button = document.getElementById("cart-checkout");
   if (button) {
     button.disabled = Cart.isEmpty();
-    button.textContent = "Checkout ↗";
+    button.textContent = "Complete transmission →";
   }
 });
 
