@@ -16,6 +16,8 @@ assert.deepEqual([...PRODUCT_POLICIES.keys()], [
   'foam-trucker-hat-1',
   'foam-trucker-hat',
   'coozie',
+  'jungle-city-shower-curtain',
+  'jungle-frequency-all-over-print-shirt',
 ]);
 const product = { id: 'gid://shopify/Product/44', handle: 'digital-fauna-signal-tee-white', title: 'Signal & Tee', description: 'A <strong>shirt</strong> & more\u0001.', vendor: 'Dude & McGee', images: [{ url: 'https://cdn.example/tee?a=1&b=2' }, { url: 'https://cdn.example/tee-back.jpg' }], options: [{ name: 'Color' }, { name: 'Size' }], variants: [{ id: 'gid://shopify/ProductVariant/101', available: false, price: { amount: '25.00', currencyCode: 'USD' }, selectedOptions: [{ name: 'Color', value: 'Black & White' }, { name: 'Size', value: 'M' }] }] };
 const xml = renderGoogleProductFeed({ products: [product] });

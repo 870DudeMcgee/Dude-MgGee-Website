@@ -1,3 +1,24 @@
+## September 26 feed outage and verified new products
+
+Live catalog expanded to 13 products / 76 variants. Feed returned HTTP503;
+production logs on deployment dpl_Avms2jvcetmUB3x8UC3UGuLbRd5e identify
+`Missing verified product policy for jungle-city-shower-curtain`.
+Merchant source10723541341 September26 midnight CDT failed with Connection failed,
+although the previous64 offers remain Approved.
+
+Authenticated Shopify shipping profiles verified September26:
+- Jungle City — Shower Curtain, product10478649999667, sole variant54132072186163:
+  [profile134066307379](https://admin.shopify.com/store/dude-mcgee-merch/settings/shipping/profiles/134066307379), Printful PF-FRG53, US Flat Rate **$8.29**.
+- Jungle Frequency — All-Over Print Shirt, product10478648131891, all11 sizes2XS–6XL:
+  [profile134066209075](https://admin.shopify.com/store/dude-mcgee-merch/settings/shipping/profiles/134066209075), Printful PF-FRG42, US Flat Rate **$4.69**.
+
+Both assignments were observed selected in the existing profiles; no Shopify
+settings changed. Shared mappings restore feed and Product structured data using
+existing published Printful timing/returns. Standard single-offer rates only;
+no new Express, mixed-cart, account-rate or supplemental-label claims.
+Implementation verification and deployment acceptance tracked in
+[September26 review](../gates/google-visibility/daily-review-20260926.md).
+
 ## Dude-only catalog audit and feed warning — September 19, 2026
 
 The [Dude catalog audit](../gates/google-visibility/dude-catalog-audit-20260919.json)
