@@ -11,3 +11,5 @@ Context accounting unavailable; bounded reads and compact evidence used. No work
 Google serving/eligibility remains separate from deployment acceptance.
 
 Verification: existing feed, product-route, merch-discovery and SEO checks pass. Full saved public catalog renders13 pages/76 unique offer IDs; both new schema rates match Shopify. Bounded self-review: production base ef1684e preserved; diff adds only2 mappings, inventory assertion and evidence; previous11 mappings untouched. Unknown future mappings still fail closed; preventing recurrence for arbitrary future products would require a separate design decision.
+
+Initial deployment dpl_5jYy4fv8guHsbdsgVDHx8F6Pmiwd blocked before build with Vercel team-configuration link. Commit used auto-generated local josh@Macmini.home.local identity. Retry records the existing repository owner identity used by current production; no team access or billing change.
