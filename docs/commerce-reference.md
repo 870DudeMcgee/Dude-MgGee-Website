@@ -1,3 +1,11 @@
+## September 26 current monitoring facts
+
+[Daily evidence](../gates/google-visibility/daily-review-20260926.md): repaired a confirmed catalog-wide feed503 caused by two new unmapped products. Shopify-verified standard US rates: Jungle City curtain $8.29 (profile134066307379); Jungle Frequency shirt all11 sizes $4.69 (profile134066209075). Shared-policy fix d6ffd6c, production deployment dpl_DqWtPw3qocZg8jsv2hfQUZg8DNzd READY with documentation commit18c34ef. Live feed now76 unique shipping-complete offers/13 designs; both new pages200. Google fetched September26 10:18CDT:76 updated,12 new, all attributes recognized, no file issues. Overview still64 Approved immediately afterward; new12 eligibility not yet confirmed.
+
+Dude Products Traffic Ads+Organic September12–25:24 impressions/0 clicks; separate August15–September11 baseline0/0. Four hoodie designs remain Shopping cards; Search Popular products unconfirmed. Previous8/11 observed-design coverage is historical; current catalog is13 designs. Bass1040 Approved and shipping-complete, scheduled source healthy. Both brands' markup validations Passed as of September24 report. Indexing reports September20: Dude16 indexed/4 not indexed; Bass10/50. Email review through September26 completed, six new IDs recorded.
+
+Remote September23 commerce update dbc88e7 records exact supplemental shipping labels/source10744168764, zero account/item issues and domain re-claim for previous64. Preserve that setup; today's standard feed mapping repair did not alter account services or supplemental labels. Service account mc-feed-bot@dude-mcgee-shopping.iam.gserviceaccount.com remains Verified with Admin/Standard/Performance roles. Separately, cloud project dude-mcgee-shopping-509512 is pending deletion (email deadline October23 14:36UTC); no causal link to feed failure established and no restoration/access changes performed.
+
 ## September 26 feed outage and verified new products
 
 Live catalog expanded to 13 products / 76 variants. Feed returned HTTP503;

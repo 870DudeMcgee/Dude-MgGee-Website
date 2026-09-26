@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-26T15:17:22.073578+00:00",
+  "feed_status": 200,
+  "offers": 76,
+  "unique_ids": 76,
+  "missing_shipping": 0,
+  "new_rates_verified": true,
+  "pages": [
+    {
+      "handle": "jungle-city-shower-curtain",
+      "status": 200
+    },
+    {
+      "handle": "jungle-frequency-all-over-print-shirt",
+      "status": 200
+    }
+  ],
+  "deployment": "dpl_DqWtPw3qocZg8jsv2hfQUZg8DNzd"
+}
