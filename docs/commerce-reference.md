@@ -1,3 +1,9 @@
+## September27 current monitoring facts
+
+[Daily review](../gates/google-visibility/daily-review-20260927.md): all76 Dude offers now Approved; both overnight sources healthy; Bass1040 Approved. Individual Jungle Frequency2XS still has3visibility warnings despite approval. Verified Printful unisex/adult sizing and published teal/green/magenta; shared attribute fix8149459 deployed READY (dpl_8gSg3mxYed8ZUo5xceZLAhu4Qr6J), live11shirt rows/schema verified, Google fetched76 at10:08CDT without file issues. Individual warning clearance pending. Curtain Approved/Needsattention0.
+
+Dude Sep12–26 Products Traffic Ads+Organic26impressions/0clicks. Shopping cards persist; SearchPopularproducts remains unconfirmed, full13-design coverage unproven. Both markup validationsPassed, reportsSep25. No new email alerts; durable review log updated. No new policy/account changes; explicit console-review gaps in daily record.
+
 ## September27 new shirt attribute correction
 
 All76 Dude offers Approved after the overnight refresh, but Jungle Frequency2XS

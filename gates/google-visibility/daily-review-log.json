@@ -1,7 +1,7 @@
 {
-  "last_successful_email_review_date": "2026-09-26",
+  "last_successful_email_review_date": "2026-09-27",
   "last_full_review_at": null,
-  "review_status": "partial_review_feed_repaired_new_offer_eligibility_pending",
+  "review_status": "partial_review_attributes_repaired_google_warning_clearance_pending",
   "reviewed_message_ids": [
     "1a09b116e19102f7",
     "1a09b11289f7afbf",
@@ -30,6 +30,6 @@
     "1a0c9a079d99f4b7",
     "1a0c6ece7e9bb67d"
   ],
-  "evidence": "daily-review-20260926.md",
-  "last_successful_email_review_at": "2026-09-26T15:20:24.689695+00:00"
+  "evidence": "daily-review-20260927.md",
+  "last_successful_email_review_at": "2026-09-27T15:10:06.363509+00:00"
 }
