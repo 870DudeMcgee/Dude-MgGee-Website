@@ -1,3 +1,18 @@
+## September27 new shirt attribute correction
+
+All76 Dude offers Approved after the overnight refresh, but Jungle Frequency2XS
+54132067139891 has three individual US Free listings visibility warnings: missing
+age_group, color and gender. Image not processed is informational/pending Google.
+Curtain54132072186163 Approved/Needs attention0.
+
+Printful store18505090 synced product475046329 identifies all11 shirt sizes2XS–6XL
+as **All-Over Print Unisex Button Shirt** (authenticated September27). Adult fit
+is supported by that adult garment and published chest34⅝–61⅜inch sizing.
+Published Shopify description explicitly names deep teal, muted greens, magenta.
+Shared policy now supplies adult/unisex/Teal/Green/Magenta to feed and product
+schema, preserving Shopify copy, all sizes and $4.69 shipping. Google warning
+clearance must be verified after deployment/reprocessing, separate from approval.
+
 ## September 26 current monitoring facts
 
 [Daily evidence](../gates/google-visibility/daily-review-20260926.md): repaired a confirmed catalog-wide feed503 caused by two new unmapped products. Shopify-verified standard US rates: Jungle City curtain $8.29 (profile134066307379); Jungle Frequency shirt all11 sizes $4.69 (profile134066209075). Shared-policy fix d6ffd6c, production deployment dpl_DqWtPw3qocZg8jsv2hfQUZg8DNzd READY with documentation commit18c34ef. Live feed now76 unique shipping-complete offers/13 designs; both new pages200. Google fetched September26 10:18CDT:76 updated,12 new, all attributes recognized, no file issues. Overview still64 Approved immediately afterward; new12 eligibility not yet confirmed.
