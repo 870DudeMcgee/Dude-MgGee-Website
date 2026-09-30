@@ -1,6 +1,6 @@
 # Citation-farm evidence verification
 
-Research date: September 30, 2026. Scope: [evidence ticket #3](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/3), [outcomes ticket #4](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/4), [visibility ticket #5](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/5) and [safeguards ticket #6](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/6), governed by [parent map #2](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/2). Research only; Dude McGee is the selected first brand. Opportunity selection and implementation remain open. This packet resolves the evidence question with explicit limits; it does not authorize implementation.
+Research date: September 30, 2026. Scope: [evidence ticket #3](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/3), [outcomes ticket #4](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/4), [visibility ticket #5](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/5) and [safeguards ticket #6](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/6), governed by [parent map #2](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/2). Research only; Dude McGee is the selected first brand. The owner selected A first, conditional B and C deferrals below; evaluation and implementation remain open. This packet resolves the evidence question with explicit limits; it does not authorize implementation.
 
 ## Decision
 
@@ -77,7 +77,7 @@ Primary-source basis checked September 30, 2026: provider bot documentation, Ahr
 
 ## Dude McGee visibility baseline and opportunities — ticket #5
 
-**Owner selection pending.** Dude McGee is the first and only brand investigated in this slice. The owner named Bass Binge Baits, Dirt Cat Records and Santa Cinema for later work; no other brand baseline or repository work is included. Recommendation: select **A** first, consider **B** after its prerequisites, and retain **C** for unsupported expansion. This is a planning recommendation, not approval to publish, contact anyone or run an experiment.
+**Owner selection resolved September 30, 2026: A first, then conditional B; retain C deferrals.** Dude McGee is the first and only brand investigated in this slice. The owner named Bass Binge Baits, Dirt Cat Records and Santa Cinema for later work; no other brand baseline or repository work is included. The selected order is **A** first, **B** after its prerequisites, and **C** for unsupported expansion. This is a planning recommendation, not approval to publish, contact anyone or run an experiment.
 
 ### Bounded public baseline — September 30, 2026
 
@@ -106,7 +106,7 @@ Search ledger, using the web search tool on this date: `"Dude McGee" music artis
 
 ### Owner decision and evaluation boundary
 
-For #5, select or reject **A**, **B** and **C**, with the intended release focus if A or B is selected. A reasonable proposed order is A first, then B once facts and media are approved, with C retained for broad expansion. Choosing either opportunity does not establish an implementation plan, authorize publishing/outreach, or choose the #7 evaluation.
+For #5, the owner selected: “A first, then conditional B; retain C deferrals (recommended)”. Release focus, verified dates/destinations, photo selection and later outreach remain owner inputs; this selection does not choose them silently. Choosing either opportunity does not establish an implementation plan, authorize publishing/outreach, or choose the #7 evaluation.
 
 The cheapest falsifier is a later saved answer already resolving the artist, release facts and official destination correctly, paired with no demonstrated qualified discovery need: that would weaken the case that adding primary information helps. Conversely, wrong-entity or unsupported release answers establish a specific accuracy problem, not proof that more pages cure it. #7 still owns the research-system target, engines, queries, observation budget, comparison method, known answers, success thresholds and stop conditions. Keep visibility and research accuracy as separate outcomes and allow a result of no benefit.
 
@@ -158,7 +158,7 @@ All three evidence gates met: source/method/operator matrix; bounded numerical r
 
 Target: `/Users/jewelbait/Desktop/Dude McGee Website`. Git toplevel/HEAD/branch/status checks fail with “not a git repository.” ContextQuality returned `grounded` with null Git fields and unrelated commerce anchors; those anchors were discarded. That initial save was uncommitted. Infrastructure freshness is a separate closeout check, not evidence against the research findings.
 
-Recovery on September 30: preserved the original folder and copied only this evidence file and its fixture into a clean clone at `/Users/jewelbait/Documents/Codex/checkouts/dude-mcgee-citation-research-20260930`, based on upstream `main` at `bd2a215922f23dae05d5692b789ba4759b77b71c`. Reran the standard-library verifier successfully with identical reported counts and data hashes. The recovery branch contains research artifacts only; no production files changed. Ticket #3 can be resolved on this evidence with Dude McGee selected first and opportunity selection and downstream evaluation still open.
+Recovery on September 30: preserved the original folder and copied only this evidence file and its fixture into a clean clone at `/Users/jewelbait/Documents/Codex/checkouts/dude-mcgee-citation-research-20260930`, based on upstream `main` at `bd2a215922f23dae05d5692b789ba4759b77b71c`. Reran the standard-library verifier successfully with identical reported counts and data hashes. The recovery branch contains research artifacts only; no production files changed. Ticket #3 can be resolved on this evidence with Dude McGee selected first and opportunities selected and downstream evaluation still open.
 
 ## Ticket #4 verification
 
@@ -170,4 +170,4 @@ The five-option comparison includes benefits, false positives, bypasses, qualita
 
 ## Ticket #5 verification
 
-Bounded live public inspection supports the baseline and three owner choices above. One solo adversarial pass removed duplicate bio/catalog/crawl-repair proposals and checked that absent search coverage and inaccessible platforms remain unknown. Each choice records factual gaps, evidence, observable outcomes, measurement limits and owner prerequisites. Fixture replay passed with identical bytes; CRLF-aware diff, owned-path and local-link checks passed. Current commerce policies were reused without a new commerce audit. Only this evidence authority changed; no Ponytail, local-model lane, paid tool, outreach, publishing, implementation or production mutation was used. Temporary solo gates remain outside the repository. Ticket #5 and parent R4 remain open pending owner opportunity selection; later evaluation work has not begun.
+Bounded live public inspection supports the baseline and three owner choices above. One solo adversarial pass removed duplicate bio/catalog/crawl-repair proposals and checked that absent search coverage and inaccessible platforms remain unknown. Each choice records factual gaps, evidence, observable outcomes, measurement limits and owner prerequisites. Fixture replay passed with identical bytes; CRLF-aware diff, owned-path and local-link checks passed. Current commerce policies were reused without a new commerce audit. Only this evidence authority changed; no Ponytail, local-model lane, paid tool, outreach, publishing, implementation or production mutation was used. Temporary solo gates remain outside the repository. The owner selected A first, conditional B and C deferrals on September 30. Ticket #5 and parent R4 are resolved on that planning decision; later evaluation work has not begun.
