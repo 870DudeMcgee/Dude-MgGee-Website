@@ -1,4 +1,4 @@
-# Dude McGee Electronic Press Kit - Content Authority
+# DUDE McGEE Electronic Press Kit - Content Authority
 
 Updated: July 21, 2026
 
@@ -16,19 +16,19 @@ Updated: July 21, 2026
 
 ## Short Bio
 
-Dude McGee is an independent recording artist, songwriter, producer, multi-instrumentalist, and lifelong live performer from North Central Arkansas in the Ozarks. His work moves freely across styles, drawing on voice, piano and keyboards, electric and acoustic guitar, bass, violin, cello, saxophone, trumpet, drums, and percussion. He introduced the project with *Digital Dream*, an electronic first chapter chosen for the way its lyrics capture the tension between human life and the digital world now surrounding it. He writes, performs, records, produces, mixes, and masters the music himself, then creates the visual media surrounding each release. Dude McGee releases through Dirt Cat Records.
+DUDE McGEE is an independent recording artist, songwriter, producer, multi-instrumentalist, and lifelong live performer from North Central Arkansas in the Ozarks. His work moves freely across styles, drawing on voice, piano and keyboards, electric and acoustic guitar, bass, violin, cello, saxophone, trumpet, drums, and percussion. He introduced the project with *Digital Dream*, an electronic first chapter chosen for the way its lyrics capture the tension between human life and the digital world now surrounding it. He writes, performs, records, produces, mixes, and masters the music himself, then creates the visual media surrounding each release. DUDE McGEE releases through Dirt Cat Records.
 
 ## Long Bio
 
-Dude McGee is an independent recording artist, songwriter, producer, multi-instrumentalist, and lifelong live performer from North Central Arkansas in the Ozarks. His catalog is not confined to one genre. It moves across electronic music, rock, pop, country, blues, and whatever language best serves the song.
+DUDE McGEE is an independent recording artist, songwriter, producer, multi-instrumentalist, and lifelong live performer from North Central Arkansas in the Ozarks. His catalog is not confined to one genre. It moves across electronic music, rock, pop, country, blues, and whatever language best serves the song.
 
-That range is grounded in a broad instrumental vocabulary. Dude McGee sings and plays piano, keyboards, electric and acoustic guitar, bass, violin, cello, saxophone, trumpet, drums, and percussion. Rather than separating writing, performance, production, and imagery into different departments, he treats them as parts of the same creative act.
+That range is grounded in a broad instrumental vocabulary. DUDE McGEE sings and plays piano, keyboards, electric and acoustic guitar, bass, violin, cello, saxophone, trumpet, drums, and percussion. Rather than separating writing, performance, production, and imagery into different departments, he treats them as parts of the same creative act.
 
 His live experience began in childhood, performing several days each week in church before eventually serving as a youth music minister. As a young adult, he moved to Tulsa, Oklahoma, where he fronted a working Top 40 rock band as lead singer and guitarist, often performing three to five shows a week. He later moved into electronic performance, combining live keyboards and vocals with dance-music mixing for rave-style shows under the name Skitzofrenzy.
 
-Those experiences now converge in Dude McGee. He personally writes, performs, records, produces, mixes, and masters every release, while also creating the artwork, videos, and supporting media. The result is a self-contained artist project in which sound, image, story, and technology move together without a fixed genre boundary.
+Those experiences now converge in DUDE McGEE. He personally writes, performs, records, produces, mixes, and masters every release, while also creating the artwork, videos, and supporting media. The result is a self-contained artist project in which sound, image, story, and technology move together without a fixed genre boundary.
 
-The first public transmission is *Digital Dream*, released through Dirt Cat Records and currently available on YouTube. Its cinematic electronic sound is one part of the larger catalog, while its lyrics introduce a central idea: the strange present-day experience of being human while living inside an increasingly digital world. Dude McGee is available for interviews, collaborations, live bookings, licensing and sync opportunities, and select label conversations.
+The first public transmission is *Digital Dream*, released through Dirt Cat Records and currently available on YouTube. Its cinematic electronic sound is one part of the larger catalog, while its lyrics introduce a central idea: the strange present-day experience of being human while living inside an increasingly digital world. DUDE McGEE is available for interviews, collaborations, live bookings, licensing and sync opportunities, and select label conversations.
 
 ## Live Performance Summary
 
@@ -38,11 +38,11 @@ The first public transmission is *Digital Dream*, released through Dirt Cat Reco
 - Performed three to five shows per week as lead singer and guitarist.
 - Developed a live electronic project combining keyboards, vocals, and dance-music mixing.
 - Performed rave-style electronic shows under the alias Skitzofrenzy.
-- Currently open to developing the Dude McGee live show for the right opportunity.
+- Currently open to developing the DUDE McGEE live show for the right opportunity.
 
 ## Quick Facts
 
-- **Artist:** Dude McGee
+- **Artist:** DUDE McGEE
 - **Based in:** North Central Arkansas, the Ozarks
 - **Approach:** Multi-genre; the song determines the style
 - **Current release sound:** Cinematic electronic, synth-driven alternative
@@ -68,15 +68,15 @@ The first public transmission is *Digital Dream*, released through Dirt Cat Reco
 
 ### Are you signed?
 
-Dude McGee is independent and releases through Dirt Cat Records. Select label conversations are welcome, but the project is not waiting on a label to move forward.
+DUDE McGEE is independent and releases through Dirt Cat Records. Select label conversations are welcome, but the project is not waiting on a label to move forward.
 
 ### Who creates the music?
 
-Dude McGee writes, performs, records, produces, mixes, and masters the music himself. He also creates the artwork, video, and supporting media around the project.
+DUDE McGEE writes, performs, records, produces, mixes, and masters the music himself. He also creates the artwork, video, and supporting media around the project.
 
 ### Do you perform live?
 
-Yes. Dude McGee has extensive live experience spanning church music, a working Top 40 rock band, and live electronic performance with keyboards, vocals, and dance-music mixing. He is currently exploring the right format and opportunities for the Dude McGee live show.
+Yes. DUDE McGEE has extensive live experience spanning church music, a working Top 40 rock band, and live electronic performance with keyboards, vocals, and dance-music mixing. He is currently exploring the right format and opportunities for the DUDE McGEE live show.
 
 ### What was Skitzofrenzy?
 
@@ -88,12 +88,12 @@ The official lyric video is currently available on YouTube.
 
 ### Are interviews and collaborations welcome?
 
-Yes. Dude McGee is available for interviews, collaborations, live bookings, licensing and sync opportunities, and select label conversations.
+Yes. DUDE McGEE is available for interviews, collaborations, live bookings, licensing and sync opportunities, and select label conversations.
 
 ### How should the artist name be written?
 
-Use **Dude McGee**.
+Use **DUDE McGEE**.
 
 ## Photo Status
 
-Approved artist portraits and live-performance photographs are still to be selected. Until those are added, current visual artwork may be used with credit to Dude McGee.
+Approved artist portraits and live-performance photographs are still to be selected. Until those are added, current visual artwork may be used with credit to DUDE McGEE.

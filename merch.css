@@ -424,7 +424,7 @@ body.product-zoom-open { overflow: hidden; }
 }
 .product-details-trigger {
   align-self: flex-start;
-  padding: 0 0 .25rem;
+  min-height: 2.75rem; padding: .7rem 0;
   border: 0; border-bottom: 1px solid rgba(92,247,237,.55);
   background: transparent; color: var(--cyan);
   font: 500 .58rem var(--mono); letter-spacing: .11em;
@@ -497,9 +497,18 @@ body.product-details-open { overflow: hidden; }
   letter-spacing: -.055em; overflow-wrap: anywhere;
 }
 .product-details-description {
-  margin: 0; white-space: pre-line;
+  margin: 0;
   color: rgba(233,244,235,.72); font-size: .86rem; line-height: 1.85;
 }
+.product-details-description section + section { margin-top: 1.5rem; }
+.product-details-description h3 { margin: 0 0 .4rem; color: var(--cyan); font: 600 .73rem var(--mono); letter-spacing: .05em; }
+.product-details-description ul { margin: 0; padding-left: 1.25rem; }
+.product-details-description li + li { margin-top: .3rem; }
+.product-details-table-wrap { max-width: 100%; overflow-x: auto; margin-top: 1rem; }
+.product-details-table-wrap:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.product-details-table-wrap table { border-collapse: collapse; min-width: max-content; font-size: .75rem; line-height: 1.4; }
+.product-details-table-wrap th, .product-details-table-wrap td { padding: .55rem .7rem; border: 1px solid rgba(92,247,237,.2); text-align: left; }
+.product-details-table-wrap th { color: var(--paper); background: rgba(92,247,237,.08); }
 .product-details-continue {
   margin-top: 2rem; min-height: 3rem; padding: 0 1rem;
   border: 1px solid var(--cyan);
@@ -512,8 +521,7 @@ body.product-details-open { overflow: hidden; }
 .product-details-continue:focus-visible { background: var(--cyan); color: var(--ink); }
 .product-price-row {
   display: flex; align-items: baseline; gap: .8rem;
-  margin-top: auto; padding-top: 1rem;
-  border-top: 1px solid var(--line);
+  margin-top: -.5rem; padding-top: 0;
 }
 .product-price {
   font-family: var(--display);
@@ -533,8 +541,9 @@ body.product-details-open { overflow: hidden; }
 .product-variants {
   display: flex; flex-wrap: wrap; gap: .4rem;
 }
+.product-option-label { margin: 0 0 -.6rem; color: var(--paper); font: 600 .62rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 .variant-pill {
-  padding: .4rem .7rem;
+  min-width: 2.75rem; min-height: 2.75rem; padding: .55rem .75rem;
   border: 1px solid var(--line);
   font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
   cursor: pointer; transition: all .2s; background: transparent; color: inherit;
@@ -543,6 +552,12 @@ body.product-details-open { overflow: hidden; }
 .variant-pill:hover { border-color: var(--cyan); color: var(--cyan); }
 .variant-pill.is-selected { background: var(--cyan); color: var(--ink); border-color: var(--cyan); }
 .variant-pill.is-unavailable { opacity: .35; text-decoration: line-through; cursor: not-allowed; }
+
+.product-total { margin: auto 0 -.6rem; color: var(--paper); font: 600 .7rem var(--mono); }
+.product-purchase { display: flex; align-items: end; gap: .65rem; }
+.product-quantity-label { display: grid; gap: .4rem; color: var(--paper); font: 600 .62rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.product-quantity { width: 4.5rem; height: 3.4rem; padding: .5rem; border: 1px solid var(--cyan); border-radius: 0; background: #07100e; color: var(--paper); font: 600 1rem var(--mono); }
+.product-quantity:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
 
 .product-buy {
   display: inline-flex; min-height: 3.4rem; align-items: center; justify-content: center; gap: .6rem;
@@ -564,6 +579,7 @@ body.product-details-open { overflow: hidden; }
 .product-buy.is-add:hover {
   background: var(--cyan); color: var(--ink);
 }
+.product-purchase .product-buy { width: auto; flex: 1; }
 
 /* ---------- Loading state ---------- */
 .product-loading { display: flex; gap: 1rem; padding: 2rem 0; }
@@ -852,7 +868,7 @@ body.product-details-open { overflow: hidden; }
   .policy-main { padding: 10rem clamp(1.25rem, 6vw, 1.75rem) 6rem; }
   .policy-heading,
   .policy-content { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
-  .policy-heading h1 { font-size: clamp(2.25rem, 9.5vw, 7rem); }
+  .policy-heading h1 { max-width: 100%; font-size: clamp(1.75rem, 8.2vw, 7rem); }
   .policy-summary { margin-left: 0; }
   .policy-aside { position: static; }
 }
@@ -876,6 +892,7 @@ body.product-details-open { overflow: hidden; }
   .merch-exit h2 { font-size: clamp(3.4rem, 16vw, 5rem); }
   .merch-hero h1 { font-size: clamp(2.6rem, 16vw, 5rem); }
   .product-body { padding: 1.2rem; }
+  .product-gallery-arrow, .product-thumbnail, .qty-btn, .cart-close { min-width: 2.75rem; min-height: 2.75rem; }
   .cart-drawer { width: 100vw; }
   .cart-toggle { padding-inline: .6rem; }
   .cart-toggle-label { display: inline; }

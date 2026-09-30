@@ -451,31 +451,6 @@ html[data-turn="-1"] .hero-relic-2 { --base-rot: 4deg; }
   letter-spacing: .14em;
   text-transform: uppercase;
 }
-.artifact-dossier {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height .35s ease, opacity .25s ease;
-}
-.artifact-card:hover .artifact-dossier,
-.artifact-card:focus-within .artifact-dossier,
-.artifact-card.is-open .artifact-dossier {
-  max-height: 18rem;
-  opacity: 1;
-}
-.artifact-fact {
-  display: grid;
-  grid-template-columns: 7.2rem 1fr;
-  gap: .6rem;
-  margin: 0;
-  padding: .28rem 0;
-  border-bottom: 1px solid rgba(92,247,237,.1);
-  color: rgba(233,244,235,.78);
-  font-size: .56rem;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-.artifact-fact span:first-child { color: rgba(92,247,237,.7); }
 .artifact-card .product-buy {
   background: transparent;
   color: var(--cyan);

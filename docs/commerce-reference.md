@@ -77,6 +77,35 @@ observed cards. DM-logo tees (black/white) and coozie remain unconfirmed in samp
 Shopping searches. No claim that every size is separately served or that Search
 Popular products is confirmed. Bass is outside this run.
 
+## Dude-only catalog audit and feed warning — September 19, 2026
+
+The [Dude catalog audit](../gates/google-visibility/dude-catalog-audit-20260919.json)
+reconciles 11 public products / 64 variants to all 64 feed IDs with no omissions,
+extras or duplicates. All 11 pages return 200, appear in the sitemap, and contain
+variant identities and shipping/return markup. It checks markup presence, not
+Merchant parsing of every attribute. All 64 individual Merchant rows were observed
+Approved and VISIBLE in the Free listings view at about 18:12 UTC.
+
+**Approval does not mean warning-free:** coozie offer `53792684605747` has two
+individual Needs attention warnings: invalid sub-attribute format for
+`shipping_handling_business_days` and `shipping_transit_business_days`, each
+explicitly limiting US Free listings visibility. The main Needs attention view
+was empty. Every live offer uses the same flat `M-F` encoding. This is a newly
+confirmed feed-format issue, not a change to verified shipping rates or timing.
+The handling-days issue detail reports **64 impacted products (100%)**.
+A focused correction uses nested `country=US` and `business_days=M-F` values for
+both XML attributes. Deployment and Google reprocessing are pending at this point.
+Google's [current product specification](https://support.google.com/merchants/answer/7052112?hl=en)
+and [Merchant API business-day structure](https://docs.cloud.google.com/go/docs/reference/cloud.google.com/go/shopping/latest/merchant/products/apiv1/productspb)
+support country/business_days configurations; older simple XML examples conflict
+with the live parser, so acceptance must be confirmed in Merchant Center.
+
+New actual Shopping cards: Checkout Girl, white Neon Leaf chest-logo tee, both
+hats. With the four hoodie designs seen earlier today, 8/11 designs now have
+observed cards. DM-logo tees (black/white) and coozie remain unconfirmed in sampled
+Shopping searches. No claim that every size is separately served or that Search
+Popular products is confirmed. Bass is outside this run.
+
 # Commerce reference — read before repeating an investigation
 
 Maintained: 2026-09-11. This is the entry point for settled shipping/return facts
@@ -108,6 +137,7 @@ and [the session log](../gates/google-visibility/session-evidence.md).
 | Existing standard US rates | Tees $4.95, mapped hoodies $8.79, mapped hats/coozie $4.69. Exact handle assignments now in [shared policies](../lib/product-policies.js); historical reviewed mappings preserved. Do not infer assignments from a product name. |
 | Checkout Girl shipping | Shopify product `10448707715379`; all nine XS–5XL variants assigned to profile `133064753459`, Printful T-shirts `PF-FRG1001`. US Flat Rate **$4.95**, Express **$9.99**. Authenticated Shopify observation 2026-09-11. |
 | Checkout Girl apparel | Heather gray explicitly in Shopify description; unisex verified for all nine variants in Printful, Bella + Canvas 3001. Printful store `18505090`, synced product `470134813`; observed 2026-09-11. Brand remains Dude McGee Merch, not the blank manufacturer. |
+| Arkansas sales-tax registration | Submitted 2026-09-23 on ATAP for Sales and Use Tax. Sole proprietor Joshua David McLean, trade name Dude McGee Merch. Confirmation code `6ybjws`, contact email `870joshmclean@gmail.com`. Fee on the filing is $50. Permit and account ID were not issued on the confirmation screen. Shopify Arkansas collection stays off until that number exists. Observed on the ATAP confirmation page 2026-09-23. |
 
 The new shared mapping is consumed by feed and product schema, with tests for
 missing future-product mappings. At the time of this record it is **local,
@@ -161,6 +191,9 @@ files belong to the owner; do not replace them to copy this reference.
   merge additionally requires the primary's `defaultRule` link.
 - **Reviews:** genuine product-review data has not been established. Never copy
   Printful blank-product reviews or fabricate ratings to clear Search warnings.
+- **Arkansas sales-tax permit:** registration `6ybjws` is submitted and waiting
+  on Arkansas to issue the account ID and permit. Do not enable Shopify
+  Arkansas collection before that number exists. Do not repeat the registration.
 
 Full recovery acceptance is tracked in
 [recovery-gates.md](../gates/google-visibility/recovery-gates.md). Historical
@@ -179,3 +212,51 @@ September 11 through public HTTP and a 390×844 browser journey, preserving all
 conditional ETag updates and a retained success receipt. This is not an approved
 social package. Exact invocation, media provenance, deployment and browser evidence: [Website ticket 20 execution](../gates/merch-pilot/featured-drop.md).
 Permanent destination remains `https://www.dudemcgee.com/merch.html`.
+
+
+## Merchandise shopping information — authorized release, September 30, 2026
+
+Owner-confirmed display branding is **DUDE McGEE**, with only c lowercase;
+artist logos and display headings use the header’s Syne 800 treatment. Site
+storefront copy and generated product identity follow this rule. Recorded
+Shopify account/store names, provider data, and commerce policies are unchanged.
+
+The canonical [catalog renderer](../merch.js) and [merchandise styles](../merch.css)
+now show customer-facing product types, Size or Can size labels, early unit price,
+quantity 1–99, and selected-variant totals. Product details uses sourced sections
+and semantic measurement tables rather than flattened description text. This is
+**included in the September 30 authorized release**; the dedicated product-page purchase flow is unchanged.
+
+Local browser verification used the September 30 public Shopify snapshot (13
+products). All 13 detail views were opened; all 12 source tables retained every
+cell and measurement unit. All 13 title/price gaps measured 8px, desktop actions
+aligned within grid rows, and every mobile variant control measured at least
+44×44px at 390px with no page overflow. Checkout Girl 5XL quantity 2 produced a
+$76 local cart at $38 each. The targeted test verifies quantity 2 in the checkout
+request; no live checkout or payment was performed. Existing shipping/return facts
+above supply the shared policy sections; no business policy changed.
+
+**Source gaps:** the snapshot supplies no explicit material composition for
+Checkout Girl Tee, the three other tees, the four hoodies, or Jungle Frequency
+All-Over Print Shirt. Their Material section is omitted rather than inferred from
+a blank garment or manufacturing category. The previously verified Checkout Girl
+unisex fit and heather gray color remain recorded above. Live inventory, gallery
+contrast across all alternate images, and successful multi-quantity Shopify
+checkout remain unverified by this UX change.
+
+
+Featured-drop follow-up, September 30: [the existing feature renderer](../lib/current-drop.js)
+now includes the matched product's catalog price (From $30.00 in the saved black
+tee snapshot). The merchandise script enhances Choose your size to reach and
+focus that exact tee's existing catalog options, retaining its product-page link
+as the fallback. Desktop/mobile browser checks verified the jump and a 5XL,
+quantity-2 local cart at $38 each. The original live product-page destination
+returned 200 and showed working size options during this check. These changes
+are included in the September 30 authorized release; live checkout remains untested.
+
+Release integration retains the September 26–27 Jungle shipping/attribute policies,
+feed recovery coverage and monitoring records from remote main. The approved
+Product details flow replaces the older hover dossier; it presents sourced
+product information and measurements without inferred material composition.
+Production deployment acceptance is tracked in the release session; the browser
+evidence above describes the local verification, not a completed live purchase.

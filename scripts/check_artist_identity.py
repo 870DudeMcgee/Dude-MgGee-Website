@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Guard the public site's indivisible Dude McGee artist name."""
+"""Guard the public site's indivisible DUDE McGEE artist name."""
 
 from __future__ import annotations
 
@@ -9,8 +9,14 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLIC_PAGES = (ROOT / "index.html", ROOT / "label.html", ROOT / "press/index.html")
-FULL_NAME = "Dude McGee"
+PUBLIC_PAGES = (
+    ROOT / "index.html",
+    ROOT / "label.html",
+    ROOT / "merch.html",
+    ROOT / "returns.html",
+    ROOT / "press/index.html",
+)
+FULL_NAME = "DUDE McGEE"
 
 
 def json_objects(value: object):
@@ -67,4 +73,4 @@ if FULL_NAME not in website_names:
 if errors:
     raise SystemExit("Artist identity check failed:\n- " + "\n- ".join(errors))
 
-print("Artist identity check passed: every public identity signal uses Dude McGee.")
+print("Artist identity check passed: every public identity signal uses DUDE McGEE.")

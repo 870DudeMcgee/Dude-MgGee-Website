@@ -1,5 +1,5 @@
 # Dude-MgGee-Website
-Website for artist Dude McGee
+Website for artist DUDE McGEE
 
 For previously verified shipping, returns, account/profile IDs, and the specific
 remaining Google commerce issues, start with [the commerce reference](docs/commerce-reference.md).
@@ -7,7 +7,7 @@ Read it before repeating policy or account research.
 
 ## Merch storefront
 
-`merch.html` keeps product browsing and cart review on the Dude McGee site,
+`merch.html` keeps product browsing and cart review on the DUDE McGEE site,
 then sends the customer to Shopify for secure checkout. Printful fulfills the
 products published from Printful to the `Dude McGee Merch` Shopify store.
 
@@ -50,3 +50,7 @@ After deploying to Vercel project `dude-mcgee-website` in
 the preferred production URLs and permanent index-file redirects. Keep the
 existing `.html` URLs; `/` and `/press/` are the preferred index-page URLs.
 Google decides when to crawl and index an eligible page.
+
+Footer links use self-hosted official [YouTube icons](https://brand.youtube/) and
+[X logos](https://about.x.com/en/who-we-are/brand-toolkit), with native SVG symbols
+for site destinations. Text labels and link destinations remain the accessible names.

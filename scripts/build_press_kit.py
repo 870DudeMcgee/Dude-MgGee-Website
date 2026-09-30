@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build Dude McGee press PDFs and the downloadable asset package."""
+"""Build DUDE McGEE press PDFs and the downloadable asset package."""
 
 from __future__ import annotations
 
@@ -73,13 +73,13 @@ def footer(c: canvas.Canvas, page: int, label: str = "OFFICIAL PRESS MATERIALS")
     c.setFillColor(PAPER)
     c.setFont("Helvetica", 8)
     c.drawString(42, 22, label)
-    c.drawRightString(PAGE_W - 42, 22, f"DUDE MCGEE // {page:02d}")
+    c.drawRightString(PAGE_W - 42, 22, f"DUDE McGEE // {page:02d}")
 
 
 def eyebrow(c: canvas.Canvas, text: str, x: float, y: float, color=CYAN) -> None:
     c.setFillColor(color)
     c.setFont("Helvetica-Bold", 7.5)
-    c.drawString(x, y, text.upper())
+    c.drawString(x, y, text if text == "DUDE McGEE" else text.upper())
 
 
 def title(c: canvas.Canvas, lines: list[tuple[str, object]], x: float, y: float, size: float = 50, leading: float = 44) -> float:
@@ -87,7 +87,7 @@ def title(c: canvas.Canvas, lines: list[tuple[str, object]], x: float, y: float,
     for text, color in lines:
         c.setFillColor(color)
         c.setFont("Helvetica-Bold", size)
-        c.drawString(x, current_y, text.upper())
+        c.drawString(x, current_y, text if text == "McGEE" else text.upper())
         current_y -= leading
     return current_y
 
@@ -122,8 +122,8 @@ def pill(c: canvas.Canvas, text: str, x: float, y: float, color=CYAN) -> float:
 
 def build_epk() -> None:
     c = canvas.Canvas(str(EPK_PDF), pagesize=letter, pageCompression=1)
-    c.setTitle("Dude McGee Electronic Press Kit")
-    c.setAuthor("Dude McGee")
+    c.setTitle("DUDE McGEE Electronic Press Kit")
+    c.setAuthor("DUDE McGEE")
 
     # 1 - Cover
     image_cover(c, ASSETS / "digital-dream-art.webp", 0, 0, PAGE_W, PAGE_H)
@@ -132,7 +132,7 @@ def build_epk() -> None:
     c.setFillColor(Color(0.01, 0.02, 0.02, alpha=0.84))
     c.rect(0, 0, PAGE_W * 0.68, PAGE_H, fill=1, stroke=0)
     eyebrow(c, "Electronic press kit // 2026", 48, 706)
-    title(c, [("Dude", PAPER), ("McGee", PINK)], 46, 635, 76, 64)
+    title(c, [("DUDE", PAPER), ("McGEE", PINK)], 46, 635, 76, 64)
     c.setFillColor(PAPER)
     c.setFont("Helvetica-Bold", 14)
     c.drawString(50, 474, "INDEPENDENT RECORDING ARTIST")
@@ -157,7 +157,7 @@ def build_epk() -> None:
     background(c)
     eyebrow(c, "01 / About", 44, 738)
     title(c, [("Built for", PAPER), ("the whole", PINK), ("signal.", PINK)], 42, 690, 40, 36)
-    y = para(c, "<b>Dude McGee</b> is an independent recording artist, songwriter, producer, multi-instrumentalist, and lifelong live performer from North Central Arkansas in the Ozarks. His catalog moves across electronic music, rock, pop, country, blues, and whatever language best serves the song.", 44, 545, 330, 10.5, 16)
+    y = para(c, "<b>DUDE McGEE</b> is an independent recording artist, songwriter, producer, multi-instrumentalist, and lifelong live performer from North Central Arkansas in the Ozarks. His catalog moves across electronic music, rock, pop, country, blues, and whatever language best serves the song.", 44, 545, 330, 10.5, 16)
     y = para(c, "He writes, performs, records, produces, mixes, and masters every release. He also creates the artwork, videos, and supporting media.", 44, y - 18, 330, 10.5, 16)
     image_cover(c, ASSETS / "digital-fauna-profile.webp", 408, 302, 160, 365)
     c.setStrokeColor(CYAN)
@@ -193,7 +193,7 @@ def build_epk() -> None:
         ("CHILDHOOD", "Began performing live several days each week in church, later serving as a youth music minister."),
         ("TULSA", "Moved to Tulsa, Oklahoma and fronted a working Top 40 rock band as lead singer and guitarist, often performing three to five shows per week."),
         ("SKITZOFRENZY", "Developed a live electronic project combining keyboards, vocals, and dance-music mixing for rave-style shows."),
-        ("DUDE MCGEE", "Brings those years of stage experience into a self-produced, multi-genre artist project and is open to the right live opportunities."),
+        ("DUDE McGEE", "Brings those years of stage experience into a self-produced, multi-genre artist project and is open to the right live opportunities."),
     ]
     y = 555
     for i, (label, copy) in enumerate(timeline, 1):
@@ -268,18 +268,18 @@ def build_epk() -> None:
 
 def build_media_sheet() -> None:
     c = canvas.Canvas(str(SHEET_PDF), pagesize=letter, pageCompression=1)
-    c.setTitle("Dude McGee One-Page Media Sheet")
-    c.setAuthor("Dude McGee")
+    c.setTitle("DUDE McGEE One-Page Media Sheet")
+    c.setAuthor("DUDE McGEE")
     background(c)
     image_cover(c, ASSETS / "digital-dream-art.webp", 375, 355, 193, 390)
     c.setStrokeColor(CYAN)
     c.rect(375, 355, 193, 390, fill=0, stroke=1)
     eyebrow(c, "One-page media sheet // 2026", 42, 738)
-    title(c, [("Dude", PAPER), ("McGee", PINK)], 40, 676, 58, 50)
+    title(c, [("DUDE", PAPER), ("McGEE", PINK)], 40, 676, 58, 50)
     c.setFillColor(CYAN)
     c.setFont("Helvetica-Bold", 8)
     c.drawString(44, 550, "RECORDING ARTIST / MULTI-INSTRUMENTALIST / PRODUCER")
-    para(c, "Dude McGee is an independent recording artist and lifelong live performer from North Central Arkansas in the Ozarks. He sings and plays keys, guitars, bass, strings, horns, drums, and percussion, while carrying each release from writing through final master and visual media.", 44, 520, 290, 9.5, 14.5, PAPER)
+    para(c, "DUDE McGEE is an independent recording artist and lifelong live performer from North Central Arkansas in the Ozarks. He sings and plays keys, guitars, bass, strings, horns, drums, and percussion, while carrying each release from writing through final master and visual media.", 44, 520, 290, 9.5, 14.5, PAPER)
     eyebrow(c, "Current release", 44, 391, ACID)
     c.setFillColor(PAPER)
     c.setFont("Helvetica-Bold", 24)
@@ -323,13 +323,13 @@ def build_media_sheet() -> None:
 def build_zip() -> None:
     package = DOWNLOADS / "DudeMcGee_PressKit.zip"
     readme = (
-        "DUDE MCGEE - OFFICIAL PRESS KIT\n\n"
+        "DUDE McGEE - OFFICIAL PRESS KIT\n\n"
         "Press / booking / collaboration / licensing:\n"
         "870joshmclean@gmail.com\n\n"
         "Official press page: https://www.dudemcgee.com/press/\n"
         "YouTube: https://www.youtube.com/channel/UChkXhEVitGopkXbgdpUxeBA\n"
         "Skitzofrenzy archive: https://soundcloud.com/skitzofrenzy\n\n"
-        "Current artwork may be used in editorial coverage of Dude McGee.\n"
+        "Current artwork may be used in editorial coverage of DUDE McGEE.\n"
         "Approved artist portraits and live-performance photographs will be added in a future update.\n"
     )
     with zipfile.ZipFile(package, "w", zipfile.ZIP_DEFLATED) as archive:

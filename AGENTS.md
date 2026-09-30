@@ -19,3 +19,12 @@ when transferring unfinished work to another checkout. Never store secrets here.
 For this cross-brand recovery, Bass facts are indexed in the same reference;
 its source repository remains authoritative for Bass implementation. Do not
 overwrite that repository's existing owner changes.
+
+## Artist brand spelling
+
+The artist name is **DUDE McGEE**: DUDE and both E letters are uppercase;
+only the c is lowercase. Use this exact spelling in rendered names, wordmarks,
+page titles, metadata, and generated artist copy. Preserve URLs, handles,
+filenames, and historical owner quotations. CSS must not uppercase the c.
+Artist names in logos and display headings use the header wordmark’s typeface:
+Syne at weight 800. Keep context-appropriate sizes and preserve ordinary prose typography.

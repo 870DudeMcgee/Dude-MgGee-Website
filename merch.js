@@ -1,5 +1,5 @@
 /* ============================================================
-   Dude McGee — Merch
+   DUDE McGEE — Merch
    Shopify connection lives in Vercel serverless functions.
    This file NEVER touches the Shopify token — it talks to
    /api/catalog (GET products) and /api/shopify-cart (checkout).
@@ -27,45 +27,103 @@ function formatSignalPrice(amount, currencyCode) {
 
 function artifactKind(product) {
   const text = `${product?.title || ""} ${product?.productType || ""}`.toLowerCase();
+  if (/shower curtain/.test(text)) return "Shower curtain";
+  if (/all.over print shirt/.test(text)) return "Button-front shirt";
   if (/\b(hoodie|sweatshirt|pullover)\b/.test(text)) return "Pullover hoodie";
   if (/\b(hat|cap|beanie|trucker)\b/.test(text)) return "Trucker hat";
   if (/\b(coozie|koozie|cooler)\b/.test(text)) return "Can cooler";
   if (/\b(t[ -]?shirt|tee)\b/.test(text)) return "Unisex tee";
-  return product?.productType || "";
+  return "Merchandise";
+}
+
+function productOptionLabel(product) {
+  const name = product.options?.find(option => option.name && option.name !== "Title")?.name;
+  if (artifactKind(product) === "Can cooler") return "Can size";
+  return name || "Option";
+}
+
+function productDetailsContent(product) {
+  const kind = artifactKind(product);
+  const accessory = /curtain|cooler/.test(kind.toLowerCase());
+  const template = document.createElement("template");
+  template.innerHTML = product.descriptionHtml || escapeHtml(product.description || "");
+  const source = template.content;
+  const sourceTable = source.querySelector("table");
+  source.querySelectorAll(".table-responsive, table, .size-guide-title").forEach(node => node.remove());
+  source.querySelectorAll("br").forEach(node => node.replaceWith("\n"));
+  source.querySelectorAll("p, li, h1, h2, h3, h4").forEach(node => node.append("\n"));
+  const lines = (source.textContent || "").replace(/\bDude McGee\b/g, "DUDE McGEE").split(/\n+/).map(line => line.trim()).filter(Boolean);
+  const groups = { what: [], material: [], sizing: [], order: [] };
+  let current = "what";
+  for (const line of lines) {
+    if (/^(description|details|product details)$/i.test(line)) { current = "what"; continue; }
+    if (/^fit$/i.test(line) || /^size options$/i.test(line)) { current = "sizing"; continue; }
+    if (/^made to order$/i.test(line)) { current = "order"; continue; }
+    const value = line.replace(/^•\s*/, "");
+    if (/\b(polyester|cotton|foam.front|mesh back|insulating material)\b/i.test(value)) groups.material.push(value);
+    else if (/\b(71[″”]?\s*[×x]\s*74|eyelet|hooks not included|regular 12 oz|slim 12 oz|one size|adjustable rear closure)\b/i.test(value)) groups.sizing.push(value);
+    else if (/printed to order|created specifically for you after your order/i.test(value)) groups.order.push(value);
+    else groups[current].push(value);
+  }
+  const content = document.createDocumentFragment();
+  const addSection = (heading, values) => {
+    if (!values.length) return null;
+    const section = document.createElement("section");
+    const title = document.createElement("h3");
+    title.textContent = heading;
+    section.appendChild(title);
+    const list = document.createElement("ul");
+    for (const value of values) {
+      if (value.startsWith("•")) continue;
+      const item = document.createElement("li");
+      item.textContent = value;
+      list.appendChild(item);
+    }
+    section.appendChild(list);
+    content.appendChild(section);
+    return section;
+  };
+  addSection("What it is", groups.what.length ? groups.what : [kind]);
+  addSection("Material", groups.material);
+  const sizing = addSection(accessory ? "Dimensions & compatibility" : "Fit & sizing", groups.sizing);
+  if (sourceTable) {
+    const section = sizing || addSection(accessory ? "Dimensions & compatibility" : "Fit & sizing", ["Size guide"]);
+    const wrap = document.createElement("div");
+    wrap.className = "product-details-table-wrap";
+    wrap.tabIndex = 0;
+    wrap.setAttribute("role", "region");
+    wrap.setAttribute("aria-label", `${product.title} size guide; scroll to see all measurements`);
+    const table = document.createElement("table");
+    const rows = [...sourceTable.querySelectorAll("tr")];
+    rows.forEach((row, rowIndex) => {
+      const tr = document.createElement("tr");
+      [...row.querySelectorAll("th, td")].forEach((cell, cellIndex) => {
+        const element = document.createElement(rowIndex === 0 || cellIndex === 0 ? "th" : "td");
+        element.textContent = cell.textContent.trim() || (rowIndex === 0 ? "Size" : "");
+        if (rowIndex === 0) element.scope = "col";
+        else if (cellIndex === 0) element.scope = "row";
+        tr.appendChild(element);
+      });
+      table.appendChild(tr);
+    });
+    wrap.appendChild(table);
+    section.appendChild(wrap);
+  }
+  addSection("Made to order & delivery", [...new Set([
+    ...groups.order,
+    "Made to order. Production takes 2–5 business days; transit takes 1–8 business days. Shipping depends on destination and method, and items may ship separately."
+  ])]);
+  addSection("Returns & order support", [
+    "Made-to-order items cannot be returned or exchanged for wrong size, color, change of mind, or buyer’s remorse, except where required by law.",
+    "For damaged, defective, misprinted, or incorrect items, contact us within 30 days of delivery."
+  ]);
+  return content;
 }
 
 function artifactColor(product) {
   const title = product?.title || "";
   const match = title.match(/\b(black|white)\b/i);
   return match ? match[1].toUpperCase() : "";
-}
-
-function artifactMaterial(product) {
-  const text = `${product?.description || ""}`.toLowerCase();
-  const bits = [];
-  if (/foam-front|foam front/.test(text)) bits.push("Foam front");
-  if (/mesh back/.test(text)) bits.push("Mesh back");
-  if (/insulating/.test(text)) bits.push("Insulating");
-  return bits.join(" / ");
-}
-
-function artifactOrder(product) {
-  const text = `${product?.description || ""}`.toLowerCase();
-  if (/printed to order|made to order/.test(text)) return "Printed to order";
-  return "";
-}
-
-function artifactFit(product) {
-  const text = `${product?.description || ""}`.toLowerCase();
-  if (/one size/.test(text)) return "One size";
-  if (/unisex/.test(text)) return "Unisex";
-  return "";
-}
-
-function stripHtml(html) {
-  const tmp = document.createElement("div");
-  tmp.innerHTML = html;
-  return (tmp.textContent || tmp.innerText || "").trim();
 }
 
 function escapeHtml(value) {
@@ -373,6 +431,7 @@ const ProductDetails = {
     this.imageWrap = document.getElementById("product-details-image-wrap");
     this.image = document.getElementById("product-details-image");
     if (!this.dialog || !this.title || !this.description || !this.imageWrap || !this.image) return;
+    this.dialog.querySelector(".product-details-header .section-index").textContent = "Product details";
 
     document.getElementById("product-details-close")?.addEventListener("click", () => this.close());
     document.getElementById("product-details-continue")?.addEventListener("click", () => this.close());
@@ -390,8 +449,15 @@ const ProductDetails = {
     if (!this.dialog) return;
     const firstImage = (product.images || []).find(image => image && image.url);
     this.title.textContent = product.title;
-    this.description.textContent = stripHtml(product.description) || "More product information is coming soon.";
-    this.vendor.textContent = product.vendor || "Official Dude McGee merchandise";
+    if (this.description.tagName !== "DIV") {
+      const container = document.createElement("div");
+      container.id = this.description.id;
+      container.className = this.description.className;
+      this.description.replaceWith(container);
+      this.description = container;
+    }
+    this.description.replaceChildren(productDetailsContent(product));
+    this.vendor.textContent = product.vendor || "Official DUDE McGEE merchandise";
     this.returnFocus = trigger;
 
     if (firstImage) {
@@ -470,10 +536,10 @@ const Cart = {
     this.listeners.push(fn);
   },
 
-  add(variantId, merchandiseId, product, variantData) {
+  add(variantId, merchandiseId, product, variantData, quantity = 1) {
     const existing = this.items.find(i => i.variantId === variantId);
     if (existing) {
-      existing.quantity += 1;
+      existing.quantity = Math.min(99, existing.quantity + quantity);
     } else {
       this.items.push({
         variantId,
@@ -485,7 +551,7 @@ const Cart = {
         price: variantData.price.amount,
         currency: variantData.price.currencyCode,
         image: variantData.image || product.images[0]?.url || "",
-        quantity: 1,
+        quantity,
       });
     }
     this.save();
@@ -494,7 +560,7 @@ const Cart = {
   setQuantity(variantId, qty) {
     const item = this.items.find(i => i.variantId === variantId);
     if (!item) return;
-    item.quantity = Math.max(1, qty);
+    item.quantity = Math.max(1, Math.min(99, qty));
     this.save();
   },
 
@@ -671,6 +737,8 @@ function updatePriceForVariant(body, variant) {
 function renderProductCard(product, index, total) {
   const card = document.createElement("article");
   card.className = "product-card artifact-card is-pending";
+  card.id = `product-${product.handle}`;
+  card.dataset.productId = product.id;
   card.style.setProperty("--card-i", String(index % 4));
 
   const productImages = (product.images || []).filter(image => image && image.url);
@@ -821,11 +889,7 @@ function renderProductCard(product, index, total) {
   const spec = document.createElement("p");
   spec.className = "artifact-spec";
 
-  const writeSpec = variant => {
-    const size = variant && variant.title && variant.title !== "Default Title" ? variant.title : "";
-    spec.textContent = [color, size || kind].filter(Boolean).join(" / ");
-  };
-  writeSpec(firstAvailable);
+  spec.textContent = kind;
 
   /* --- Body --- */
   const body = document.createElement("div");
@@ -843,43 +907,23 @@ function renderProductCard(product, index, total) {
   title.appendChild(titleButton);
   body.appendChild(title);
 
-  const dossier = document.createElement("div");
-  dossier.className = "artifact-dossier";
-  const facts = [
-    ["Artifact", String(index + 1).padStart(3, "0")],
-    ["Status", isSoldout ? "Signal lost" : "Active"],
-    ["Form", kind],
-    ["Color", color],
-    ["Material", artifactMaterial(product)],
-    ["Fit", artifactFit(product)],
-    ["Order", artifactOrder(product)],
-    ["Transmission", "001"],
-  ];
-  facts.forEach(([label, value]) => {
-    if (!value) return;
-    const row = document.createElement("p");
-    row.className = "artifact-fact";
-    const name = document.createElement("span");
-    name.textContent = label;
-    const detail = document.createElement("span");
-    detail.textContent = value;
-    row.append(name, detail);
-    dossier.appendChild(row);
-  });
-  body.appendChild(dossier);
-
   const detailsButton = document.createElement("button");
   detailsButton.className = "product-details-trigger";
   detailsButton.type = "button";
-  detailsButton.textContent = "View full description →";
-  detailsButton.setAttribute("aria-label", `View full description for ${product.title}`);
+  detailsButton.textContent = "Product details →";
+  detailsButton.setAttribute("aria-label", `Product details for ${product.title}`);
   detailsButton.addEventListener("click", () => ProductDetails.open(product, detailsButton, selectedVariantId));
   body.appendChild(detailsButton);
 
   /* --- Variant selector --- */
   if (hasVariants) {
+    const optionLabel = document.createElement("p");
+    optionLabel.className = "product-option-label";
+    optionLabel.textContent = productOptionLabel(product);
     const variantsWrap = document.createElement("div");
     variantsWrap.className = "product-variants";
+    variantsWrap.setAttribute("role", "group");
+    variantsWrap.setAttribute("aria-label", `${productOptionLabel(product)} for ${product.title}`);
     product.variants.forEach(v => {
       const pill = document.createElement("button");
       pill.className = "variant-pill";
@@ -888,21 +932,23 @@ function renderProductCard(product, index, total) {
       pill.textContent = v.title;
       pill.type = "button";
       pill.disabled = !v.available;
+      pill.setAttribute("aria-pressed", String(v.id === selectedVariantId));
       pill.addEventListener("click", () => {
         if (!v.available) return;
         selectedVariantId = v.id;
         selectedMerchandiseId = v.id;
         variantsWrap.querySelectorAll(".variant-pill").forEach(p => p.classList.remove("is-selected"));
+        variantsWrap.querySelectorAll(".variant-pill").forEach(p => p.setAttribute("aria-pressed", String(p === pill)));
         pill.classList.add("is-selected");
         pill.classList.remove("is-pulsed");
         void pill.offsetWidth;
         pill.classList.add("is-pulsed");
-        writeSpec(v);
         updatePriceForVariant(body, v);
+        updateTotal();
       });
       variantsWrap.appendChild(pill);
     });
-    body.appendChild(variantsWrap);
+    body.append(optionLabel, variantsWrap);
   }
 
   /* --- Price row --- */
@@ -925,7 +971,36 @@ function renderProductCard(product, index, total) {
     priceRow.appendChild(compare);
   }
 
-  body.appendChild(priceRow);
+  title.after(priceRow);
+
+  const purchase = document.createElement("div");
+  purchase.className = "product-purchase";
+  const quantityLabel = document.createElement("label");
+  quantityLabel.className = "product-quantity-label";
+  quantityLabel.textContent = "Quantity";
+  const quantity = document.createElement("input");
+  quantity.className = "product-quantity";
+  quantity.type = "number";
+  quantity.min = "1";
+  quantity.max = "99";
+  quantity.step = "1";
+  quantity.value = "1";
+  quantity.disabled = isSoldout;
+  quantityLabel.appendChild(quantity);
+  const totalPrice = document.createElement("p");
+  totalPrice.className = "product-total";
+  const updateTotal = () => {
+    const variant = product.variants.find(v => v.id === selectedVariantId) || firstAvailable;
+    const count = Number(quantity.value);
+    const safeCount = Number.isInteger(count) ? Math.max(1, Math.min(99, count)) : 1;
+    totalPrice.textContent = `Total ${formatPrice((Number(variant?.price.amount || 0) * safeCount).toFixed(2), variant?.price.currencyCode || "USD")}`;
+  };
+  quantity.addEventListener("input", () => { quantity.setCustomValidity(""); updateTotal(); });
+  quantity.addEventListener("change", () => {
+    quantity.value = String(Math.max(1, Math.min(99, Math.trunc(Number(quantity.value)) || 1)));
+    updateTotal();
+  });
+  updateTotal();
 
   /* --- Add to cart button --- */
   const buyBtn = document.createElement("button");
@@ -944,12 +1019,22 @@ function renderProductCard(product, index, total) {
       if (!variantId) return;
       const variantData = product.variants.find(v => v.id === variantId) || product.variants[0];
       const before = Cart.count();
+      const requestedQuantity = Math.max(1, Math.min(99, Math.trunc(Number(quantity.value)) || 1));
+      const inCart = Cart.items.find(item => item.variantId === variantId)?.quantity || 0;
+      if (inCart + requestedQuantity > 99) {
+        quantity.setCustomValidity(`You can have at most 99 of this option in your cart. ${99 - inCart} more available.`);
+        quantity.reportValidity();
+        return;
+      }
+      quantity.setCustomValidity("");
+      quantity.value = String(requestedQuantity);
+      updateTotal();
       Cart.add(variantId, merchandiseId, product, {
         ...variantData,
         color,
         form: kind,
-      });
-      window.DudeMerchMeasurement?.addToCart(product, variantData, 1);
+      }, requestedQuantity);
+      window.DudeMerchMeasurement?.addToCart(product, variantData, requestedQuantity);
       card.classList.add("is-acquired");
       window.setTimeout(() => card.classList.remove("is-acquired"), 700);
       const badge = document.getElementById("cart-toggle-count");
@@ -965,15 +1050,31 @@ function renderProductCard(product, index, total) {
       });
     });
   }
-  body.appendChild(buyBtn);
+  purchase.append(quantityLabel, buyBtn);
+  body.append(totalPrice, purchase);
 
   card.appendChild(gallery);
   card.appendChild(body);
-  card.addEventListener("click", event => {
-    if (event.target.closest("a, button")) return;
-    card.classList.toggle("is-open");
-  });
   return card;
+}
+
+function enhanceFeaturedDrop(products, grid) {
+  const choice = document.querySelector(".current-drop a[data-product-handle]");
+  const marker = document.getElementById("current-drop-data");
+  if (!choice || !marker || !grid) return;
+  let featured;
+  try { featured = JSON.parse(marker.textContent); } catch { return; }
+  const product = products.find(item => item.id === featured.productId && item.handle === choice.dataset.productHandle);
+  const card = product && document.getElementById(`product-${product.handle}`);
+  if (!product?.availableForSale || !product.variants?.some(variant => variant.available) || !card || !grid.contains(card)) return;
+  const target = card.querySelector(".variant-pill:not(:disabled), .product-buy:not(:disabled)");
+  if (!target) return;
+  choice.closest(".current-drop")?.querySelector(".current-drop-status")?.replaceChildren("Choose a size below.");
+  choice.addEventListener("click", event => {
+    event.preventDefault();
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    target.focus({ preventScroll: true });
+  });
 }
 
 /* ============== Init ============== */
@@ -1043,6 +1144,7 @@ async function initMerch() {
     products.forEach((product, i) => {
       grid.appendChild(renderProductCard(product, i, products.length));
     });
+    enhanceFeaturedDrop(products, grid);
     document.dispatchEvent(new CustomEvent("dude:catalog", { detail: { products } }));
 
     if ("IntersectionObserver" in window) {

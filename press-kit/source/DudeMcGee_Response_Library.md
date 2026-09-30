@@ -1,14 +1,14 @@
-# Dude McGee Inquiry Response Library
+# DUDE McGEE Inquiry Response Library
 
 Personalize the greeting and one sentence about the sender. Never pay, sign, share private documents, or grant rights before verifying the person and the terms.
 
 ## General Interest
 
-Hi [Name] - thank you for reaching out and for checking out Dude McGee. I appreciate the interest. My press materials, music, background, and contact information are available at https://www.dudemcgee.com/press/. If you send a little more detail about what you have in mind, I would be glad to take a look.
+Hi [Name] - thank you for reaching out and for checking out DUDE McGEE. I appreciate the interest. My press materials, music, background, and contact information are available at https://www.dudemcgee.com/press/. If you send a little more detail about what you have in mind, I would be glad to take a look.
 
 ## Feature or Article
 
-Hi [Name] - absolutely, and thank you for considering Dude McGee for a feature. You can find the bio, quick facts, approved images, music, and contact information at https://www.dudemcgee.com/press/. Let me know your deadline, intended outlet, and whether you need anything beyond what is included there.
+Hi [Name] - absolutely, and thank you for considering DUDE McGEE for a feature. You can find the bio, quick facts, approved images, music, and contact information at https://www.dudemcgee.com/press/. Let me know your deadline, intended outlet, and whether you need anything beyond what is included there.
 
 ## Interview
 
@@ -16,7 +16,7 @@ Hi [Name] - I would be happy to discuss an interview. Please send the outlet or 
 
 ## Live Booking
 
-Hi [Name] - thanks for thinking of Dude McGee. I am open to the right live opportunity and have extensive performance experience across rock and electronic music. Please send the date, location, venue, event format, expected set length, production available, compensation, and travel or lodging details.
+Hi [Name] - thanks for thinking of DUDE McGEE. I am open to the right live opportunity and have extensive performance experience across rock and electronic music. Please send the date, location, venue, event format, expected set length, production available, compensation, and travel or lodging details.
 
 ## Collaboration
 
@@ -28,7 +28,7 @@ Hi [Name] - thank you for your interest in the music. Please send the track requ
 
 ## Label Conversation
 
-Hi [Name] - thank you for reaching out. Dude McGee is currently independent and releases through Dirt Cat Records, but I am open to hearing about the right opportunity. Please send information about the label, the specific relationship you are proposing, services and commitments on both sides, deal structure, term, rights requested, and examples of comparable artist campaigns.
+Hi [Name] - thank you for reaching out. DUDE McGEE is currently independent and releases through Dirt Cat Records, but I am open to hearing about the right opportunity. Please send information about the label, the specific relationship you are proposing, services and commitments on both sides, deal structure, term, rights requested, and examples of comparable artist campaigns.
 
 ## Paid Promotion Offer
 
@@ -40,7 +40,7 @@ Thanks for reaching out. I am interested in learning more, but I need a few conc
 
 ## Polite Decline
 
-Thank you for reaching out and for considering Dude McGee. I do not think this particular opportunity is the right fit for the project, so I am going to pass. I appreciate the invitation and wish you the best with it.
+Thank you for reaching out and for considering DUDE McGEE. I do not think this particular opportunity is the right fit for the project, so I am going to pass. I appreciate the invitation and wish you the best with it.
 
 ## Verification Checklist
 
