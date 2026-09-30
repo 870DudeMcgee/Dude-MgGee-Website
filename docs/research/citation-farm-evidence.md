@@ -1,0 +1,66 @@
+# Citation-farm evidence verification
+
+Research date: September 30, 2026. Scope: [decision ticket #3](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/3), governed by [parent map #2](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/2). Research only; brand selection and implementation remain open. This packet resolves the evidence question with explicit limits; it does not authorize implementation.
+
+## Decision
+
+**Accept the reproduced citation counts as facts about the released dataset. Retain the experiments as limited, operator-reported findings. Do not accept the video's universal retrieval mechanism, profitability, research-publisher identity, or recommendation-impact claims as established.**
+
+The evidence supports investigating both legitimate brand visibility and research reliability. It does not establish a useful marketing return for our brands, nor prove that mass-generated pages changed recommendations. Reproducing a dataset's arithmetic does not authenticate its collection.
+
+Classification: **REPRODUCED** means independently calculated from downloaded records; **SUPPORTED** means a primary artifact supports the narrow statement; **REPORTED** means published by the investigator without independent raw-data reproduction here; **UNKNOWN** means not established in this bounded investigation.
+
+## Claim-to-source matrix
+
+| Claim | Primary source and date | Verification and limitations |
+|---|---|---|
+| Network got 2.4% of citations | Trellner [report](https://trellner.com/reports/manufactured-sources-behind-ai-recommendations/), [data](https://trellner.com/data/manufactured-sources-behind-ai-recommendations/), Sept 2, 2026 | **REPRODUCED:** 181/7,534 = 2.402442%; 41/380 categories. WiFiTalents 71, Worldmetrics 60, Gitnux 50. Count is citation occurrences in this software sample, not all Perplexity use, referrals or recommendation changes. |
+| Nearly 60% long-tail sources; Wikipedia three citations | Same [citation CSV](https://trellner.com/data/manufactured-sources-behind-ai-recommendations/citations.csv) | **REPRODUCED:** 4,508/7,534 = 59.8354% includes domains unranked in Tranco, not just ranked domains below #100,000. Unranked alone: 1,766/7,534 = 23.4404%. Wikipedia: 3. Denominator is 7,534, not the transcript's ambiguous “712,000.” Popularity does not measure reliability. |
+| Guideflow third, ahead of Gartner | Same citation CSV | **REPRODUCED:** Guideflow 194 citations, rank 3 in the released sample. This does not show its content influenced the recommendations or produced business value. |
+| Three sites have 215,128 generated buying guides | [sitemaps.json](https://trellner.com/data/manufactured-sources-behind-ai-recommendations/sitemaps.json), Sept 2 snapshot | **REPRODUCED summary sum only:** 70,731 + 71,684 + 72,713 = 215,128. Raw sitemap snapshots are not in the linked release; neither the underlying enumeration nor AI authorship of every page was independently reproduced. A sitemap URL is not proof of an accessible, indexed or cited page. |
+| Eight brands share an operator | Live brand facts pages, fetched Sept 30; links below | **SUPPORTED self-declarations:** all eight identify Global Commerce Media GmbH and HRB 32988, Amtsgericht Augsburg. This is stronger than shared DNS alone, but the company registration and ownership were not independently verified. Eight domains must not count as eight independent editorial operators. |
+| Trust-label mix, author credibility, pricing | [Gitnux homepage](https://gitnux.org/), fetched Sept 30 | **SUPPORTED:** publicly states a target mix of about 70% Verified/15% Directional/15% Single source and software advisory starting at €2,500. **UNKNOWN:** whether labels were allocated before checking, whether all analysts are fabricated, actual generation costs/profits, customer purchases or ranking-sale terms. The transcript uses dollars where this page uses euros. |
+| Self-promotional content gains citations but may omit its brand | [Ahrefs experiment](https://ahrefs.com/blog/self-promotional-content-ai-seo-experiment/), July 6, 2026 | **REPORTED:** 34 pages, five domains; 9,886 ChatGPT/Gemini/Perplexity/Copilot answers, Feb 7–May 31. Evolve entered 72 previously empty prompt-engine slots; 82% of new mentions accompanied citations to experiment pages. Conference omitted in 43% of citing answers. Established Ahrefs received 94% of new mentions through third-party content. Citations appeared about one in three eligible days between first and last appearance. Exact phrase matching separates mentions from citations. Ahrefs owns the brands and tracking product; before/after observation lacks a randomized control. No linked raw export identified; exact percentage numerators/eligible-day denominators unavailable. Retain as a narrow hypothesis, not general causation or referral evidence. |
+| Two 1,000-article capybara sites behave differently across engines | [Otterly experiment](https://otterly.ai/blog/geo-experiment-2000-ai-blogs-google-penalization/), last updated Aug 5, 2026; initial publication date not exposed | **REPORTED:** Apr 1–Jul 27 report covers 482,394 citations across seven platforms. Site B had 3,934 citations: Copilot 2,718; Perplexity 501; ChatGPT and Google AI surfaces zero. Site A had 30 Google AI citations. Both had 4,808 ChatGPT-User visits, yet zero tracked ChatGPT citations. B led Copilot's tracked capybara category in July at 14% share, not the whole web. Combined Perplexity counts declined 444 in May to 208 in July (53%). Otterly owns the sites and measurement tools; acknowledges cannibalization invalidated the author-signal A/B. No raw exports identified. Google index/traffic declines do not prove the specific classifier or a universal penalty mechanism. |
+| Roughly 16% of citations AI-generated; Copilot 28%, ChatGPT 7% | Allaham & Diakopoulos, Northwestern, [Synthetic Sources?](https://arxiv.org/html/2605.23684v1), May 22, 2026 | **REPORTED classifier findings:** 712 curated English queries on politics/health/environment submitted through four engines' UIs; 26,266 unique cited URLs, 19,154 scraped. Pangram classified 3,056 scraped sources as likely/highly likely AI (15.955% from reported counts); provider shares 27.8% Copilot, 7.3% ChatGPT. This measures unique scraped sources, not every citation occurrence. Sampling, failed scrapes and detector errors limit interpretation. AI classification is not proof of falsity or coordinated ownership. No raw audit release identified in the paper; no detector/API rerun performed. |
+| Source links clicked on 1% of summary visits | [Pew study](https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/), July 22, 2025 | **REPORTED independent observational evidence:** 900 U.S. adults; 68,879 unique March Google searches, only 12,593 with summaries. Summary-source click rate 1%; traditional-result clicks 8% with summaries vs 15% without. Browsing URLs were compared with search replays scraped Apr 7–17. Replay timing, query type and intent limit causal interpretation. Google-only, not a general AI click rate. No respondent-level raw release identified. |
+| Main report publisher may itself be manufactured | [Verisign RDAP](https://rdap.verisign.com/com/v1/domain/trellner.com), fetched Sept 30; [HN discussion](https://news.ycombinator.com/item?id=49536375), Sept 2–3 | **SUPPORTED:** trellner.com registration Sept 1, 2026, 12:07:27Z. HN contains allegations about biographies, portraits and related submissions; that proves the allegations were made, not that they are true. **UNKNOWN:** researchers' identities, undisclosed operators/conflicts, and authenticity of the collected responses. Trellner's own independence statement is not independent corroboration. |
+
+## Operator relationships
+
+The facts pages for [Gitnux](https://gitnux.org/facts/), [Worldmetrics](https://worldmetrics.org/facts/), [WiFiTalents](https://wifitalents.com/facts/), [ZipDo](https://zipdo.co/facts/), [Axiobench](https://axiobench.com/facts/), [Statpit](https://statpit.com/facts/), [Gaugius](https://gaugius.com/facts/) and [Sigmadax](https://sigmadax.com/facts/) each declare the same operator/register number. These current declarations must not be retroactively described as independently verified historical ownership. Trellner's Sept 2 report explicitly inferred common control and said it did not know the owner.
+
+Ahrefs and Otterly are separate investigators with commercial measurement products; their experiments are not independent replications of Trellner's software sample. Pew and Northwestern study different questions and populations. Agreement across these sources supports narrow distinctions, not the precise prevalence of this network across engines.
+
+## Numerical replay and provenance limits
+
+The [fixture](citation-farm-data/) retains the released JSONL/CSVs, sitemap summary, our independent standard-library verifier, measured output and RDAP snapshot. Trellner data attribution: Trellner Research, CC BY 4.0, linked report/data above.
+
+Run without installing dependencies or making network/API calls:
+
+```sh
+python3 docs/research/citation-farm-data/reproduce.py
+```
+
+Verification passed: parsed JSONL citations exactly match the citation CSV as a multiset; independently aggregated domains exactly match cited_domains.csv; 760 records, 380 categories, 3,800 recommendation rows, 7,534 citations and 2,055 domains. The script also reproduces 289 categories with identical citation lists across the two model tiers and median ranked-citation Tranco position 71,611. The tiers are not independent source corroboration.
+
+Published method: one investigator-selected prompt per category per tier on Sept 2, through OpenRouter; Tranco Sept 1 list K9QPW. Categories are not a random sample of buyer queries, and there was no repeated sampling. The last-two-host-label domain approximation can over-merge country-code domains. Rank enrichment was reused, not independently recollected.
+
+Inspected `analyze.py`, `farm_facts.py`, and `run_main.py`; did not execute publisher code. The analysis scripts reference unavailable inputs including `main_raw.jsonl`, `cited_domains.json`, `vendor_domains_merged.json` and evidence HTML/WHOIS files. The released `answers_raw.jsonl` instead contains only `model`, `cat`, `ts`, `picks`, `citations`; full API response text, request receipts and usage are absent. Thus “the full dataset and scripts ship and reproduce” needs qualification: central counts replay, but the published collection-to-analysis pipeline is not turnkey reproducible from these files. No paid rerun was attempted.
+
+SHA-256 recorded in `reproduction.json`: citation CSV `cf4ea4efce53cbaaa1c4498ca33a96f846e232bbfc4bb905bab0149ac887921e`; raw JSONL `d5aaee479170ab6a88c66a8beb703714d863627e4692f2a9b542eb5498b12320`.
+
+## Assertions excluded from the resolution
+
+- A crawler hit proves only a request, not an answered user question, citation, recommendation or conversion. The video's 320-question/one-human anecdote lacks an authenticated response-to-log linkage here.
+- Specific universal rules that engines rank author bios/freshness, count sources instead of authenticating them, or evade Google filters because visitors are absent were not demonstrated by these studies. They are mechanistic hypotheses.
+- The Zapier 50,000-page and two-thirds self-ranking assertions were not central numerical artifacts reproduced here; they cannot justify implementation without their own methods/denominators.
+- Shared-source deduplication, primary-source preference and retrieval logging remain candidate safeguards for ticket #6. None of these studies measures their effectiveness; operator agreement alone does not prove a claim true.
+
+## Verification and repository recovery
+
+All three evidence gates met: source/method/operator matrix; bounded numerical replay with missing inputs disclosed; evidence-based resolution preserving both tracks and open owner decisions. Research uses direct primary web sources and one native Luna worker; no local model lane, paid services, production changes, publication or issue messages.
+
+Target: `/Users/jewelbait/Desktop/Dude McGee Website`. Git toplevel/HEAD/branch/status checks fail with “not a git repository.” ContextQuality returned `grounded` with null Git fields and unrelated commerce anchors; those anchors were discarded. That initial save was uncommitted. Infrastructure freshness is a separate closeout check, not evidence against the research findings.
+
+Recovery on September 30: preserved the original folder and copied only this evidence file and its fixture into a clean clone at `/Users/jewelbait/Documents/Codex/checkouts/dude-mcgee-citation-research-20260930`, based on upstream `main` at `bd2a215922f23dae05d5692b789ba4759b77b71c`. Reran the standard-library verifier successfully with identical reported counts and data hashes. The recovery branch contains research artifacts only; no production files changed. Ticket #3 can be resolved on this evidence while brand selection and downstream planning remain open.

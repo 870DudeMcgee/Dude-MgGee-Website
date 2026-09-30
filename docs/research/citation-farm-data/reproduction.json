@@ -1,0 +1,37 @@
+{
+  "raw_calls": 760,
+  "categories": 380,
+  "citation_rows": 7534,
+  "domains": 2055,
+  "farm_citations": 181,
+  "farm_share_pct": 2.402442261746748,
+  "farm_categories": 41,
+  "farm_by_domain": {
+    "gitnux.org": 50,
+    "wifitalents.com": 71,
+    "worldmetrics.org": 60
+  },
+  "unranked_citations": 1766,
+  "worse_than_100k_including_unranked": 4508,
+  "worse_share_pct": 59.83541279532785,
+  "unranked_share_pct": 23.44040350411468,
+  "wikipedia_citations": 3,
+  "guideflow_citations": 194,
+  "guideflow_rank": 3,
+  "identical_lists_categories": 289,
+  "median_rank_of_ranked": 71611.0,
+  "raw_keys": [
+    "cat",
+    "citations",
+    "model",
+    "picks",
+    "ts"
+  ],
+  "sitemap_best_sum_from_summary": 215128,
+  "sha256": {
+    "answers_raw.jsonl": "d5aaee479170ab6a88c66a8beb703714d863627e4692f2a9b542eb5498b12320",
+    "citations.csv": "cf4ea4efce53cbaaa1c4498ca33a96f846e232bbfc4bb905bab0149ac887921e",
+    "cited_domains.csv": "5dc8889e35d4ea05409a155ef3b1b6290402715a967c3f72debadffc3dc4baa6",
+    "sitemaps.json": "a3cf0a25e7354fd209a262d65283285ebabfaa9b01242fd3cf054933deac37c8"
+  }
+}
