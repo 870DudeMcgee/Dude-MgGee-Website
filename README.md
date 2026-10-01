@@ -19,9 +19,8 @@ variant availability, and checkout merchandise IDs:
   checkout URL.
 - `merch.js` renders the catalog and manages the browser-side cart.
 
-Public products and basic cart creation use Shopify's tokenless Storefront API,
-matching the Bass Binge Baits integration. A private Headless storefront token
-is optional and must stay server-side:
+Public products and basic cart creation use Shopify's tokenless Storefront API.
+A private Headless storefront token is optional and must stay server-side:
 
 ```bash
 SHOPIFY_STORE_DOMAIN=dude-mcgee-merch.myshopify.com

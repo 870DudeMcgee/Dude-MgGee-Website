@@ -1,7 +1,7 @@
 # Project operating knowledge
 
-Before investigating merchandise, shipping, returns, Merchant Center, or Google
-product visibility, read [the commerce reference](docs/commerce-reference.md).
+Before investigating tax filing, out-of-state sales, business revenue, merchandise,
+shipping, returns, Merchant Center, or Google product visibility, read [the commerce reference](docs/commerce-reference.md).
 It contains previously verified facts, source locations, account/profile IDs,
 verification dates, and the specific unresolved questions.
 
@@ -15,10 +15,6 @@ Update that reference in the same change that establishes or changes a fact.
 Keep current facts separate from historical logs, code/deployment status, and
 Google processing status. Link the reference in handoffs; include these files
 when transferring unfinished work to another checkout. Never store secrets here.
-
-For this cross-brand recovery, Bass facts are indexed in the same reference;
-its source repository remains authoritative for Bass implementation. Do not
-overwrite that repository's existing owner changes.
 
 ## Artist brand spelling
 
