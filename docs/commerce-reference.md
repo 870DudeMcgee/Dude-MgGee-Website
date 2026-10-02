@@ -290,7 +290,15 @@ automatically show these values. Native conversion summaries can also be
 incomplete. See Shopify's [marketing reports](https://help.shopify.com/en/manual/reports-and-analytics/shopify-reports/report-types/default-reports/marketing-reports)
 and [conversion summary](https://help.shopify.com/en/manual/fulfillment/managing-orders/analytics/conversion-summary).
 
-Code and release status: regression checks passed locally; production release
-and tagged browser navigation verification are pending. No order was placed
+Code and release status: [PR 24](https://github.com/870DudeMcgee/Dude-MgGee-Website/pull/24)
+merged as `9e4b2744e5fa24a1d47a1faa72ca828974eb6cb7`. Production deployment
+`dpl_AM4yJ4q21fys6pMWUQQdM9uTYXob` is READY and promoted to
+https://www.dudemcgee.com. Its public measurement script byte-matches the
+integrated source. Both QA-tagged merchandise links were followed in the
+live browser to `/products/checkout-girl-tee`, retaining their distinct
+medium/content and QA tags. Measurement/API regressions preserve all 28
+legacy source/medium/content combinations; product-route, artist-identity and
+SEO checks pass. These checks validate payloads and navigation, not GA4
+report ingestion. No order was placed
 for this change, so persistence on a newly paid order is not claimed. YouTube
 link publication belongs to ticket 20 and remains separate.
