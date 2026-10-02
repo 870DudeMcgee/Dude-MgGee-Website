@@ -3,12 +3,12 @@
 
   const PILOT = 'dm-shirt-pilot-01';
   const SOURCES = new Set(['facebook', 'instagram', 'youtube', 'google']);
-  const MEDIUMS = new Set(['facebook_reel', 'facebook_feed', 'instagram_reel', 'instagram_bio', 'instagram_story', 'youtube_description', 'organic_listing']);
-  const CONTENTS = new Set(['a-design-reveal', 'b-artist-signal', 'c-placement-guide', 'profile']);
+  const MEDIUMS = new Set(['facebook_reel', 'facebook_feed', 'instagram_reel', 'instagram_bio', 'instagram_story', 'youtube_description', 'youtube_comment', 'organic_listing']);
+  const CONTENTS = new Set(['a-design-reveal', 'b-artist-signal', 'c-placement-guide', 'profile', 'digital-dream-description', 'digital-dream-pinned-comment']);
   const SOURCE_MEDIUMS = {
     facebook: new Set(['facebook_reel', 'facebook_feed']),
     instagram: new Set(['instagram_reel', 'instagram_bio', 'instagram_story']),
-    youtube: new Set(['youtube_description']),
+    youtube: new Set(['youtube_description', 'youtube_comment']),
     google: new Set(['organic_listing']),
   };
 

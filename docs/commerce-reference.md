@@ -260,3 +260,37 @@ Product details flow replaces the older hover dossier; it presents sourced
 product information and measurements without inferred material composition.
 Production deployment acceptance is tracked in the release session; the browser
 evidence above describes the local verification, not a completed live purchase.
+
+
+## Digital Dream link measurement — October 2, 2026
+
+[Implementation ticket 19](https://github.com/870DudeMcgee/Dude-MgGee-Website/issues/19)
+uses the existing website GA4 property `G-8G41W2HBR2` and campaign
+`dm-shirt-pilot-01`. Both links target the full website merchandise page:
+
+- Description: https://www.dudemcgee.com/merch.html?utm_campaign=dm-shirt-pilot-01&utm_source=youtube&utm_medium=youtube_description&utm_content=digital-dream-description
+- Pinned comment: https://www.dudemcgee.com/merch.html?utm_campaign=dm-shirt-pilot-01&utm_source=youtube&utm_medium=youtube_comment&utm_content=digital-dream-pinned-comment
+
+The browser and server allowlists accept these distinct placements while
+preserving existing placements. Product links retain the tags. Existing
+`view_item`, `add_to_cart` and `begin_checkout` payloads include their source,
+medium and content; the cart request and native Shopify cart permalink carry
+`dm_pilot`, `source`, `medium` and `content` attributes. No purchase event or
+new checkout path is added. Append `&dm_qa=1` for navigation checks that
+suppress website GA4 configuration/events.
+
+For orders arriving through this flow, inspect the existing order additional
+details/custom attributes for `dm_pilot=dm-shirt-pilot-01`, `source=youtube`,
+and the medium/content pair above. This is the placement-level record supplied
+by this implementation. Shopify's standard referral and marketing reports
+remain the order/revenue source, but custom cart attributes are not native
+UTM attribution fields: this code does not append native UTMs to the Shopify
+cart permalink or promise that Shopify's standard UTM report dimensions will
+automatically show these values. Native conversion summaries can also be
+incomplete. See Shopify's [marketing reports](https://help.shopify.com/en/manual/reports-and-analytics/shopify-reports/report-types/default-reports/marketing-reports)
+and [conversion summary](https://help.shopify.com/en/manual/fulfillment/managing-orders/analytics/conversion-summary).
+
+Code and release status: regression checks passed locally; production release
+and tagged browser navigation verification are pending. No order was placed
+for this change, so persistence on a newly paid order is not claimed. YouTube
+link publication belongs to ticket 20 and remains separate.

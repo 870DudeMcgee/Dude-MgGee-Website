@@ -25,6 +25,19 @@ function measurementContext(url, withGtag = true) {
 }
 
 const trackedUrl = `https://www.dudemcgee.com/merch.html?utm_campaign=${PILOT}&utm_source=instagram&utm_medium=instagram_reel&utm_content=a-design-reveal&email=private%40example.com`;
+const digitalDreamUrls = {
+  description: `https://www.dudemcgee.com/merch.html?utm_campaign=${PILOT}&utm_source=youtube&utm_medium=youtube_description&utm_content=digital-dream-description`,
+  comment: `https://www.dudemcgee.com/merch.html?utm_campaign=${PILOT}&utm_source=youtube&utm_medium=youtube_comment&utm_content=digital-dream-pinned-comment`,
+};
+const legacyPlacements = {
+  facebook: ['facebook_reel', 'facebook_feed'],
+  instagram: ['instagram_reel', 'instagram_bio', 'instagram_story'],
+  youtube: ['youtube_description'],
+  google: ['organic_listing'],
+};
+const legacyContents = ['a-design-reveal', 'b-artist-signal', 'c-placement-guide', 'profile'];
+const product = { title: 'Signal Tee' };
+const variant = { id: 'gid://shopify/ProductVariant/101', title: 'Black / M', price: { amount: '30.00', currencyCode: 'USD' } };
 const measured = measurementContext(trackedUrl);
 assert.equal(measured.calls.length, 1, 'GA is configured exactly once');
 assert.equal(measured.calls[0][0], 'config');
@@ -40,8 +53,43 @@ assert.deepEqual(
   'cross-channel source/medium injection is discarded'
 );
 
-const product = { title: 'Signal Tee' };
-const variant = { id: 'gid://shopify/ProductVariant/101', title: 'Black / M', price: { amount: '30.00', currencyCode: 'USD' } };
+for (const [placement, url] of Object.entries(digitalDreamUrls)) {
+  const placementContext = measurementContext(url);
+  const medium = placement === 'description' ? 'youtube_description' : 'youtube_comment';
+  const content = placement === 'description' ? 'digital-dream-description' : 'digital-dream-pinned-comment';
+  assert.deepEqual(JSON.parse(JSON.stringify(placementContext.api.currentAttribution())), {
+    campaign: PILOT,
+    source: 'youtube',
+    medium,
+    content,
+    qa: false,
+  });
+  assert.equal(placementContext.api.sanitizedPageLocation(url), url);
+  assert.equal(placementContext.api.decorateProductUrl('/products/signal-tee?variant=101'), `/products/signal-tee?variant=101&utm_campaign=${PILOT}&utm_source=youtube&utm_medium=${medium}&utm_content=${content}`);
+  placementContext.api.viewItem(product, variant);
+  placementContext.api.addToCart(product, variant, 1);
+  placementContext.api.beginCheckout([{ merchandiseId: variant.id, title: product.title, variantTitle: variant.title, price: '30.00', currency: 'USD', quantity: 1 }]);
+  assert.deepEqual(placementContext.calls.slice(1).map(call => [call[1], call[2].medium, call[2].content]), [
+    ['view_item', medium, content], ['add_to_cart', medium, content], ['begin_checkout', medium, content],
+  ]);
+  const qaPlacement = measurementContext(`${url}&dm_qa=1`);
+  qaPlacement.api.viewItem(product, variant);
+  qaPlacement.api.addToCart(product, variant, 1);
+  qaPlacement.api.beginCheckout([{ merchandiseId: variant.id, price: '30.00', currency: 'USD', quantity: 1 }]);
+  assert.equal(qaPlacement.calls.length, 0, `${placement} QA URL stays silent`);
+}
+
+for (const [source, mediums] of Object.entries(legacyPlacements)) {
+  for (const medium of mediums) {
+    for (const content of legacyContents) {
+      const legacyUrl = `https://www.dudemcgee.com/merch.html?utm_campaign=${PILOT}&utm_source=${source}&utm_medium=${medium}&utm_content=${content}`;
+      const browserAttribution = measurementContext(legacyUrl).api.currentAttribution();
+      assert.deepEqual(JSON.parse(JSON.stringify(browserAttribution)), { campaign: PILOT, source, medium, content, qa: false });
+      assert.deepEqual(normalizeAttribution({ campaign: PILOT, source, medium, content }), { campaign: PILOT, source, medium, content, qa: false });
+    }
+  }
+}
+
 measured.api.viewItem(product, variant);
 measured.api.addToCart(product, variant, 2);
 measured.api.beginCheckout([{ merchandiseId: variant.id, title: product.title, variantTitle: variant.title, price: '30.00', currency: 'USD', quantity: 2 }]);
@@ -73,6 +121,14 @@ assert.deepEqual(validAttribution, { campaign: PILOT, source: 'youtube', medium:
 assert.deepEqual(cartAttributes(validAttribution), [
   { key: 'dm_pilot', value: PILOT }, { key: 'source', value: 'youtube' }, { key: 'medium', value: 'youtube_description' }, { key: 'content', value: 'profile' }, { key: 'qa', value: '1' },
 ]);
+const digitalDreamDescription = normalizeAttribution({ campaign: PILOT, source: 'youtube', medium: 'youtube_description', content: 'digital-dream-description' });
+const digitalDreamComment = normalizeAttribution({ campaign: PILOT, source: 'youtube', medium: 'youtube_comment', content: 'digital-dream-pinned-comment' });
+assert.deepEqual(cartAttributes(digitalDreamDescription), [
+  { key: 'dm_pilot', value: PILOT }, { key: 'source', value: 'youtube' }, { key: 'medium', value: 'youtube_description' }, { key: 'content', value: 'digital-dream-description' },
+]);
+assert.deepEqual(cartAttributes(digitalDreamComment), [
+  { key: 'dm_pilot', value: PILOT }, { key: 'source', value: 'youtube' }, { key: 'medium', value: 'youtube_comment' }, { key: 'content', value: 'digital-dream-pinned-comment' },
+]);
 const noCampaign = normalizeAttribution({});
 assert.deepEqual(noCampaign, { campaign: '', source: '', medium: '', content: '', qa: false });
 assert.deepEqual(cartAttributes(noCampaign), [], 'unattributed traffic receives no pilot claim');
@@ -81,6 +137,8 @@ for (const invalid of [
   { campaign: 'injected', source: 'youtube', medium: 'youtube_description', content: 'profile' },
   { campaign: PILOT, source: 'email', medium: 'youtube_description', content: 'profile' },
   { campaign: PILOT, source: 'youtube', medium: 'facebook_feed', content: 'profile' },
+  { campaign: PILOT, source: 'instagram', medium: 'youtube_comment', content: 'digital-dream-pinned-comment' },
+  { campaign: PILOT, source: 'google', medium: 'youtube_description', content: 'digital-dream-description' },
   { campaign: PILOT, source: 'youtube', medium: 'youtube_description', content: '<script>' },
   { campaign: PILOT, source: '', medium: '', content: '', customer_email: 'private@example.com' },
 ]) assert.equal(normalizeAttribution(invalid), null);
@@ -157,6 +215,16 @@ async function apiChecks() {
   await createHandler(async () => { throw new Error('offline'); })({ method: 'POST', headers: {}, body: { lines: [{ merchandiseId: variant.id, quantity: 1 }], attribution: {} } }, unavailable);
   console.error = originalError;
   assert.equal(unavailable.statusCode, 502);
+
+  for (const attribution of [digitalDreamDescription, digitalDreamComment]) {
+    const placementResponse = response();
+    await handler({ method: 'POST', headers: {}, body: { lines: [{ merchandiseId: variant.id, quantity: 1 }], attribution } }, placementResponse);
+    assert.equal(placementResponse.statusCode, 200);
+    const placementCheckout = new URL(placementResponse.body.checkoutUrl);
+    assert.equal(placementCheckout.searchParams.get('attributes[medium]'), attribution.medium);
+    assert.equal(placementCheckout.searchParams.get('attributes[content]'), attribution.content);
+    assert.deepEqual(requests.at(-1).variables.input.attributes, cartAttributes(attribution));
+  }
 }
 
 const secondVariant = 'gid://shopify/ProductVariant/202';
