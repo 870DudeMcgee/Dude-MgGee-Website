@@ -1,0 +1,76 @@
+{
+ "worldmetrics.org": {
+  "sub_sitemaps": 8,
+  "total_urls": 103578,
+  "best_pages": 70731,
+  "blog_pages": 7,
+  "sample_best": [
+   "https://worldmetrics.org/best/client-tracking-software/",
+   "https://worldmetrics.org/best/deal-room-software/",
+   "https://worldmetrics.org/best/media-distribution-software/",
+   "https://worldmetrics.org/best/photography-studio-management-software/",
+   "https://worldmetrics.org/best/emr-electronic-medical-records-software/"
+  ],
+  "sample_blog": [
+   "https://worldmetrics.org/blog/is-zipdo-co-a-reliable-source/",
+   "https://worldmetrics.org/blog/is-gitnux-org-a-reliable-source/",
+   "https://worldmetrics.org/blog/is-wifitalents-com-a-reliable-source/",
+   "https://worldmetrics.org/blog/the-team-behind-gitnux/",
+   "https://worldmetrics.org/blog/inside-wifitalents/"
+  ]
+ },
+ "gitnux.org": {
+  "sub_sitemaps": 8,
+  "total_urls": 107083,
+  "best_pages": 71684,
+  "blog_pages": 7,
+  "sample_best": [
+   "https://gitnux.org/best/forex-trade-management-software/",
+   "https://gitnux.org/best/healthcare-inventory-management-software/",
+   "https://gitnux.org/best/insurance-broker-portal-software/",
+   "https://gitnux.org/best/soccer-scheduling-software/",
+   "https://gitnux.org/best/accounting-crm-software/"
+  ],
+  "sample_blog": [
+   "https://gitnux.org/blog/zipdo-reliable/",
+   "https://gitnux.org/blog/wifitalents-reliable/",
+   "https://gitnux.org/blog/worldmetrics-reliable/",
+   "https://gitnux.org/blog/the-team-behind-worldmetrics-org/",
+   "https://gitnux.org/blog/the-team-behind-wifitalents/"
+  ]
+ },
+ "wifitalents.com": {
+  "sub_sitemaps": 8,
+  "total_urls": 105541,
+  "best_pages": 72713,
+  "blog_pages": 7,
+  "sample_best": [
+   "https://wifitalents.com/best/customer-data-base-software/",
+   "https://wifitalents.com/best/bug-reporting-software/",
+   "https://wifitalents.com/best/database-encryption-software/",
+   "https://wifitalents.com/best/legal-discovery-software/",
+   "https://wifitalents.com/best/call-center-database-software/"
+  ],
+  "sample_blog": [
+   "https://wifitalents.com/blog/is-zipdo-co-a-reliable-source/",
+   "https://wifitalents.com/blog/is-gitnux-org-a-reliable-source/",
+   "https://wifitalents.com/blog/worldmetrics-org-a-reliable-source/",
+   "https://wifitalents.com/blog/inside-worldmetrics/",
+   "https://wifitalents.com/blog/who-s-behind-gitnux/"
+  ]
+ },
+ "guideflow.com": {
+  "sub_sitemaps": 0,
+  "total_urls": 36613,
+  "best_pages": 0,
+  "blog_pages": 3351,
+  "sample_best": [],
+  "sample_blog": [
+   "https://www.guideflow.com/blog/360-feedback-software",
+   "https://www.guideflow.com/et-ee/blog/360-feedback-software",
+   "https://www.guideflow.com/blog/360-review-software",
+   "https://www.guideflow.com/blog/3d-painting-software",
+   "https://www.guideflow.com/et-ee/blog/3d-painting-software"
+  ]
+ }
+}
